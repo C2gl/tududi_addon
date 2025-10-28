@@ -10,4 +10,3 @@ it will be running as a Addon. for these a few steps will have to be folwon
 - [ ] make a default HA addon
 - [ ] make a upstream related docker from the tududi docker package 
 - [ ] publish first functional release
-
