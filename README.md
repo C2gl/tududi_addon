@@ -26,7 +26,6 @@ This repository contains the following add-on:
 
 ### [Tududi](./tududi)
 
-![Supports aarch64 Architecture][aarch64-shield]
 ![Supports amd64 Architecture][amd64-shield]
 
 A self-hosted task management application with Telegram integration, scheduling, and file upload capabilities.
