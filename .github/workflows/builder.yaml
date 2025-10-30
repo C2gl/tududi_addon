@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        arch: [aarch64, amd64]
+        arch: [amd64]
         addon: [tududi]
     steps:
       - name: Check out repository
