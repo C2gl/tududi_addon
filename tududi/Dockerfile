@@ -31,9 +31,12 @@ RUN git clone --depth 1 https://github.com/chrisvel/tududi.git /tmp/tududi && \
     find dist -name "*.js" -type f -exec sed -i "s|'/locales/|'./locales/|g" {} \; && \
     find dist -name "*.js" -type f -exec sed -i 's|loadPath:"/locales/|loadPath:"./locales/|g' {} \; && \
     find dist -name "*.js" -type f -exec sed -i "s|loadPath:'/locales/|loadPath:'./locales/|g" {} \; && \
-    mkdir -p /app/backend /app/backend/dist /app/node_modules && \
+    mkdir -p /app/backend /app/backend/dist /app/backend/dist/locales /app/node_modules && \
     cp -r backend/* /app/backend/ && \
     cp -r dist/* /app/backend/dist/ && \
+    cp public/favicon* /app/backend/dist/ 2>/dev/null || true && \
+    cp public/manifest.json /app/backend/dist/ 2>/dev/null || true && \
+    cp -r public/locales/* /app/backend/dist/locales/ && \
     cp -r node_modules /app/ && \
     cp package.json /app/ && \
     cd /app && \
