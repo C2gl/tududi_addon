@@ -51,6 +51,5 @@ jobs:
           args: |
             --${{ matrix.arch }} \
             --target /data/${{ matrix.addon }} \
-            --image "${{ steps.info.outputs.slug }}" \
-            --docker-hub "ghcr.io/${{ github.repository_owner }}" \
+            --docker-hub ghcr.io/${{ github.repository_owner }} \
             --addon
