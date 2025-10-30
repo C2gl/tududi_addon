@@ -54,9 +54,9 @@ echo "Database file set to ${DB_FILE}"
 export NODE_ENV=production
 
 # Set CORS allowed origins for Home Assistant ingress
-# Allow both direct access and ingress proxy
-# The ingress proxy may send requests from various internal origins
-export TUDUDI_ALLOWED_ORIGINS="http://localhost:3002,http://127.0.0.1:3002,http://homeassistant.local:8123,http://homeassistant:8123,http://supervisor,https://homeassistant.local:8123"
+# Use wildcard to allow all origins when behind ingress proxy
+# Home Assistant's ingress handles the actual security
+export TUDUDI_ALLOWED_ORIGINS="*"
 
 # Delegate to upstream entrypoints (prefer official scripts)
 if [ -x "/app/scripts/docker-entrypoint.sh" ]; then

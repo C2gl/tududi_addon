@@ -25,6 +25,10 @@ RUN git clone --depth 1 https://github.com/chrisvel/tududi.git /tmp/tududi && \
     NODE_ENV=production npm run frontend:build && \
     sed -i 's|="/|="./|g' dist/index.html && \
     sed -i 's|href="/|href="./|g' dist/index.html && \
+    find dist -name "*.js" -type f -exec sed -i 's|"/api/|"./api/|g' {} \; && \
+    find dist -name "*.js" -type f -exec sed -i "s|'/api/|'./api/|g" {} \; && \
+    find dist -name "*.js" -type f -exec sed -i 's|"/locales/|"./locales/|g' {} \; && \
+    find dist -name "*.js" -type f -exec sed -i "s|'/locales/|'./locales/|g" {} \; && \
     mkdir -p /app/backend /app/backend/dist /app/node_modules && \
     cp -r backend/* /app/backend/ && \
     cp -r dist/* /app/backend/dist/ && \
