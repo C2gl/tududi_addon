@@ -1,0 +1,28 @@
+# Git
+.git/
+.gitignore
+.github/
+
+# Documentation
+*.md
+!README.md
+
+# Configuration for development
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+
+# Node
+node_modules/
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
