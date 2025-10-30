@@ -13,10 +13,13 @@ RUN apk add --no-cache \
 # Set working directory
 WORKDIR /app
 
-# Clone Tududi repository and build
+# Clone Tududi repository and build with retry logic
 RUN git clone --depth 1 https://github.com/chrisvel/tududi.git /tmp/tududi && \
     cd /tmp/tududi && \
-    npm install --no-audit --no-fund && \
+    npm config set fetch-retry-maxtimeout 120000 && \
+    npm config set fetch-retry-mintimeout 10000 && \
+    npm config set fetch-retries 5 && \
+    npm install --no-audit --no-fund --prefer-offline && \
     NODE_ENV=production npm run frontend:build && \
     mkdir -p /app/backend /app/dist /app/node_modules && \
     cp -r backend/* /app/backend/ && \
