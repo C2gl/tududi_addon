@@ -8,8 +8,6 @@ startup: services
 boot: auto
 arch:
   - amd64
-  - armhf
-  - armv7
   - aarch64
 ports:
   3002/tcp: 3002
