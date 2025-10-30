@@ -5,7 +5,7 @@ FROM $BUILD_FROM
 RUN apk add --no-cache bash
 
 # Copy the application from the upstream Tududi image
-COPY --from=chrisvel/tududi:v0.84.2 /app /app
+COPY --from=chrisvel/tududi:latest /app /app
 
 # Copy data for add-on
 COPY run.sh /
