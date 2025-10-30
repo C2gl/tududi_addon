@@ -2,22 +2,22 @@ name: "Tududi"
 version: "0.0.1"
 slug: "tududi"
 description: "Tududi upstream container packaged as a Home Assistant Add-on."
+url: "https://github.com/chrisvel/tududi"
 init: false
 startup: services
 boot: auto
-docker_api: true
-host_network: true
 arch:
   - amd64
   - armhf
   - armv7
   - aarch64
 ports:
-  "3002/tcp": 3002
-map:
-  - type: config
-    read_only: false
-    path: /config
+  3002/tcp: 3002
+ports_description:
+  3002/tcp: "Web interface"
+ingress: true
+ingress_port: 3002
+panel_icon: mdi:checkbox-marked-circle-outline
 options:
   port: 3002
   tududi_user_email: ""
