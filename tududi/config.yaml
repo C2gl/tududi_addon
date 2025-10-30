@@ -34,4 +34,4 @@ schema:
   disable_scheduler: bool
   upload_path: str
   db_file: str
-webui: "http://[HOST]:[PORT]"
+webui: "http://[HOST]:[PORT:3002]"
