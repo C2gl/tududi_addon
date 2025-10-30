@@ -22,9 +22,9 @@ RUN git clone --depth 1 https://github.com/chrisvel/tududi.git /tmp/tududi && \
     npm install --no-audit --no-fund --prefer-offline && \
     npm install nanoid@3 --save --no-audit --no-fund && \
     NODE_ENV=production npm run frontend:build && \
-    mkdir -p /app/backend /app/dist /app/node_modules && \
+    mkdir -p /app/backend /app/backend/dist /app/node_modules && \
     cp -r backend/* /app/backend/ && \
-    cp -r dist/* /app/dist/ && \
+    cp -r dist/* /app/backend/dist/ && \
     cp -r node_modules /app/ && \
     cp package.json /app/ && \
     cd /app && \
