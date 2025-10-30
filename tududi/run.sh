@@ -55,7 +55,8 @@ export NODE_ENV=production
 
 # Set CORS allowed origins for Home Assistant ingress
 # Allow both direct access and ingress proxy
-export TUDUDI_ALLOWED_ORIGINS="http://localhost:3002,http://127.0.0.1:3002,http://homeassistant.local:8123,http://supervisor"
+# The ingress proxy may send requests from various internal origins
+export TUDUDI_ALLOWED_ORIGINS="http://localhost:3002,http://127.0.0.1:3002,http://homeassistant.local:8123,http://homeassistant:8123,http://supervisor,https://homeassistant.local:8123"
 
 # Delegate to upstream entrypoints (prefer official scripts)
 if [ -x "/app/scripts/docker-entrypoint.sh" ]; then
