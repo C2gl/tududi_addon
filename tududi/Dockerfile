@@ -21,7 +21,10 @@ RUN git clone --depth 1 https://github.com/chrisvel/tududi.git /tmp/tududi && \
     npm config set fetch-retries 5 && \
     npm install --no-audit --no-fund --prefer-offline && \
     npm install nanoid@3 --save --no-audit --no-fund && \
+    sed -i "s|publicPath: '/'|publicPath: ''|g" webpack.config.js && \
     NODE_ENV=production npm run frontend:build && \
+    sed -i 's|="/|="./|g' dist/index.html && \
+    sed -i 's|href="/|href="./|g' dist/index.html && \
     mkdir -p /app/backend /app/backend/dist /app/node_modules && \
     cp -r backend/* /app/backend/ && \
     cp -r dist/* /app/backend/dist/ && \
