@@ -50,6 +50,9 @@ DB_FILE=$(jq --raw-output '.db_file // "/app/backend/db/production.sqlite3"' $CO
 export DB_FILE
 echo "Database file set to ${DB_FILE}"
 
+# Set NODE_ENV to production
+export NODE_ENV=production
+
 # Delegate to upstream entrypoints (prefer official scripts)
 if [ -x "/app/scripts/docker-entrypoint.sh" ]; then
     echo "Using upstream entrypoint: /app/scripts/docker-entrypoint.sh"
