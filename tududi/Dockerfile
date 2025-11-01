@@ -27,8 +27,10 @@ RUN git clone --depth 1 --branch v0.85.1 https://github.com/chrisvel/tududi.git 
     sed -i 's|href="/|href="./|g' dist/index.html && \
     find dist -name "*.js" -type f -exec sed -i 's|"/api/|"./api/|g' {} \; && \
     find dist -name "*.js" -type f -exec sed -i "s|'/api/|'./api/|g" {} \; && \
+    find dist -name "*.js" -type f -exec sed -i 's|`/api/|`./api/|g' {} \; && \
     find dist -name "*.js" -type f -exec sed -i 's|"/locales/|"./locales/|g' {} \; && \
     find dist -name "*.js" -type f -exec sed -i "s|'/locales/|'./locales/|g" {} \; && \
+    find dist -name "*.js" -type f -exec sed -i 's|`/locales/|`./locales/|g' {} \; && \
     find dist -name "*.js" -type f -exec sed -i 's|loadPath:"/locales/|loadPath:"./locales/|g' {} \; && \
     find dist -name "*.js" -type f -exec sed -i "s|loadPath:'/locales/|loadPath:'./locales/|g" {} \; && \
     find dist -name "*.js" -type f -exec sed -i 's|navigate("/|navigate("./|g' {} \; && \
