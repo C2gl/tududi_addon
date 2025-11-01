@@ -1,5 +1,5 @@
-[![Latest Tag](https://img.shields.io/github/v/tag/c2gl/tududi_addon?label=version)](https://github.com/c2gl/tududi_addon/pkgs/container/tududi)
-[![Container](https://img.shields.io/badge/container-ghcr.io-blue)](https://github.com/c2gl/tududi_addon/pkgs/container/tududi)
+[![GitHub Tag](https://img.shields.io/github/v/tag/c2gl/tududi_addon?style=flat&logo=github&label=version)](https://github.com/c2gl/tududi_addon/pkgs/container/tududi)
+[![GHCR](https://img.shields.io/badge/ghcr.io-c2gl%2Ftududi-blue?style=flat&logo=docker)](https://github.com/c2gl/tududi_addon/pkgs/container/tududi)
 [![GitHub issues](https://img.shields.io/github/issues/c2gl/tududi_addon.svg)](https://github.com/c2gl/tududi_addon/issues)
 [![GitHub pull requests](https://img.shields.io/github/issues-pr/c2gl/tududi_addon.svg)](https://github.com/c2gl/tududi_addon/pulls)
 # Tududi Home Assistant Add-on Repository
