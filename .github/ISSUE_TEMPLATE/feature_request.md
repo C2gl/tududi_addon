@@ -1,7 +1,7 @@
 ---
 name: feature request
 about: Create a feature request to help us improve
-title: "[feat] "
+title: "✨[FEAT] - "
 labels: enhancement
 assignees: ''
 ---
