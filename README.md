@@ -1,7 +1,7 @@
-[![GitHub Package Version](https://img.shields.io/github/v/tag/c2gl/tududi_addon?label=version)](https://github.com/c2gl/tududi_addon/pkgs/container/tududi)
+[![GitHub commits](https://img.shields.io/github/commits-since/c2gl/tududi_addon/latest?label=version)](https://github.com/c2gl/tududi_addon/pkgs/container/tududi)
+[![Container](https://img.shields.io/badge/container-ghcr.io-blue)](https://github.com/c2gl/tududi_addon/pkgs/container/tududi)
 [![GitHub issues](https://img.shields.io/github/issues/c2gl/tududi_addon.svg)](https://github.com/c2gl/tududi_addon/issues)
 [![GitHub pull requests](https://img.shields.io/github/issues-pr/c2gl/tududi_addon.svg)](https://github.com/c2gl/tududi_addon/pulls)
-[![Image Pulls](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fipitio.github.io%2Fbackage%2FC2gl%2Ftududi_addon%2Ftududi.json&query=%24.pulls&label=pulls)](https://github.com/c2gl/tududi_addon/pkgs/container/tududi)
 # Tududi Home Assistant Add-on Repository
 
 [![Open your Home Assistant instance and show the add add-on repository dialog with a specific repository URL pre-filled.](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2FC2gl%2Ftududi_addon)
