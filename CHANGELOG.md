@@ -2,6 +2,10 @@
 
 All notable changes to this add-on will be documented in this file.
 
+## 0.0.5
+
+- href tentative fix
+
 ## 0.0.4
 
 - **FIXED:** Resolved startup error where addon couldn't write options.json
