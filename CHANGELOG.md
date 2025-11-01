@@ -5,6 +5,7 @@ All notable changes to this add-on will be documented in this file.
 ## 0.0.5
 
 - href tentative fix
+- > confirmed, this did fix the login again, back to previous state where we encounter issues with the tasks retrieval and creation
 
 ## 0.0.4
 
