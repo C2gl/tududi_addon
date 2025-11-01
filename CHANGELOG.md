@@ -2,6 +2,14 @@
 
 All notable changes to this add-on will be documented in this file.
 
+## 0.0.4
+
+- **FIXED:** Resolved startup error where addon couldn't write options.json
+- Added `map` directive to config.yaml for persistent storage management
+- Changed default database path from `/app/backend/db/production.sqlite3` to `/data/production.sqlite3`
+- Changed default uploads path from `/app/backend/uploads` to `/data/uploads`
+- Storage now persists across addon restarts and updates
+
 ## 0.0.3
 
 - **IMPORTANT:** Changed default boot behavior from `auto` to `manual` to prevent HA crashes

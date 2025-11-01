@@ -42,11 +42,12 @@ if [ "$DISABLE_SCHEDULER" = "true" ]; then
     echo "Scheduler disabled"
 fi
 
-UPLOAD_PATH=$(jq --raw-output '.upload_path // "/app/backend/uploads"' $CONFIG_PATH)
+# Use /data for persistent storage (Home Assistant managed)
+UPLOAD_PATH=$(jq --raw-output '.upload_path // "/data/uploads"' $CONFIG_PATH)
 export TUDUDI_UPLOAD_PATH="$UPLOAD_PATH"
 echo "Upload path set to ${TUDUDI_UPLOAD_PATH}"
 
-DB_FILE=$(jq --raw-output '.db_file // "/app/backend/db/production.sqlite3"' $CONFIG_PATH)
+DB_FILE=$(jq --raw-output '.db_file // "/data/production.sqlite3"' $CONFIG_PATH)
 export DB_FILE
 echo "Database file set to ${DB_FILE}"
 

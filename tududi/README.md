@@ -38,8 +38,8 @@ tududi_user_password: "your-secure-password"
 tududi_session_secret: "your-random-secret-string"
 disable_telegram: false
 disable_scheduler: false
-upload_path: "/app/backend/uploads"
-db_file: "/app/backend/db/production.sqlite3"
+upload_path: "/data/uploads"
+db_file: "/data/production.sqlite3"
 ```
 
 ### Configuration Options
@@ -52,8 +52,8 @@ db_file: "/app/backend/db/production.sqlite3"
 | `tududi_session_secret` | Yes* | - | Secret key for session encryption |
 | `disable_telegram` | No | `false` | Disable Telegram integration |
 | `disable_scheduler` | No | `false` | Disable the task scheduler |
-| `upload_path` | No | `/app/backend/uploads` | Path for file uploads |
-| `db_file` | No | `/app/backend/db/production.sqlite3` | SQLite database file location |
+| `upload_path` | No | `/data/uploads` | Path for file uploads |
+| `db_file` | No | `/data/production.sqlite3` | SQLite database file location |
 
 *Required for first-time setup
 
