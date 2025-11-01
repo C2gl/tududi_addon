@@ -1,12 +1,12 @@
 name: "Tududi"
-version: "0.0.2"
+version: "0.0.3"
 slug: "tududi"
 description: "Tududi upstream container packaged as a Home Assistant Add-on."
 url: "https://github.com/chrisvel/tududi"
 image: "ghcr.io/c2gl/tududi-addon"
 init: false
 startup: services
-boot: auto
+boot: manual
 arch:
   - amd64
 ports:

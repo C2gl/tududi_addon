@@ -20,9 +20,12 @@ Tududi is a self-hosted task management application with features like:
    https://github.com/C2gl/tududi_addon
    ```
 2. Find "Tududi" in the add-on store and click Install
-3. Configure the add-on (see Configuration section below)
-4. Start the add-on
+3. **IMPORTANT:** Configure the add-on before starting (see Configuration section below)
+   - You must set `tududi_user_email`, `tududi_user_password`, and `tududi_session_secret`
+4. Start the add-on manually after configuration is complete
 5. Access the web UI through the Home Assistant interface or at port 3002
+
+**Note:** Start on boot is disabled by default. Only enable it after you've verified the add-on works with your configuration.
 
 ## Configuration
 
