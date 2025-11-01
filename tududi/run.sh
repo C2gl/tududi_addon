@@ -58,6 +58,16 @@ export NODE_ENV=production
 # Home Assistant's ingress handles the actual security
 export TUDUDI_ALLOWED_ORIGINS="*"
 
+# Ensure database and upload directories exist
+mkdir -p "$(dirname "$DB_FILE")" "$TUDUDI_UPLOAD_PATH"
+
+# Check if database needs initialization (file doesn't exist or is empty/corrupt)
+if [ ! -f "$DB_FILE" ] || [ ! -s "$DB_FILE" ]; then
+    echo "Initializing new database..."
+    cd /app/backend
+    node scripts/db-init.js || echo "Database initialization will happen at runtime"
+fi
+
 # Delegate to upstream entrypoints (prefer official scripts)
 if [ -x "/app/scripts/docker-entrypoint.sh" ]; then
     echo "Using upstream entrypoint: /app/scripts/docker-entrypoint.sh"
