@@ -45,6 +45,7 @@ RUN git clone --depth 1 --branch v0.85.1 https://github.com/chrisvel/tududi.git 
     cp -r public/locales/* /app/backend/dist/locales/ && \
     cp -r node_modules /app/ && \
     cp package.json /app/ && \
+    npm install -g sequelize-cli && \
     cd /app && \
     rm -rf /tmp/tududi
 

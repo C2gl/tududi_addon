@@ -141,6 +141,20 @@ if [ ! -f "$DB_FILE" ] || [ ! -s "$DB_FILE" ]; then
     fi
 fi
 
+# Run database migrations (CRITICAL for proper schema setup)
+cd /app/backend || log_fatal "Failed to change directory to /app/backend"
+log_info "Running database migrations..."
+if command -v npx &> /dev/null; then
+    if npx sequelize-cli db:migrate --config config/database.js 2>&1 | tee /tmp/migration.log; then
+        log_info "Migrations completed successfully"
+    else
+        log_warning "Migration failed, but continuing startup (may be expected for new installations)"
+        cat /tmp/migration.log || true
+    fi
+else
+    log_warning "npx not found - skipping migrations"
+fi
+
 # Delegate to upstream entrypoints (prefer official scripts)
 log_info "Looking for Tududi executable..."
 
