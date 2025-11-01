@@ -14,7 +14,7 @@
 > - May cause Home Assistant to crash
 > - Configuration is unstable and incomplete
 > - Critical bugs are expected
-> - Data loss may occur
+> - Data loss may/will occur
 > 
 > **DO NOT install this add-on unless you are actively developing it.**
 > 
