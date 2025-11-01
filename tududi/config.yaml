@@ -1,5 +1,5 @@
 name: "Tududi"
-version: "0.0.6"
+version: "0.0.7"
 slug: "tududi"
 description: "Tududi upstream container packaged as a Home Assistant Add-on."
 url: "https://github.com/c2gl/tududi-addon"
@@ -13,8 +13,7 @@ ports:
   3002/tcp: 3002
 ports_description:
   3002/tcp: "Web interface"
-ingress: true
-ingress_port: 3002
+ingress: false
 panel_icon: mdi:checkbox-marked-circle-outline
 map:
   - config:rw

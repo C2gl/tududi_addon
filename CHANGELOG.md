@@ -2,6 +2,20 @@
 
 All notable changes to this add-on will be documented in this file.
 
+## 0.0.7
+
+- **FIXED:** Disabled Home Assistant ingress to resolve API request routing issues
+- Tasks and inbox items now load correctly
+- Access via direct port (3002) instead of ingress proxy path
+- Added Sequelize migrations execution on startup
+
+## 0.0.6
+
+- Added database migration support
+- Installed sequelize-cli globally in Docker image
+- Migrations now run automatically on container startup
+- Ensures all database schema updates from upstream Tududi are applied
+
 ## 0.0.5
 
 - href tentative fix
