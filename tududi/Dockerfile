@@ -31,6 +31,12 @@ RUN git clone --depth 1 https://github.com/chrisvel/tududi.git /tmp/tududi && \
     find dist -name "*.js" -type f -exec sed -i "s|'/locales/|'./locales/|g" {} \; && \
     find dist -name "*.js" -type f -exec sed -i 's|loadPath:"/locales/|loadPath:"./locales/|g' {} \; && \
     find dist -name "*.js" -type f -exec sed -i "s|loadPath:'/locales/|loadPath:'./locales/|g" {} \; && \
+    find dist -name "*.js" -type f -exec sed -i 's|navigate("/|navigate("./|g' {} \; && \
+    find dist -name "*.js" -type f -exec sed -i "s|navigate('/|navigate('./|g" {} \; && \
+    find dist -name "*.js" -type f -exec sed -i 's|to="/|to="./|g' {} \; && \
+    find dist -name "*.js" -type f -exec sed -i "s|to='/|to='./|g" {} \; && \
+    find dist -name "*.js" -type f -exec sed -i 's|href="/|href="./|g' {} \; && \
+    find dist -name "*.js" -type f -exec sed -i "s|href='/|href='./|g" {} \; && \
     mkdir -p /app/backend /app/backend/dist /app/backend/dist/locales /app/node_modules && \
     cp -r backend/* /app/backend/ && \
     cp -r dist/* /app/backend/dist/ && \
