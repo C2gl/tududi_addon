@@ -2,7 +2,23 @@
 [![GHCR](https://img.shields.io/badge/ghcr.io-c2gl%2Ftududi--addon-blue?style=flat&logo=docker)](https://github.com/c2gl/tududi_addon/pkgs/container/tududi-addon)
 [![GitHub issues](https://img.shields.io/github/issues/c2gl/tududi_addon.svg)](https://github.com/c2gl/tududi_addon/issues)
 [![GitHub pull requests](https://img.shields.io/github/issues-pr/c2gl/tududi_addon.svg)](https://github.com/c2gl/tududi_addon/pulls)
+
 # Tududi Home Assistant Add-on Repository
+
+> [!CAUTION]
+> **⚠️ DO NOT USE IN PRODUCTION - UNDER ACTIVE DEVELOPMENT ⚠️**
+> 
+> This add-on is currently in early development and is **NOT READY FOR USE**.
+> 
+> **Known Issues:**
+> - May cause Home Assistant to crash
+> - Configuration is unstable and incomplete
+> - Critical bugs are expected
+> - Data loss may occur
+> 
+> **DO NOT install this add-on unless you are actively developing it.**
+> 
+> This warning will be removed once the add-on reaches a stable state.
 
 [![Open your Home Assistant instance and show the add add-on repository dialog with a specific repository URL pre-filled.](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2FC2gl%2Ftududi_addon)
 
