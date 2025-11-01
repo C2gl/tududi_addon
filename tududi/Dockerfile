@@ -23,7 +23,6 @@ RUN git clone --depth 1 --branch v0.85.1 https://github.com/chrisvel/tududi.git 
     npm install nanoid@3 --save --no-audit --no-fund && \
     sed -i "s|publicPath: '/'|publicPath: ''|g" webpack.config.js && \
     NODE_ENV=production npm run frontend:build && \
-    sed -i 's|<base href="/">||g' dist/index.html && \
     sed -i 's|="/|="./|g' dist/index.html && \
     sed -i 's|href="/|href="./|g' dist/index.html && \
     find dist -name "*.js" -type f -exec sed -i 's|"/api/|"./api/|g' {} \; && \
