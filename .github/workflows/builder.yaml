@@ -4,19 +4,43 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'tududi-addon/**'
+      - 'tududi-addon-dev/**'
+      - '.github/workflows/builder.yaml'
   pull_request:
     branches:
       - main
+    paths:
+      - 'tududi-addon/**'
+      - 'tududi-addon-dev/**'
+      - '.github/workflows/builder.yaml'
   workflow_dispatch:
+    inputs:
+      addon:
+        description: 'Which addon to build (stable, dev, or both)'
+        required: false
+        default: 'both'
+        type: choice
+        options:
+          - both
+          - stable
+          - dev
 
 jobs:
-  build:
-    name: Build ${{ matrix.addon }} (${{ matrix.arch }})
+  build-stable:
+    name: Build tududi-addon (${{ matrix.arch }})
     runs-on: ubuntu-latest
+    if: |
+      github.event_name == 'workflow_dispatch' && (github.event.inputs.addon == 'stable' || github.event.inputs.addon == 'both') ||
+      github.event_name != 'workflow_dispatch' && (
+        contains(github.event.head_commit.modified, 'tududi-addon/') ||
+        contains(github.event.head_commit.added, 'tududi-addon/') ||
+        github.event_name == 'pull_request'
+      )
     strategy:
       matrix:
         arch: [amd64, aarch64]
-        addon: [tududi-addon, tududi-addon-dev]
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -25,7 +49,7 @@ jobs:
         id: info
         uses: home-assistant/actions/helpers/info@master
         with:
-          path: "./${{ matrix.addon }}"
+          path: "./tududi-addon"
 
       - name: Check if add-on should be built
         id: check
@@ -44,13 +68,64 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build ${{ matrix.addon }} (${{ matrix.arch }})
+      - name: Build tududi-addon (${{ matrix.arch }})
         if: steps.check.outputs.build_arch == 'true'
         uses: home-assistant/builder@master
         with:
           args: |
             --${{ matrix.arch }} \
-            --target /data/${{ matrix.addon }} \
-            --image "${{ matrix.addon }}" \
+            --target /data/tududi-addon \
+            --image "tududi-addon" \
+            --docker-hub ghcr.io/${{ github.repository_owner }} \
+            --addon
+
+  build-dev:
+    name: Build tududi-addon-dev (${{ matrix.arch }})
+    runs-on: ubuntu-latest
+    if: |
+      github.event_name == 'workflow_dispatch' && (github.event.inputs.addon == 'dev' || github.event.inputs.addon == 'both') ||
+      github.event_name != 'workflow_dispatch' && (
+        contains(github.event.head_commit.modified, 'tududi-addon-dev/') ||
+        contains(github.event.head_commit.added, 'tududi-addon-dev/') ||
+        github.event_name == 'pull_request'
+      )
+    strategy:
+      matrix:
+        arch: [amd64, aarch64]
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Get add-on information
+        id: info
+        uses: home-assistant/actions/helpers/info@master
+        with:
+          path: "./tududi-addon-dev"
+
+      - name: Check if add-on should be built
+        id: check
+        run: |
+          if [[ "${{ steps.info.outputs.architectures }}" =~ ${{ matrix.arch }} ]]; then
+            echo "build_arch=true" >> $GITHUB_OUTPUT
+          else
+            echo "build_arch=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Login to GitHub Container Registry
+        if: steps.check.outputs.build_arch == 'true'
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build tududi-addon-dev (${{ matrix.arch }})
+        if: steps.check.outputs.build_arch == 'true'
+        uses: home-assistant/builder@master
+        with:
+          args: |
+            --${{ matrix.arch }} \
+            --target /data/tududi-addon-dev \
+            --image "tududi-addon-dev" \
             --docker-hub ghcr.io/${{ github.repository_owner }} \
             --addon
