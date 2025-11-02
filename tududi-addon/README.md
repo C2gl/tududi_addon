@@ -1,14 +1,7 @@
-# Home Assistant Add-on: Tududi (Development)
+# Home Assistant Add-on: Tududi
 
 ![Supports amd64 Architecture][amd64-shield]
-
-> [!WARNING]
-> **⚠️ DEVELOPMENT VERSION - USE AT YOUR OWN RISK ⚠️**
-> 
-> This is the development version of Tududi with the latest features and bug fixes.
-> It may be unstable and is intended for testing purposes only.
-> 
-> For production use, install the stable "Tududi" add-on instead.
+![Supports aarch64 Architecture][aarch64-shield]
 
 ## About
 
@@ -27,7 +20,7 @@ Tududi is a self-hosted task management application with features like:
    ```
    https://github.com/C2gl/tududi_addon
    ```
-2. Find "Tududi (Development)" in the add-on store and click Install
+2. Find "Tududi" in the add-on store and click Install
 3. **IMPORTANT:** Configure the add-on before starting (see Configuration section below)
    - You must set `tududi_user_email`, `tududi_user_password`, and `tududi_session_secret`
 4. Start the add-on manually after configuration is complete
