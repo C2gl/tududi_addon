@@ -2,6 +2,11 @@
 
 All notable changes to this add-on will be documented in this file.
 
+## 0.0.10
+
+- **ADDED:** translation logic to suport localization 
+- the EN lang file
+
 ## 0.0.9
 
 - **ADDED:** added support for aarch64
