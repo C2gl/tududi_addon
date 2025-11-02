@@ -40,6 +40,69 @@ jobs:
             // Regex to match GitHub issue references (owner/repo#number or chrisvel/tududi#466)
             const issueRefRegex = /(?:https?:\/\/github\.com\/)?([a-zA-Z0-9_-]+)\/([a-zA-Z0-9_-]+)(?:\/(?:issues|discussions)\/|#)(\d+)/g;
             
+            // Helper function to check if upstream issue/discussion is closed
+            async function checkUpstreamStatus(upstreamOwner, upstreamRepo, upstreamNumber) {
+              // First, try as an issue
+              try {
+                const { data: upstreamIssue } = await github.rest.issues.get({
+                  owner: upstreamOwner,
+                  repo: upstreamRepo,
+                  issue_number: upstreamNumber
+                });
+                
+                return {
+                  found: true,
+                  type: 'issue',
+                  state: upstreamIssue.state,
+                  closedAt: upstreamIssue.closed_at,
+                  url: upstreamIssue.html_url
+                };
+              } catch (issueError) {
+                // If 404, it might be a discussion, try GraphQL
+                if (issueError.status === 404) {
+                  try {
+                    const query = `
+                      query($owner: String!, $repo: String!, $number: Int!) {
+                        repository(owner: $owner, name: $repo) {
+                          discussion(number: $number) {
+                            id
+                            number
+                            title
+                            closed
+                            closedAt
+                            url
+                          }
+                        }
+                      }
+                    `;
+                    
+                    const result = await github.graphql(query, {
+                      owner: upstreamOwner,
+                      repo: upstreamRepo,
+                      number: parseInt(upstreamNumber)
+                    });
+                    
+                    if (result.repository.discussion) {
+                      return {
+                        found: true,
+                        type: 'discussion',
+                        state: result.repository.discussion.closed ? 'closed' : 'open',
+                        closedAt: result.repository.discussion.closedAt,
+                        url: result.repository.discussion.url
+                      };
+                    }
+                  } catch (discussionError) {
+                    console.log(`    Could not fetch as discussion: ${discussionError.message}`);
+                  }
+                }
+                
+                return {
+                  found: false,
+                  error: issueError
+                };
+              }
+            }
+            
             for (const issue of issues) {
               const issueNumber = issue.number;
               const issueBody = issue.body || '';
@@ -63,81 +126,76 @@ jobs:
                 
                 console.log(`  Found reference: ${upstreamOwner}/${upstreamRepo}#${upstreamIssueNumber}`);
                 
-                try {
-                  // Check the status of the upstream issue
-                  const { data: upstreamIssue } = await github.rest.issues.get({
-                    owner: upstreamOwner,
-                    repo: upstreamRepo,
-                    issue_number: upstreamIssueNumber
+                const upstreamStatus = await checkUpstreamStatus(upstreamOwner, upstreamRepo, upstreamIssueNumber);
+                
+                if (!upstreamStatus.found) {
+                  console.log(`  ⚠️ Could not find upstream issue/discussion`);
+                  
+                  const { data: comments } = await github.rest.issues.listComments({
+                    owner,
+                    repo,
+                    issue_number: issueNumber,
+                    per_page: 100
                   });
                   
-                  console.log(`  Upstream issue state: ${upstreamIssue.state}`);
+                  const botAlreadyCommented = comments.some(comment => 
+                    comment.user.type === 'Bot' && 
+                    comment.body.includes(`${upstreamOwner}/${upstreamRepo}#${upstreamIssueNumber}`) &&
+                    comment.body.includes('not found')
+                  );
                   
-                  if (upstreamIssue.state === 'closed') {
-                    // Check if we already commented about this
-                    const { data: comments } = await github.rest.issues.listComments({
+                  if (!botAlreadyCommented) {
+                    await github.rest.issues.createComment({
                       owner,
                       repo,
                       issue_number: issueNumber,
-                      per_page: 100
+                      body: `⚠️ **Upstream Update**\n\n` +
+                            `The upstream ${upstreamOwner}/${upstreamRepo}#${upstreamIssueNumber} ` +
+                            `could not be found. It may have been deleted or made private.\n\n` +
+                            `@${owner} Please verify the upstream reference.`
                     });
                     
-                    const botAlreadyCommented = comments.some(comment => 
-                      comment.user.type === 'Bot' && 
-                      comment.body.includes(`${upstreamOwner}/${upstreamRepo}#${upstreamIssueNumber}`) &&
-                      comment.body.includes('has been closed')
-                    );
-                    
-                    if (!botAlreadyCommented) {
-                      // Post a comment notifying about the closure
-                      const closedAt = new Date(upstreamIssue.closed_at).toLocaleDateString();
-                      
-                      await github.rest.issues.createComment({
-                        owner,
-                        repo,
-                        issue_number: issueNumber,
-                        body: `🎉 **Upstream Update**\n\n` +
-                              `The upstream issue [${upstreamOwner}/${upstreamRepo}#${upstreamIssueNumber}](https://github.com/${upstreamOwner}/${upstreamRepo}/issues/${upstreamIssueNumber}) ` +
-                              `has been closed on ${closedAt}.\n\n` +
-                              `@${owner} This issue may now be ready to work on!`
-                      });
-                      
-                      console.log(`  ✅ Posted notification comment`);
-                    } else {
-                      console.log(`  ℹ️ Already notified about this closure`);
-                    }
+                    console.log(`  ⚠️ Posted warning comment`);
                   }
-                } catch (error) {
-                  console.log(`  ⚠️ Error checking ${upstreamOwner}/${upstreamRepo}#${upstreamIssueNumber}: ${error.message}`);
+                  continue;
+                }
+                
+                console.log(`  Upstream ${upstreamStatus.type} state: ${upstreamStatus.state}`);
+                
+                if (upstreamStatus.state === 'closed') {
+                  // Check if we already commented about this
+                  const { data: comments } = await github.rest.issues.listComments({
+                    owner,
+                    repo,
+                    issue_number: issueNumber,
+                    per_page: 100
+                  });
                   
-                  // If it's a 404 or 410, the issue might have been deleted or moved
-                  if (error.status === 404 || error.status === 410) {
-                    const { data: comments } = await github.rest.issues.listComments({
+                  const botAlreadyCommented = comments.some(comment => 
+                    comment.user.type === 'Bot' && 
+                    comment.body.includes(`${upstreamOwner}/${upstreamRepo}#${upstreamIssueNumber}`) &&
+                    comment.body.includes('has been closed')
+                  );
+                  
+                  if (!botAlreadyCommented) {
+                    // Post a comment notifying about the closure
+                    const closedAt = upstreamStatus.closedAt 
+                      ? new Date(upstreamStatus.closedAt).toLocaleDateString()
+                      : 'recently';
+                    
+                    await github.rest.issues.createComment({
                       owner,
                       repo,
                       issue_number: issueNumber,
-                      per_page: 100
+                      body: `🎉 **Upstream Update**\n\n` +
+                            `The upstream ${upstreamStatus.type} [${upstreamOwner}/${upstreamRepo}#${upstreamIssueNumber}](${upstreamStatus.url}) ` +
+                            `has been closed on ${closedAt}.\n\n` +
+                            `@${owner} This issue may now be ready to work on!`
                     });
                     
-                    const botAlreadyCommented = comments.some(comment => 
-                      comment.user.type === 'Bot' && 
-                      comment.body.includes(`${upstreamOwner}/${upstreamRepo}#${upstreamIssueNumber}`) &&
-                      (comment.body.includes('not found') || comment.body.includes('no longer accessible'))
-                    );
-                    
-                    if (!botAlreadyCommented) {
-                      await github.rest.issues.createComment({
-                        owner,
-                        repo,
-                        issue_number: issueNumber,
-                        body: `⚠️ **Upstream Update**\n\n` +
-                              `The upstream issue/discussion ${upstreamOwner}/${upstreamRepo}#${upstreamIssueNumber} ` +
-                              `is not found or no longer accessible. It may have been deleted, moved, or converted.\n\n` +
-                              `@${owner} Please verify the upstream reference.`
-                      });
-                      
-                      console.log(`  ⚠️ Posted warning comment about missing issue`);
-                    }
+                    console.log(`  ✅ Posted notification comment`);
+                  } else {
+                    console.log(`  ℹ️ Already notified about this closure`);
                   }
                 }
               }
