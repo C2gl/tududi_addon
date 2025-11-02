@@ -1,0 +1,146 @@
+name: Track Upstream Issues
+
+on:
+  schedule:
+    # Run daily at 9:00 AM UTC
+    - cron: '0 9 * * *'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  check-upstream:
+    name: Check Upstream Issues
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
+    
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Track Upstream Issues
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            
+            // Get all open issues with "Upstream?" label
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner,
+              repo,
+              state: 'open',
+              labels: 'Upstream?',
+              per_page: 100
+            });
+            
+            console.log(`Found ${issues.length} open issues with 'Upstream?' label`);
+            
+            // Regex to match GitHub issue references (owner/repo#number or chrisvel/tududi#466)
+            const issueRefRegex = /(?:https?:\/\/github\.com\/)?([a-zA-Z0-9_-]+)\/([a-zA-Z0-9_-]+)(?:\/(?:issues|discussions)\/|#)(\d+)/g;
+            
+            for (const issue of issues) {
+              const issueNumber = issue.number;
+              const issueBody = issue.body || '';
+              const issueTitle = issue.title || '';
+              const combinedText = `${issueTitle}\n${issueBody}`;
+              
+              console.log(`\nProcessing issue #${issueNumber}: ${issueTitle}`);
+              
+              // Find all upstream issue references
+              const matches = [...combinedText.matchAll(issueRefRegex)];
+              
+              if (matches.length === 0) {
+                console.log(`  No upstream references found`);
+                continue;
+              }
+              
+              for (const match of matches) {
+                const upstreamOwner = match[1];
+                const upstreamRepo = match[2];
+                const upstreamIssueNumber = match[3];
+                
+                console.log(`  Found reference: ${upstreamOwner}/${upstreamRepo}#${upstreamIssueNumber}`);
+                
+                try {
+                  // Check the status of the upstream issue
+                  const { data: upstreamIssue } = await github.rest.issues.get({
+                    owner: upstreamOwner,
+                    repo: upstreamRepo,
+                    issue_number: upstreamIssueNumber
+                  });
+                  
+                  console.log(`  Upstream issue state: ${upstreamIssue.state}`);
+                  
+                  if (upstreamIssue.state === 'closed') {
+                    // Check if we already commented about this
+                    const { data: comments } = await github.rest.issues.listComments({
+                      owner,
+                      repo,
+                      issue_number: issueNumber,
+                      per_page: 100
+                    });
+                    
+                    const botAlreadyCommented = comments.some(comment => 
+                      comment.user.type === 'Bot' && 
+                      comment.body.includes(`${upstreamOwner}/${upstreamRepo}#${upstreamIssueNumber}`) &&
+                      comment.body.includes('has been closed')
+                    );
+                    
+                    if (!botAlreadyCommented) {
+                      // Post a comment notifying about the closure
+                      const closedAt = new Date(upstreamIssue.closed_at).toLocaleDateString();
+                      
+                      await github.rest.issues.createComment({
+                        owner,
+                        repo,
+                        issue_number: issueNumber,
+                        body: `🎉 **Upstream Update**\n\n` +
+                              `The upstream issue [${upstreamOwner}/${upstreamRepo}#${upstreamIssueNumber}](https://github.com/${upstreamOwner}/${upstreamRepo}/issues/${upstreamIssueNumber}) ` +
+                              `has been closed on ${closedAt}.\n\n` +
+                              `@${owner} This issue may now be ready to work on!`
+                      });
+                      
+                      console.log(`  ✅ Posted notification comment`);
+                    } else {
+                      console.log(`  ℹ️ Already notified about this closure`);
+                    }
+                  }
+                } catch (error) {
+                  console.log(`  ⚠️ Error checking ${upstreamOwner}/${upstreamRepo}#${upstreamIssueNumber}: ${error.message}`);
+                  
+                  // If it's a 404 or 410, the issue might have been deleted or moved
+                  if (error.status === 404 || error.status === 410) {
+                    const { data: comments } = await github.rest.issues.listComments({
+                      owner,
+                      repo,
+                      issue_number: issueNumber,
+                      per_page: 100
+                    });
+                    
+                    const botAlreadyCommented = comments.some(comment => 
+                      comment.user.type === 'Bot' && 
+                      comment.body.includes(`${upstreamOwner}/${upstreamRepo}#${upstreamIssueNumber}`) &&
+                      (comment.body.includes('not found') || comment.body.includes('no longer accessible'))
+                    );
+                    
+                    if (!botAlreadyCommented) {
+                      await github.rest.issues.createComment({
+                        owner,
+                        repo,
+                        issue_number: issueNumber,
+                        body: `⚠️ **Upstream Update**\n\n` +
+                              `The upstream issue/discussion ${upstreamOwner}/${upstreamRepo}#${upstreamIssueNumber} ` +
+                              `is not found or no longer accessible. It may have been deleted, moved, or converted.\n\n` +
+                              `@${owner} Please verify the upstream reference.`
+                      });
+                      
+                      console.log(`  ⚠️ Posted warning comment about missing issue`);
+                    }
+                  }
+                }
+              }
+            }
+            
+            console.log('\n✅ Upstream tracking complete');
