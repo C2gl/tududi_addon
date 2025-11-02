@@ -16,7 +16,7 @@ jobs:
     strategy:
       matrix:
         arch: [amd64, aarch64]
-        addon: [tududi, tududi-dev]
+        addon: [tududi-addon, tududi-addon-dev]
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
