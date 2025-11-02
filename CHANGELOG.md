@@ -2,6 +2,12 @@
 
 All notable changes to this add-on will be documented in this file.
 
+## 0.0.9
+
+- **ADDED:** added support for aarch64
+- updated the readme
+- updated package name
+
 ## 0.0.8
 
 - **FIXED:** Re-enabled ingress with proper template literal path rewriting
