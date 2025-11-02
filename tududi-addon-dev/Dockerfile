@@ -16,29 +16,31 @@ WORKDIR /app
 # Clone Tududi repository (v0.85.1 stable release) and build with retry logic
 RUN git clone --depth 1 --branch v0.85.1 https://github.com/chrisvel/tududi.git /tmp/tududi && \
     cd /tmp/tududi && \
-    npm config set fetch-retry-maxtimeout 120000 && \
-    npm config set fetch-retry-mintimeout 10000 && \
-    npm config set fetch-retries 5 && \
-    npm install --no-audit --no-fund --prefer-offline && \
-    npm install nanoid@3 --save --no-audit --no-fund && \
+    npm config set fetch-retry-maxtimeout 300000 && \
+    npm config set fetch-retry-mintimeout 20000 && \
+    npm config set fetch-retries 10 && \
+    npm config set progress false && \
+    npm config set loglevel error && \
+    npm install --no-audit --no-fund --prefer-offline --legacy-peer-deps && \
+    npm install nanoid@3 --save --no-audit --no-fund --legacy-peer-deps && \
     sed -i "s|publicPath: '/'|publicPath: ''|g" webpack.config.js && \
-    NODE_ENV=production npm run frontend:build && \
+    NODE_OPTIONS="--max-old-space-size=2048" NODE_ENV=production npm run frontend:build && \
     sed -i 's|="/|="./|g' dist/index.html && \
     sed -i 's|href="/|href="./|g' dist/index.html && \
-    find dist -name "*.js" -type f -exec sed -i 's|"/api/|"./api/|g' {} \; && \
-    find dist -name "*.js" -type f -exec sed -i "s|'/api/|'./api/|g" {} \; && \
-    find dist -name "*.js" -type f -exec sed -i 's|`/api/|`./api/|g' {} \; && \
-    find dist -name "*.js" -type f -exec sed -i 's|"/locales/|"./locales/|g' {} \; && \
-    find dist -name "*.js" -type f -exec sed -i "s|'/locales/|'./locales/|g" {} \; && \
-    find dist -name "*.js" -type f -exec sed -i 's|`/locales/|`./locales/|g' {} \; && \
-    find dist -name "*.js" -type f -exec sed -i 's|loadPath:"/locales/|loadPath:"./locales/|g' {} \; && \
-    find dist -name "*.js" -type f -exec sed -i "s|loadPath:'/locales/|loadPath:'./locales/|g" {} \; && \
-    find dist -name "*.js" -type f -exec sed -i 's|navigate("/|navigate("./|g' {} \; && \
-    find dist -name "*.js" -type f -exec sed -i "s|navigate('/|navigate('./|g" {} \; && \
-    find dist -name "*.js" -type f -exec sed -i 's|to="/|to="./|g' {} \; && \
-    find dist -name "*.js" -type f -exec sed -i "s|to='/|to='./|g" {} \; && \
-    find dist -name "*.js" -type f -exec sed -i 's|href="/|href="./|g' {} \; && \
-    find dist -name "*.js" -type f -exec sed -i "s|href='/|href='./|g" {} \; && \
+    find dist -name "*.js" -type f -exec sed -i 's|"/api/|"./api/|g' {} + && \
+    find dist -name "*.js" -type f -exec sed -i "s|'/api/|'./api/|g" {} + && \
+    find dist -name "*.js" -type f -exec sed -i 's|`/api/|`./api/|g' {} + && \
+    find dist -name "*.js" -type f -exec sed -i 's|"/locales/|"./locales/|g' {} + && \
+    find dist -name "*.js" -type f -exec sed -i "s|'/locales/|'./locales/|g" {} + && \
+    find dist -name "*.js" -type f -exec sed -i 's|`/locales/|`./locales/|g' {} + && \
+    find dist -name "*.js" -type f -exec sed -i 's|loadPath:"/locales/|loadPath:"./locales/|g' {} + && \
+    find dist -name "*.js" -type f -exec sed -i "s|loadPath:'/locales/|loadPath:'./locales/|g" {} + && \
+    find dist -name "*.js" -type f -exec sed -i 's|navigate("/|navigate("./|g' {} + && \
+    find dist -name "*.js" -type f -exec sed -i "s|navigate('/|navigate('./|g" {} + && \
+    find dist -name "*.js" -type f -exec sed -i 's|to="/|to="./|g' {} + && \
+    find dist -name "*.js" -type f -exec sed -i "s|to='/|to='./|g" {} + && \
+    find dist -name "*.js" -type f -exec sed -i 's|href="/|href="./|g' {} + && \
+    find dist -name "*.js" -type f -exec sed -i "s|href='/|href='./|g" {} + && \
     mkdir -p /app/backend /app/backend/dist /app/backend/dist/locales /app/node_modules && \
     cp -r backend/* /app/backend/ && \
     cp -r dist/* /app/backend/dist/ && \
