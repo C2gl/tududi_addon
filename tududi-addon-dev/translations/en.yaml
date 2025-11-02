@@ -1,0 +1,28 @@
+configuration:
+  port:
+    name: Port
+    description: Web interface port number
+  tududi_user_email:
+    name: User Email
+    description: Email address for the Tududi user account
+  tududi_user_password:
+    name: User Password
+    description: Password for the Tududi user account
+  tududi_session_secret:
+    name: Session Secret
+    description: Secret key for session encryption (generate a random string)
+  disable_telegram:
+    name: Disable Telegram
+    description: Disable Telegram integration
+  disable_scheduler:
+    name: Disable Scheduler
+    description: Disable the task scheduler
+  upload_path:
+    name: Upload Path
+    description: Directory path for file uploads
+  db_file:
+    name: Database File
+    description: Path to the SQLite database file
+
+network:
+  3002/tcp: Web interface (automatically proxied through Ingress)
