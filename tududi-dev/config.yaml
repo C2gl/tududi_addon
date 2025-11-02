@@ -1,0 +1,42 @@
+name: "Tududi (Development)"
+version: "dev"
+slug: "tududi-dev"
+description: "Development version of Tududi - unstable, for testing only!"
+url: "https://github.com/c2gl/tududi-addon"
+image: "ghcr.io/c2gl/tududi-addon-dev"
+init: false
+startup: services
+boot: manual
+arch:
+  - amd64
+ports:
+  3002/tcp: 3002
+ports_description:
+  3002/tcp: "Web interface"
+ingress: true
+ingress_port: 3002
+panel_icon: mdi:checkbox-marked-circle-outline
+map:
+  - config:rw
+  - share:rw
+  - addons:rw
+  - backup:ro
+options:
+  port: 3002
+  tududi_user_email: ""
+  tududi_user_password: ""
+  tududi_session_secret: ""
+  disable_telegram: false
+  disable_scheduler: false
+  upload_path: "/data/uploads"
+  db_file: "/data/production.sqlite3"
+schema:
+  port: int
+  tududi_user_email: str
+  tududi_user_password: str
+  tududi_session_secret: str
+  disable_telegram: bool
+  disable_scheduler: bool
+  upload_path: str
+  db_file: str
+webui: "http://[HOST]:[PORT:3002]"

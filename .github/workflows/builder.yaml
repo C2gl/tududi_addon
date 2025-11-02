@@ -11,12 +11,12 @@ on:
 
 jobs:
   build:
-    name: Build ${{ matrix.arch }} add-on
+    name: Build ${{ matrix.addon }} (${{ matrix.arch }})
     runs-on: ubuntu-latest
     strategy:
       matrix:
         arch: [amd64]
-        addon: [tududi]
+        addon: [tududi, tududi-dev]
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -44,13 +44,13 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build ${{ matrix.arch }} add-on
+      - name: Build ${{ matrix.addon }} (${{ matrix.arch }})
         if: steps.check.outputs.build_arch == 'true'
         uses: home-assistant/builder@master
         with:
           args: |
             --${{ matrix.arch }} \
             --target /data/${{ matrix.addon }} \
-            --image "tududi-addon" \
+            --image "${{ matrix.addon }}" \
             --docker-hub ghcr.io/${{ github.repository_owner }} \
             --addon
