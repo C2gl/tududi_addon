@@ -1,0 +1,28 @@
+configuration:
+  port:
+    name: Poort
+    description: Webinterface poortnummer
+  tududi_user_email:
+    name: Gebruikers E-mail
+    description: E-mailadres voor het Tududi-gebruikersaccount
+  tududi_user_password:
+    name: Gebruikerswachtwoord
+    description: Wachtwoord voor het Tududi-gebruikersaccount
+  tududi_session_secret:
+    name: Sessie Geheim
+    description: Geheime sleutel voor sessie-encryptie (genereer een willekeurige tekenreeks)
+  disable_telegram:
+    name: Schakel Telegram uit
+    description: Schakel de Telegram-integratie uit
+  disable_scheduler:
+    name: Schakel Planner uit
+    description: Schakel de taakplanner uit
+  upload_path:
+    name: Upload Pad
+    description: Directory pad voor bestandsuploads
+  db_file:
+    name: Database Bestand
+    description: Pad naar het SQLite-databasebestand
+
+network:
+  3002/tcp: Webinterface (automatisch geproxied via Ingress)
