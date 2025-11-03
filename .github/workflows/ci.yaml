@@ -1,4 +1,4 @@
-name: CI Build (No Publish)
+name: 🏗️ CI Build (No Publish)
 
 on:
   push:
