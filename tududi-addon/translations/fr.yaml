@@ -25,4 +25,4 @@ configuration:
     description: Chemin vers le fichier de base de données SQLite
 
 network:
-  3002/tcp: Interface web (automatiquement proxifiée via Ingress)
+  3002/tcp: Interface web (automatiquement proxifiée par Ingress)
