@@ -1,20 +1,6 @@
 name: Build and Publish Add-on
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - 'tududi-addon/**'
-      - 'tududi-addon-dev/**'
-      - '.github/workflows/builder.yaml'
-  pull_request:
-    branches:
-      - main
-    paths:
-      - 'tududi-addon/**'
-      - 'tududi-addon-dev/**'
-      - '.github/workflows/builder.yaml'
   workflow_dispatch:
     inputs:
       addon:
@@ -31,13 +17,7 @@ jobs:
   build-stable:
     name: Build tududi-addon (${{ matrix.arch }})
     runs-on: ubuntu-latest
-    if: |
-      github.event_name == 'workflow_dispatch' && (github.event.inputs.addon == 'stable' || github.event.inputs.addon == 'both') ||
-      github.event_name != 'workflow_dispatch' && (
-        contains(github.event.head_commit.modified, 'tududi-addon/') ||
-        contains(github.event.head_commit.added, 'tududi-addon/') ||
-        github.event_name == 'pull_request'
-      )
+    if: github.event.inputs.addon == 'stable' || github.event.inputs.addon == 'both'
     strategy:
       matrix:
         arch: [amd64, aarch64]
@@ -82,13 +62,7 @@ jobs:
   build-dev:
     name: Build tududi-addon-dev (${{ matrix.arch }})
     runs-on: ubuntu-latest
-    if: |
-      github.event_name == 'workflow_dispatch' && (github.event.inputs.addon == 'dev' || github.event.inputs.addon == 'both') ||
-      github.event_name != 'workflow_dispatch' && (
-        contains(github.event.head_commit.modified, 'tududi-addon-dev/') ||
-        contains(github.event.head_commit.added, 'tududi-addon-dev/') ||
-        github.event_name == 'pull_request'
-      )
+    if: github.event.inputs.addon == 'dev' || github.event.inputs.addon == 'both'
     strategy:
       matrix:
         arch: [amd64, aarch64]
