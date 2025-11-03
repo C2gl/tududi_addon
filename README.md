@@ -83,5 +83,11 @@ Your contributions help make this add-on accessible to more users!
 
 This add-on packages the excellent [Tududi](https://github.com/chrisvel/tududi) project created by [@chrisvel](https://github.com/chrisvel).
 
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+This add-on packages [Tududi](https://github.com/chrisvel/tududi), which is also licensed under the MIT License. See [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md) for the complete Tududi license and attribution.
+
 [aarch64-shield]: https://img.shields.io/badge/aarch64-yes-green.svg
 [amd64-shield]: https://img.shields.io/badge/amd64-yes-green.svg
