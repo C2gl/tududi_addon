@@ -1,0 +1,35 @@
+name: 🌍 Validate Translations
+
+on:
+  push:
+    paths:
+      - 'tududi-addon/translations/*.yaml'
+      - 'tududi-addon-dev/translations/*.yaml'
+  pull_request:
+    branches: [ main, dev ]
+    types: [opened, synchronize, reopened, labeled]
+    paths:
+      - 'tududi-addon/translations/*.yaml'
+      - 'tududi-addon-dev/translations/*.yaml'
+
+jobs:
+  validate-translations:
+    if: |
+      github.event_name == 'push' || 
+      contains(join(github.event.pull_request.labels.*.name, ','), 'localization')
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install PyYAML
+      run: pip install pyyaml
+    
+    - name: Validate translation completeness
+      run: |
+        python .github/scripts/validate_translations.py
