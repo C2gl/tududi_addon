@@ -68,6 +68,17 @@ If you have issues with the add-on, please [open an issue on GitHub](https://git
 
 For issues with Tududi itself, please visit the [upstream repository](https://github.com/chrisvel/tududi).
 
+### Contributing Translations
+
+Want to help translate this add-on to your language? Here's how:
+
+1. Navigate to the `translations` folder in `tududi-addon`
+2. Copy the `en.yaml` file and rename it to your language code (e.g., `de.yaml` for German, `es.yaml` for Spanish)
+3. Translate the text values in your new file (keep the keys unchanged)
+4. Submit a pull request with the `translation` label
+
+Your contributions help make this add-on accessible to more users!
+
 ## Credits
 
 This add-on packages the excellent [Tududi](https://github.com/chrisvel/tududi) project created by [@chrisvel](https://github.com/chrisvel).
