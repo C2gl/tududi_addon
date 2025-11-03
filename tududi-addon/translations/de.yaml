@@ -1,0 +1,28 @@
+configuration:
+  port:
+    name: Port
+    description: Portnummer der Weboberfläche
+  tududi_user_email:
+    name: Benutzer-E-Mail
+    description: E-Mail-Adresse für das Tududi-Benutzerkonto
+  tududi_user_password:
+    name: Benutzerpasswort
+    description: Passwort für das Tududi-Benutzerkonto
+  tududi_session_secret:
+    name: Sitzungsgeheimnis
+    description: Geheimer Schlüssel für die Sitzungsverschlüsselung (generieren Sie eine zufällige Zeichenkette)
+  disable_telegram:
+    name: Telegram deaktivieren
+    description: Telegram-Integration deaktivieren
+  disable_scheduler:
+    name: Scheduler deaktivieren
+    description: Den Aufgabenplaner deaktivieren
+  upload_path:
+    name: Upload-Pfad
+    description: Verzeichnispfad für Datei-Uploads
+  db_file:
+    name: Datenbankdatei
+    description: Pfad zur SQLite-Datenbankdatei
+
+network:
+  3002/tcp: Weboberfläche (automatisch über Ingress weitergeleitet)
