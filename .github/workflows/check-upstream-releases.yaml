@@ -5,9 +5,6 @@ on:
     # Run daily at 6:00 AM UTC
     - cron: '0 6 * * *'
   workflow_dispatch: # Allow manual trigger
-  pull_request: # For testing in PRs
-    paths:
-      - '.github/workflows/check-upstream-releases.yaml'
 
 permissions:
   contents: read
