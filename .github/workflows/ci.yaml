@@ -1,0 +1,96 @@
+name: CI Build (No Publish)
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'tududi-addon/**'
+      - 'tududi-addon-dev/**'
+      - '.github/workflows/ci.yaml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'tududi-addon/**'
+      - 'tududi-addon-dev/**'
+      - '.github/workflows/ci.yaml'
+
+jobs:
+  build-stable:
+    name: Build tududi-addon (${{ matrix.arch }})
+    runs-on: ubuntu-latest
+    if: |
+      contains(github.event.head_commit.modified, 'tududi-addon/') ||
+      contains(github.event.head_commit.added, 'tududi-addon/') ||
+      github.event_name == 'pull_request'
+    strategy:
+      matrix:
+        arch: [amd64, aarch64]
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Get add-on information
+        id: info
+        uses: home-assistant/actions/helpers/info@master
+        with:
+          path: "./tududi-addon"
+
+      - name: Check if add-on should be built
+        id: check
+        run: |
+          if [[ "${{ steps.info.outputs.architectures }}" =~ ${{ matrix.arch }} ]]; then
+            echo "build_arch=true" >> $GITHUB_OUTPUT
+          else
+            echo "build_arch=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Build tududi-addon (${{ matrix.arch }})
+        if: steps.check.outputs.build_arch == 'true'
+        uses: home-assistant/builder@master
+        with:
+          args: |
+            --${{ matrix.arch }} \
+            --target /data/tududi-addon \
+            --image "tududi-addon" \
+            --test
+
+  build-dev:
+    name: Build tududi-addon-dev (${{ matrix.arch }})
+    runs-on: ubuntu-latest
+    if: |
+      contains(github.event.head_commit.modified, 'tududi-addon-dev/') ||
+      contains(github.event.head_commit.added, 'tududi-addon-dev/') ||
+      github.event_name == 'pull_request'
+    strategy:
+      matrix:
+        arch: [amd64, aarch64]
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Get add-on information
+        id: info
+        uses: home-assistant/actions/helpers/info@master
+        with:
+          path: "./tududi-addon-dev"
+
+      - name: Check if add-on should be built
+        id: check
+        run: |
+          if [[ "${{ steps.info.outputs.architectures }}" =~ ${{ matrix.arch }} ]]; then
+            echo "build_arch=true" >> $GITHUB_OUTPUT
+          else
+            echo "build_arch=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Build tududi-addon-dev (${{ matrix.arch }})
+        if: steps.check.outputs.build_arch == 'true'
+        uses: home-assistant/builder@master
+        with:
+          args: |
+            --${{ matrix.arch }} \
+            --target /data/tududi-addon-dev \
+            --image "tududi-addon-dev" \
+            --test
