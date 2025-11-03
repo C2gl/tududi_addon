@@ -1,0 +1,132 @@
+name: 🔔 Check Upstream Releases
+
+on:
+  schedule:
+    # Run daily at 6:00 AM UTC
+    - cron: '0 6 * * *'
+  workflow_dispatch: # Allow manual trigger
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check-release:
+    name: Check for New Tududi Releases
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check for new releases
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+
+            // Read current version from Dockerfile
+            const dockerfilePath = path.join(process.env.GITHUB_WORKSPACE, 'tududi-addon', 'Dockerfile');
+            const dockerfileContent = fs.readFileSync(dockerfilePath, 'utf8');
+            
+            // Extract current version from git clone command
+            const currentVersionMatch = dockerfileContent.match(/--branch\s+(v[\d.]+)/);
+            if (!currentVersionMatch) {
+              console.log('Could not extract current version from Dockerfile');
+              return;
+            }
+            
+            const currentVersion = currentVersionMatch[1];
+            console.log(`Current version in use: ${currentVersion}`);
+
+            // Get latest release from upstream Tududi repository
+            try {
+              const { data: latestRelease } = await github.rest.repos.getLatestRelease({
+                owner: 'chrisvel',
+                repo: 'tududi'
+              });
+              
+              const latestVersion = latestRelease.tag_name;
+              console.log(`Latest upstream release: ${latestVersion}`);
+              
+              // Compare versions
+              if (currentVersion === latestVersion) {
+                console.log('✅ Already using the latest version!');
+                return;
+              }
+              
+              console.log(`🔔 New version available: ${currentVersion} -> ${latestVersion}`);
+              
+              // Check if there's already an open issue for this version
+              const { data: existingIssues } = await github.rest.issues.listForRepo({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                state: 'open',
+                labels: 'upstream-release',
+                per_page: 100
+              });
+              
+              const issueTitle = `New Tududi release available: ${latestVersion}`;
+              const existingIssue = existingIssues.find(issue => 
+                issue.title.includes(latestVersion)
+              );
+              
+              if (existingIssue) {
+                console.log(`Issue already exists: #${existingIssue.number}`);
+                return;
+              }
+              
+              // Create issue body with release information
+              const issueBody = `## 🚀 New Tududi Release Available
+
+A new version of Tududi has been released!
+
+**Current version:** \`${currentVersion}\`  
+**Latest version:** \`${latestVersion}\`
+
+### Release Information
+- **Release date:** ${latestRelease.published_at}
+- **Release URL:** ${latestRelease.html_url}
+
+### Release Notes
+${latestRelease.body || 'No release notes provided.'}
+
+---
+
+### What to do next?
+1. Review the [release notes](${latestRelease.html_url}) for breaking changes
+2. Update the version in the following files:
+   - \`tududi-addon/Dockerfile\` (line with \`--branch v0.85.1\`)
+   - \`tududi-addon-dev/Dockerfile\` (line with \`--branch v0.85.1\`)
+3. Test the addon with the new version
+4. Update the \`CHANGELOG.md\` with the version change
+5. Close this issue once the update is complete
+
+### Files to update
+\`\`\`diff
+- RUN git clone --depth 1 --branch ${currentVersion} https://github.com/chrisvel/tududi.git /tmp/tududi && \\
++ RUN git clone --depth 1 --branch ${latestVersion} https://github.com/chrisvel/tududi.git /tmp/tududi && \\
+\`\`\`
+`;
+
+              // Create the issue
+              const { data: newIssue } = await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: issueTitle,
+                body: issueBody,
+                labels: ['upstream-release', 'enhancement']
+              });
+              
+              console.log(`✅ Created issue #${newIssue.number}: ${newIssue.html_url}`);
+              
+            } catch (error) {
+              if (error.status === 404) {
+                console.log('No releases found in upstream repository');
+              } else {
+                console.error('Error checking for releases:', error);
+                throw error;
+              }
+            }
