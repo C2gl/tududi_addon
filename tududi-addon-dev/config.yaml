@@ -1,5 +1,5 @@
 name: "Tududi (Development)"
-version: "dev-20251104"
+version: "dev-backup-test"
 slug: "tududi-dev"
 description: "Development version of Tududi - unstable, for testing only!"
 url: "https://github.com/c2gl/tududi-addon"
