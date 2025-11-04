@@ -43,5 +43,5 @@ schema:
 webui: "http://[HOST]:[PORT:3002]"
 # Backup configuration
 backup: hot
-backup_pre: "/usr/bin/bashio /scripts/backup-pre.sh"
-backup_post: "/usr/bin/bashio /scripts/backup-post.sh"
+backup_pre: "/scripts/backup-pre.sh"
+backup_post: "/scripts/backup-post.sh"
