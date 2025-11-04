@@ -11,7 +11,8 @@ RUN apk add --no-cache \
 
 # Install Node.js and npm separately to handle ARM64 issues
 # Use nodejs from community repo which has better ARM64 support
-RUN if [ "$(uname -m)" = "aarch64" ]; then \
+ARG TARGETARCH
+RUN if [ "$TARGETARCH" = "arm64" ]; then \
         echo "Installing Node.js for ARM64..."; \
         apk add --no-cache nodejs-current npm --repository=https://dl-cdn.alpinelinux.org/alpine/edge/community; \
     else \
