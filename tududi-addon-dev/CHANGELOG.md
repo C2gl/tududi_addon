@@ -48,4 +48,4 @@ This is the changelog for the dev add-on.
 ## [dev-20251102] - 2024-11-04
 
 ### Added
-- initalised seperate dev branch to avoid breaking stuff on the main branch.
+- initialised seperate dev branch to avoid breaking stuff on the main branch.
