@@ -1,14 +1,23 @@
 ARG BUILD_FROM
 FROM $BUILD_FROM
 
-# Install dependencies
+# Install dependencies - use nodejs-current for ARM64 compatibility
 RUN apk add --no-cache \
     bash \
-    nodejs \
-    npm \
-    sqlite \
     curl \
-    git
+    git \
+    sqlite \
+    jq
+
+# Install Node.js and npm separately to handle ARM64 issues
+# Use nodejs from community repo which has better ARM64 support
+RUN if [ "$(uname -m)" = "aarch64" ]; then \
+        echo "Installing Node.js for ARM64..."; \
+        apk add --no-cache nodejs-current npm --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community; \
+    else \
+        echo "Installing Node.js for AMD64..."; \
+        apk add --no-cache nodejs npm; \
+    fi
 
 # Set working directory
 WORKDIR /app
@@ -24,7 +33,7 @@ RUN git clone --depth 1 --branch v0.85.1 https://github.com/chrisvel/tududi.git 
     npm install --no-audit --no-fund --prefer-offline --legacy-peer-deps && \
     npm install nanoid@3 --save --no-audit --no-fund --legacy-peer-deps && \
     sed -i "s|publicPath: '/'|publicPath: ''|g" webpack.config.js && \
-    NODE_OPTIONS="--max-old-space-size=1024" NODE_ENV=production npm run frontend:build && \
+    NODE_OPTIONS="--max-old-space-size=2048" NODE_ENV=production npm run frontend:build && \
     sed -i 's|="/|="./|g' dist/index.html && \
     sed -i 's|href="/|href="./|g' dist/index.html && \
     find dist -name "*.js" -type f -exec sed -i 's|"/api/|"./api/|g' {} + && \
