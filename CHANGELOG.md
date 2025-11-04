@@ -5,8 +5,8 @@ All notable changes to this add-on will be documented in this file.
 ## 0.0.9
 
 - **ADDED:** added support for aarch64
-- updated the readme
-- updated package name
+- Updated the readme
+- Updated package name
 
 ## 0.0.8
 
@@ -51,7 +51,7 @@ All notable changes to this add-on will be documented in this file.
 
 ## 0.0.2
 
-- pinned the v0.85.1 stable release of the tududi upstream package
+- Pinned the v0.85.1 stable release of the Tududi upstream package
 
 ## 0.0.1
 
