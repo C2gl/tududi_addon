@@ -13,7 +13,7 @@ RUN apk add --no-cache \
 # Use nodejs from community repo which has better ARM64 support
 RUN if [ "$(uname -m)" = "aarch64" ]; then \
         echo "Installing Node.js for ARM64..."; \
-        apk add --no-cache nodejs-current npm --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community; \
+        apk add --no-cache nodejs-current npm icu-libs --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community --repository=http://dl-cdn.alpinelinux.org/alpine/edge/main; \
     else \
         echo "Installing Node.js for AMD64..."; \
         apk add --no-cache nodejs npm; \
