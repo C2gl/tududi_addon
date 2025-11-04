@@ -20,7 +20,12 @@ this is the changelog for the dev addon
 ### Changed
 - Updated Dockerfile to include backup scripts
 - Added backup configuration to config.yaml
-- **ARM64 build fix:** Using nodejs-current from Alpine edge repository with matching ICU libraries to resolve "Illegal instruction" error on ARM64 builds
+
+### Known Issues
+- **ARM64 (aarch64) builds temporarily disabled** due to persistent Node.js/Webpack compatibility issues on Alpine ARM64
+  - The upstream Tududi webpack build crashes with "Illegal instruction" or symbol relocation errors on ARM64
+  - This is an upstream Alpine/Node.js/Webpack compatibility issue unrelated to backup functionality
+  - AMD64 builds work correctly and include full backup support
 
 ### Technical Details
 - Uses SQLite `PRAGMA wal_checkpoint(TRUNCATE)` for database consistency

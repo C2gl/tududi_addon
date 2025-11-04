@@ -1,23 +1,15 @@
 ARG BUILD_FROM
 FROM $BUILD_FROM
 
-# Install dependencies - use nodejs-current for ARM64 compatibility
+# Install dependencies
 RUN apk add --no-cache \
     bash \
     curl \
     git \
     sqlite \
-    jq
-
-# Install Node.js and npm separately to handle ARM64 issues
-# Use nodejs-current from edge for ARM64 with matching ICU libraries
-RUN if [ "$(uname -m)" = "aarch64" ]; then \
-        echo "Installing Node.js for ARM64 from edge repository..."; \
-        apk add --no-cache nodejs-current npm icu-libs icu-data-full --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community --repository=http://dl-cdn.alpinelinux.org/alpine/edge/main; \
-    else \
-        echo "Installing Node.js for AMD64..."; \
-        apk add --no-cache nodejs npm; \
-    fi
+    jq \
+    nodejs \
+    npm
 
 # Set working directory
 WORKDIR /app
