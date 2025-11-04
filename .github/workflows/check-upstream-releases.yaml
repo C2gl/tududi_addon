@@ -32,7 +32,7 @@ jobs:
             const dockerfileContent = fs.readFileSync(dockerfilePath, 'utf8');
             
             // Extract current version from git clone command
-            const currentVersionMatch = dockerfileContent.match(/--branch\s+(v[\d.]+)/);
+            const currentVersionMatch = dockerfileContent.match(/--branch\s+(v\d+(?:\.\d+)*)/);
             if (!currentVersionMatch) {
               console.log('Could not extract current version from Dockerfile');
               return;
