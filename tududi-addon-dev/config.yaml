@@ -1,5 +1,5 @@
 name: "Tududi (Development)"
-version: "dev-20251104"
+version: "0.0.11-dev.01"
 slug: "tududi-dev"
 description: "Development version of Tududi - unstable, for testing only!"
 url: "https://github.com/c2gl/tududi-addon"
@@ -17,7 +17,6 @@ ports_description:
 ingress: true
 ingress_port: 3002
 panel_icon: mdi:checkbox-marked-circle-outline
-hassio_role: backup
 map:
   - config:rw
   - share:rw
@@ -42,10 +41,3 @@ schema:
   upload_path: str
   db_file: str
 webui: "http://[HOST]:[PORT:3002]"
-backup: "hot"
-backup_pre: "/usr/bin/tududi-backup-pre.sh"
-backup_post: "/usr/bin/tududi-backup-post.sh"
-backup_exclude:
-  - "*.log"
-  - "/data/temp/*"
-  - "/data/cache/*"
