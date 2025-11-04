@@ -20,7 +20,7 @@ this is the changelog for the dev addon
 ### Changed
 - Updated Dockerfile to include backup scripts
 - Added backup configuration to config.yaml
-- **ARM64 build fix:** Using nodejs-current from Alpine edge repository to resolve "Illegal instruction" error on ARM64 builds
+- **ARM64 build fix:** Using nodejs-current from Alpine edge repository with matching ICU libraries to resolve "Illegal instruction" error on ARM64 builds
 
 ### Technical Details
 - Uses SQLite `PRAGMA wal_checkpoint(TRUNCATE)` for database consistency
