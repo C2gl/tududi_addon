@@ -23,12 +23,6 @@ configuration:
   db_file:
     name: Database File
     description: Path to the SQLite database file
-  auto_backup_enabled:
-    name: Auto Backup Enabled
-    description: Enable automatic cleanup of old manual backups (Home Assistant backups are always enabled)
-  backup_retention_days:
-    name: Backup Retention Days
-    description: Number of days to keep manual backups (0 = keep forever)
 
 network:
   3002/tcp: Web interface (automatically proxied through Ingress)
