@@ -73,6 +73,49 @@ You can generate a secure session secret using:
 openssl rand -hex 32
 ```
 
+## Backup and Restore
+
+This addon integrates with **Home Assistant's built-in backup system**. 
+
+### How It Works
+
+When you create a backup in Home Assistant:
+
+1. ✅ The addon automatically prepares the SQLite database (checkpoints WAL, runs integrity check)
+2. ✅ All data in `/data` (database + uploads) is included in the snapshot
+3. ✅ The addon stays running during backup (hot backup)
+
+### Create a Backup
+
+**Via Home Assistant UI:**
+1. Go to **Settings → System → Backups**
+2. Click **"Create Backup"**
+3. Choose full or partial backup
+4. Your Tududi data is automatically included!
+
+You can also automate backups on a schedule in Home Assistant settings.
+
+### Restore from Backup
+
+1. Go to **Settings → System → Backups**
+2. Select the backup you want to restore
+3. Click **"Restore"**
+4. Home Assistant will restore everything, including Tududi data
+
+### What Gets Backed Up
+
+- ✅ SQLite database (`production.sqlite3`) with all tasks and settings
+- ✅ All uploaded files and attachments
+- ✅ User accounts and preferences
+- ✅ Complete task history
+
+### Best Practices
+
+- 🔄 **Enable automatic backups** in Home Assistant
+- 💾 **Download backups** to external storage for safety
+- 🧪 **Test restore** periodically to ensure backups work
+- 📅 **Before updates** - create a backup first!
+
 ## Support
 
 For issues with this add-on, please open an issue on the [GitHub repository](https://github.com/C2gl/tududi_addon).
