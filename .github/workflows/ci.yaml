@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - dev
     paths:
       - 'tududi-addon/**'
       - 'tududi-addon-dev/**'
@@ -11,19 +12,83 @@ on:
   pull_request:
     branches:
       - main
+      - dev
     paths:
       - 'tududi-addon/**'
       - 'tududi-addon-dev/**'
       - '.github/workflows/ci.yaml'
 
 jobs:
+  determine-build:
+    name: Determine what to build
+    runs-on: ubuntu-latest
+    outputs:
+      build-stable: ${{ steps.decide.outputs.build-stable }}
+      build-dev: ${{ steps.decide.outputs.build-dev }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Decide what to build based on branch and changes
+        id: decide
+        run: |
+          echo "Current branch: ${{ github.ref }}"
+          echo "Event name: ${{ github.event_name }}"
+          
+          # Check for changes in tududi-addon directory
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            # For PRs, check changed files
+            stable_changed=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} | grep -c '^tududi-addon/' || echo "0")
+            dev_changed=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} | grep -c '^tududi-addon-dev/' || echo "0")
+          else
+            # For pushes, check the last commit
+            stable_changed=$(git diff --name-only HEAD~1 HEAD | grep -c '^tududi-addon/' || echo "0")
+            dev_changed=$(git diff --name-only HEAD~1 HEAD | grep -c '^tududi-addon-dev/' || echo "0")
+          fi
+          
+          echo "Stable addon changes: $stable_changed"
+          echo "Dev addon changes: $dev_changed"
+          
+          # Determine builds based on branch and changes
+          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            # Main branch: build stable if changed, never build dev
+            if [[ "$stable_changed" -gt 0 ]]; then
+              echo "build-stable=true" >> $GITHUB_OUTPUT
+            else
+              echo "build-stable=false" >> $GITHUB_OUTPUT
+            fi
+            echo "build-dev=false" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.ref }}" == "refs/heads/dev" ]] || [[ "${{ github.base_ref }}" == "dev" ]]; then
+            # Dev branch: build based on what changed
+            if [[ "$stable_changed" -gt 0 ]]; then
+              echo "build-stable=true" >> $GITHUB_OUTPUT
+            else
+              echo "build-stable=false" >> $GITHUB_OUTPUT
+            fi
+            if [[ "$dev_changed" -gt 0 ]]; then
+              echo "build-dev=true" >> $GITHUB_OUTPUT
+            else
+              echo "build-dev=false" >> $GITHUB_OUTPUT
+            fi
+          else
+            # Other branches: build based on changes
+            if [[ "$stable_changed" -gt 0 ]]; then
+              echo "build-stable=true" >> $GITHUB_OUTPUT
+            else
+              echo "build-stable=false" >> $GITHUB_OUTPUT
+            fi
+            if [[ "$dev_changed" -gt 0 ]]; then
+              echo "build-dev=true" >> $GITHUB_OUTPUT
+            else
+              echo "build-dev=false" >> $GITHUB_OUTPUT
+            fi
+          fi
+
   build-stable:
     name: Build tududi-addon (${{ matrix.arch }})
     runs-on: ubuntu-latest
-    if: |
-      contains(github.event.head_commit.modified, 'tududi-addon/') ||
-      contains(github.event.head_commit.added, 'tududi-addon/') ||
-      github.event_name == 'pull_request'
+    needs: determine-build
+    if: needs.determine-build.outputs.build-stable == 'true'
     strategy:
       matrix:
         arch: [amd64, aarch64]
@@ -59,10 +124,8 @@ jobs:
   build-dev:
     name: Build tududi-addon-dev (${{ matrix.arch }})
     runs-on: ubuntu-latest
-    if: |
-      contains(github.event.head_commit.modified, 'tududi-addon-dev/') ||
-      contains(github.event.head_commit.added, 'tududi-addon-dev/') ||
-      github.event_name == 'pull_request'
+    needs: determine-build
+    if: needs.determine-build.outputs.build-dev == 'true'
     strategy:
       matrix:
         arch: [amd64, aarch64]
