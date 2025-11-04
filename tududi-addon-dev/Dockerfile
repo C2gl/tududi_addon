@@ -60,6 +60,10 @@ RUN mkdir -p /app/backend/db /app/backend/uploads
 COPY run.sh /
 RUN chmod a+x /run.sh
 
+# Copy backup/restore scripts
+COPY scripts/ /scripts/
+RUN chmod a+x /scripts/*.sh
+
 # Set permissions
 RUN chmod +x /app/backend/cmd/start.sh
 
