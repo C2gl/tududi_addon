@@ -11,7 +11,7 @@ All notable changes to this add-on will be documented in this file.
 ## 0.0.8
 
 - **FIXED:** Re-enabled ingress with proper template literal path rewriting
-- Added sed patterns to handle backtick template literals (`/api/` → `./api/`)
+- Added `sed` patterns to handle backtick template literals (`/api/` → `./api/`)
 - Users can now use "Open Web UI" button - no manual configuration needed
 - Works seamlessly with the Tududi integration for iframe embedding
 
