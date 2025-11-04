@@ -26,7 +26,7 @@
 - [ ] Tested in Home Assistant
 - [ ] No breaking changes confirmed
 
-## Addon Affected
+## Add-on Affected
 <!-- Mark which addon(s) are affected -->
 - [ ] Stable addon (`tududi-addon`)
 - [ ] Development addon (`tududi-addon-dev`)
