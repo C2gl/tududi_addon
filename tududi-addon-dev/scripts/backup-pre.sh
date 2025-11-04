@@ -27,10 +27,10 @@ if command -v sqlite3 &> /dev/null; then
     # 1. All WAL data is transferred to the database file
     # 2. The WAL file is reset/truncated
     # 3. The database is in a consistent state
-    if sqlite3 "$DB_FILE" "PRAGMA wal_checkpoint(TRUNCATE);" 2>&1; then
+    if OUTPUT=$(sqlite3 "$DB_FILE" "PRAGMA wal_checkpoint(TRUNCATE);" 2>&1); then
         bashio::log.info "✅ SQLite checkpoint completed successfully"
     else
-        bashio::log.warning "⚠️ SQLite checkpoint failed, but continuing backup"
+        bashio::log.warning "⚠️ SQLite checkpoint failed: ${OUTPUT} (continuing backup)"
     fi
     
     # Run integrity check
