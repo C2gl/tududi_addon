@@ -66,6 +66,8 @@ Development version of Tududi with the latest features and bug fixes.
 
 If you have issues with the add-on, please [open an issue on GitHub](https://github.com/C2gl/tududi_addon/issues).
 
+For discussions, support, and community interaction, join us in the **#addons** channel on the [Tududi Discord server](https://discord.com/channels/1389171165284667413/1435249954024063086).
+
 For issues with Tududi itself, please visit the [upstream repository](https://github.com/chrisvel/tududi).
 
 ### Contributing Translations
