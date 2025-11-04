@@ -1,13 +1,13 @@
 # Changelog
 
 All notable changes to this add-on will be documented in this file.
-this is the changelog for the dev addon
+This is the changelog for the dev add-on.
 
 ## [0.0.11-dev.01] - 2024-11-04
 
 ### Added
 - 🔄 **Home Assistant Backup Support**: Full integration with HA's built-in backup system
-- 📦 Hot backup functionality - addon continues running during backups
+- 📦 Hot backup functionality - add-on continues running during backups
 - 🔧 Pre-backup script to ensure database consistency
 - 🧹 Post-backup script for cleanup operations
 - 📂 Smart backup exclusions for temporary files, logs, and cache
@@ -28,7 +28,7 @@ this is the changelog for the dev addon
 
 ### Added
 - 🔄 **Home Assistant Backup Support**: Full integration with HA's built-in backup system
-- 📦 Hot backup functionality - addon continues running during backups
+- 📦 Hot backup functionality - add-on continues running during backups
 - 🔧 Pre-backup script to ensure database consistency
 - 🧹 Post-backup script for cleanup operations
 - 📂 Smart backup exclusions for temporary files, logs, and cache
@@ -47,5 +47,5 @@ this is the changelog for the dev addon
 
 ## [dev-20251102] - 2024-11-04
 
-### added
-- initalised seperate dev branch to avoid breaking stuff on the main branch
+### Added
+- initialised seperate dev branch to avoid breaking stuff on the main branch.
