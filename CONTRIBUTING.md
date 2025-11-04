@@ -138,17 +138,18 @@ tududi_addon/
    ```
 
 2. **Create a Pull Request** with:
+   - **Use the PR template**: GitHub will automatically populate the PR description with our template - please fill it out completely
    - Clear title describing the change
    - Detailed description of what was changed and why
    - Reference any related issues
    - Mark if it affects stable or dev addon
+   - Check all relevant boxes in the template checklist
 
 3. **PR Requirements**:
    - [ ] Code builds successfully
    - [ ] Tests pass (if applicable)
    - [ ] Documentation updated
    - [ ] Changelog updated
-   - [ ] Version number updated (if needed)
 
 ### PR Review Process
 
@@ -174,6 +175,9 @@ tududi_addon/
 1. **Patch** (`0.0.X`): Bug fixes, minor improvements
 2. **Minor** (`0.X.0`): New features, non-breaking changes
 3. **Major** (`X.0.0`): Breaking changes, major rewrites
+
+#### for the dev versions
+follow the version guideline but add `-dev.0X` at the end of the version that will be released once your dev version works
 
 ## Release Process
 
