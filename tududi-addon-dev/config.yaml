@@ -17,6 +17,7 @@ ports_description:
 ingress: true
 ingress_port: 3002
 panel_icon: mdi:checkbox-marked-circle-outline
+hassio_role: backup
 map:
   - config:rw
   - share:rw
@@ -41,3 +42,10 @@ schema:
   upload_path: str
   db_file: str
 webui: "http://[HOST]:[PORT:3002]"
+backup: "hot"
+backup_pre: "/usr/bin/tududi-backup-pre.sh"
+backup_post: "/usr/bin/tududi-backup-post.sh"
+backup_exclude:
+  - "*.log"
+  - "/data/temp/*"
+  - "/data/cache/*"
