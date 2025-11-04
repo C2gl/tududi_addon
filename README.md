@@ -6,19 +6,9 @@
 # Tududi Home Assistant Add-on Repository
 
 > [!CAUTION]
-> **⚠️ DO NOT USE IN PRODUCTION - UNDER ACTIVE DEVELOPMENT ⚠️**
+> **⚠️ USE WITH CAUTION - UNDER ACTIVE DEVELOPMENT ⚠️**
 > 
-> This add-on is currently in early development and is **NOT READY FOR USE**.
-> 
-> **Known Issues:**
-> - May cause Home Assistant to crash
-> - Configuration is unstable and incomplete
-> - Critical bugs are expected
-> - Data loss may/will occur
-> 
-> **DO NOT install this add-on unless you are actively developing it.**
-> 
-> This warning will be removed once the add-on reaches a stable state.
+> Do backup your data and tags, and breaking issues or releases could happen 
 
 [![Open your Home Assistant instance and show the add add-on repository dialog with a specific repository URL pre-filled.](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2FC2gl%2Ftududi_addon)
 
