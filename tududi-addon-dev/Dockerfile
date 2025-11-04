@@ -24,7 +24,7 @@ RUN git clone --depth 1 --branch v0.85.1 https://github.com/chrisvel/tududi.git 
     npm install --no-audit --no-fund --prefer-offline --legacy-peer-deps && \
     npm install nanoid@3 --save --no-audit --no-fund --legacy-peer-deps && \
     sed -i "s|publicPath: '/'|publicPath: ''|g" webpack.config.js && \
-    NODE_OPTIONS="--max-old-space-size=2048" NODE_ENV=production npm run frontend:build && \
+    NODE_OPTIONS="--max-old-space-size=1024" NODE_ENV=production npm run frontend:build && \
     sed -i 's|="/|="./|g' dist/index.html && \
     sed -i 's|href="/|href="./|g' dist/index.html && \
     find dist -name "*.js" -type f -exec sed -i 's|"/api/|"./api/|g' {} + && \
