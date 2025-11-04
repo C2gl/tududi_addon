@@ -73,6 +73,22 @@ You can generate a secure session secret using:
 openssl rand -hex 32
 ```
 
+## Backup Support
+
+This add-on supports Home Assistant's built-in backup functionality. The following backup features are enabled:
+
+- **Hot Backup**: The add-on continues running during backups to ensure data consistency
+- **Pre-backup Script**: Automatically ensures the database is properly synced before backup
+- **Post-backup Script**: Performs cleanup operations after backup completion
+- **Exclusions**: Temporary files, logs, and cache files are automatically excluded from backups
+
+The following files/directories are excluded from backups:
+- `*.log` files
+- `/data/temp/*` directory
+- `/data/cache/*` directory
+
+Your Tududi data, including the SQLite database, uploaded files, and configuration, will be included in Home Assistant backups automatically.
+
 ## Support
 
 For issues with this add-on, please open an issue on the [GitHub repository](https://github.com/C2gl/tududi_addon).
