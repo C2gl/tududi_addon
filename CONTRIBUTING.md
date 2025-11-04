@@ -163,7 +163,7 @@ tududi_addon/
 ### Stable Addon (`tududi-addon`)
 - Uses semantic versioning: `X.Y.Z`
 - Only updated for stable releases
-- Follows upstream Tuduki releases when possible
+- Follows upstream Tududi releases when possible
 
 ### Development Addon (`tududi-addon-dev`)
 - Uses format: `X.Y.Z-dev.NN` (e.g., `0.0.11-dev.01`)
