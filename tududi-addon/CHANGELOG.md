@@ -7,7 +7,7 @@ All notable changes to this add-on will be documented in this file.
 
 ## 0.0.10
 
-- **ADDED:** Translation logic to suport localization 
+- **ADDED:** Translation logic to support localization 
 - the EN lang file
 
 ## 0.0.9
