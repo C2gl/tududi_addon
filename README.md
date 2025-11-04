@@ -8,7 +8,7 @@
 > [!CAUTION]
 > **⚠️ USE WITH CAUTION - UNDER ACTIVE DEVELOPMENT ⚠️**
 > 
-> Do backup your data and tags, and breaking issues or releases could happen 
+> Do backup your data and tasks, as breaking issues or releases could happen 
 
 [![Open your Home Assistant instance and show the add add-on repository dialog with a specific repository URL pre-filled.](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2FC2gl%2Ftududi_addon)
 
@@ -82,4 +82,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 This add-on packages [Tududi](https://github.com/chrisvel/tududi), which is also licensed under the MIT License. See [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md) for the complete Tududi license and attribution.
 
 [aarch64-shield]: https://img.shields.io/badge/aarch64-yes-green.svg
+
 [amd64-shield]: https://img.shields.io/badge/amd64-yes-green.svg
