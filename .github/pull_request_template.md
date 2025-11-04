@@ -4,7 +4,9 @@
 ## Type of Change
 <!-- Mark relevant options with an "x" -->
 - [ ] Bug fix (non-breaking change which fixes an issue)
+    - [ ] Referenced the bug 
 - [ ] New feature (non-breaking change which adds functionality)
+    - [ ] was there a feature request, if yes, linked
 - [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
 - [ ] Documentation update
 - [ ] Refactoring (no functional changes)
@@ -33,7 +35,6 @@
 
 ## Checklist
 <!-- Mark completed items with an "x" -->
-- [ ] Code follows the project's style guidelines
 - [ ] Self-review of code completed
 - [ ] Changes generate no new warnings
 - [ ] Documentation updated (if needed)
