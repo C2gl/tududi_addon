@@ -31,6 +31,8 @@ options:
   disable_scheduler: false
   upload_path: "/data/uploads"
   db_file: "/data/production.sqlite3"
+  auto_backup_enabled: false
+  backup_retention_days: 7
 schema:
   port: int
   tududi_user_email: str
@@ -40,4 +42,10 @@ schema:
   disable_scheduler: bool
   upload_path: str
   db_file: str
+  auto_backup_enabled: bool?
+  backup_retention_days: int?
 webui: "http://[HOST]:[PORT:3002]"
+# Backup configuration
+backup: hot
+backup_pre: "/usr/bin/bashio /scripts/backup-pre.sh"
+backup_post: "/usr/bin/bashio /scripts/backup-post.sh"
