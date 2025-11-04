@@ -176,7 +176,7 @@ tududi_addon/
 2. **Minor** (`0.X.0`): New features, non-breaking changes
 3. **Major** (`X.0.0`): Breaking changes, major rewrites
 
-#### for the dev versions
+#### For the dev versions
 follow the version guideline but add `-dev.0X` at the end of the version that will be released once your dev version works
 
 ## Release Process
