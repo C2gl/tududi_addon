@@ -2,9 +2,12 @@
 
 All notable changes to this add-on will be documented in this file.
 
+## 0.1.0
+- **RELEASED:** Minimal viable product release.
+
 ## 0.0.10
 
-- **ADDED:** translation logic to suport localization 
+- **ADDED:** Translation logic to support localization 
 - the EN lang file
 
 ## 0.0.9
