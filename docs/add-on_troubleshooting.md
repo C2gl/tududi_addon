@@ -30,13 +30,6 @@ If you encounter issues:
 3. **Search existing issues** on [GitHub](https://github.com/C2gl/tududi_addon/issues)
 4. **Create a new issue** if your problem isn't covered
 
-## Next Steps
-
-After successful installation:
-
-- **Read the [Configuration Guide](configuration.md)** for advanced settings
-- **Check the [Troubleshooting Guide](troubleshooting.md)** for common issues
-- **Review the [Backup Guide](backup.md)** for data protection
 
 ## System Requirements
 

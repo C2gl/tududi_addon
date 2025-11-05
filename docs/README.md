@@ -8,6 +8,7 @@ Welcome to the Tududi Home Assistant Add-on documentation!
 - [Troubleshooting The Instalation](add-on_troubleshooting.md)
 - [Contributing To The Developement Of The Add-on](add_on_contributions.md)
 ### Tududi
+- [default tududi usage](tududi_default.md)
 
 ## Quick Links
 
