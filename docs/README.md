@@ -3,9 +3,11 @@
 Welcome to the Tududi Home Assistant Add-on documentation!
 
 ## Table of Contents
-
+### Add-On related subjects 
 - [Installation Guide Of The Tududi Add-on](add-on_installation.md)
-
+- [Troubleshooting The Instalation](add-on_troubleshooting.md)
+- [Contributing To The Developement Of The Add-on](add_on_contributions.md)
+### Tududi
 
 ## Quick Links
 
