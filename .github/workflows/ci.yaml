@@ -115,7 +115,7 @@ jobs:
     if: needs.determine-build.outputs.build-stable == 'true'
     strategy:
       matrix:
-        arch: [amd64, aarch64]
+        arch: [amd64]
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -152,7 +152,7 @@ jobs:
     if: needs.determine-build.outputs.build-dev == 'true'
     strategy:
       matrix:
-        arch: [amd64, aarch64]
+        arch: [amd64]
     steps:
       - name: Check out repository
         uses: actions/checkout@v4

@@ -2,6 +2,11 @@
 
 All notable changes to this add-on will be documented in this file.
 
+## 0.1.1
+- **FIXED:** Resolved "exec /init: exec format error" by temporarily removing aarch64 support
+- Multi-arch builds were causing architecture mismatches on AMD64 systems
+- Only AMD64 builds are supported until multi-arch issue is resolved
+
 ## 0.1.0
 - **RELEASED:** Minimal viable product release.
 
