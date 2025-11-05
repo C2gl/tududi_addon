@@ -26,3 +26,8 @@ This part is not yet intended for actual task making, but it is to rapidly captu
 later on, you can go back over it and actually make something out of those captured ideas.
 
 ![inbox options](images/tududi-ui/inbox_options.gif)
+**what the different options mean:**
+- Edit: permits you to change the title you previously typed
+- Create Task: opens the **Task** making dialog with the placeholder text pre filled. [More About Tasks](#tasks)
+- Create Project: opens the **Project** making dialog with the placeholder text pre filled. [More About Prokects](#projects) 
+- Create Note: open the **Note** making dialog with the placeholder text pre filled. [More about Notes](#Notes)
