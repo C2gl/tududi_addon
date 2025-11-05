@@ -9,7 +9,6 @@ startup: services
 boot: manual
 arch:
   - amd64
-  - aarch64
 ports:
   3002/tcp: 3002
 ports_description:

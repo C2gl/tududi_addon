@@ -1,5 +1,5 @@
 name: "Tududi"
-version: "0.1.0"
+version: "0.1.1"
 slug: "tududi"
 description: "Tududi upstream container packaged as a Home Assistant Add-on."
 url: "https://github.com/c2gl/tududi-addon"
@@ -9,7 +9,6 @@ startup: services
 boot: manual
 arch:
   - amd64
-  - aarch64
 ports:
   3002/tcp: 3002
 ports_description:
