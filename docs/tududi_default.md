@@ -29,5 +29,5 @@ later on, you can go back over it and actually make something out of those captu
 **what the different options mean:**
 - Edit: permits you to change the title you previously typed
 - Create Task: opens the **Task** making dialog with the placeholder text pre filled. [More About Tasks](#tasks)
-- Create Project: opens the **Project** making dialog with the placeholder text pre filled. [More About Prokects](#projects) 
+- Create Project: opens the **Project** making dialog with the placeholder text pre filled. [More About Projects](#projects) 
 - Create Note: open the **Note** making dialog with the placeholder text pre filled. [More about Notes](#Notes)
