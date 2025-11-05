@@ -18,5 +18,5 @@ This guide covers how to use Tududi, the task management application, once you h
 ### Your Inbox
 The first thing you see is your inbox. 
 
-![Tududi Inbox](images/tududi-ui/tududi_inbox.png)
+![Tududi Inbox](images/tududi-ui/tududi_inbox.gif)
 *Your Tududi inbox - the starting point for managing your tasks* 
