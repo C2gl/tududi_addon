@@ -3,6 +3,18 @@
 All notable changes to this add-on will be documented in this file.
 This is the changelog for the dev add-on.
 
+## [0.0.11-dev.02] - 2024-11-05
+
+### Updated
+- 🆙 **Tududi Core**: Updated to v0.86-beta.2 (latest beta release)
+- 🧪 **Testing**: This version includes the latest upstream features and fixes
+- 🏗️ **Architecture**: Temporarily removed aarch64 support to fix "exec format error"
+
+### Notes
+- Based on Tududi v0.86-beta.2 beta release
+- Only AMD64 architecture supported in this release
+- Includes all backup functionality from previous version
+
 ## [0.0.11-dev.01] - 2024-11-04
 
 ### Added

@@ -13,8 +13,8 @@ RUN apk add --no-cache \
 # Set working directory
 WORKDIR /app
 
-# Clone Tududi repository (v0.85.1 stable release) and build with retry logic
-RUN git clone --depth 1 --branch v0.85.1 https://github.com/chrisvel/tududi.git /tmp/tududi && \
+# For me if i come back in a while, to update the version, change the branch tag from the upstream repo on line 18
+RUN git clone --depth 1 --branch v0.86-beta.2 https://github.com/chrisvel/tududi.git /tmp/tududi && \
     cd /tmp/tududi && \
     npm config set fetch-retry-maxtimeout 300000 && \
     npm config set fetch-retry-mintimeout 20000 && \
