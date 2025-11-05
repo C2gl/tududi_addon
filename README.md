@@ -37,7 +37,6 @@ This repository contains the following add-ons:
 ### [Tududi](./tududi)
 
 ![Supports amd64 Architecture][amd64-shield]
-![Supports aarch64 Architecture][aarch64-shield]
 
 A self-hosted task management application with Telegram integration, scheduling, and file upload capabilities.
 
@@ -46,7 +45,6 @@ A self-hosted task management application with Telegram integration, scheduling,
 ### [Tududi (Development)](./tududi-dev)
 
 ![Supports amd64 Architecture][amd64-shield]
-![Supports aarch64 Architecture][aarch64-shield]
 
 Development version of Tududi with the latest features and bug fixes.
 
@@ -80,7 +78,5 @@ This add-on packages the excellent [Tududi](https://github.com/chrisvel/tududi) 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 This add-on packages [Tududi](https://github.com/chrisvel/tududi), which is also licensed under the MIT License. See [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md) for the complete Tududi license and attribution.
-
-[aarch64-shield]: https://img.shields.io/badge/aarch64-yes-green.svg
 
 [amd64-shield]: https://img.shields.io/badge/amd64-yes-green.svg
