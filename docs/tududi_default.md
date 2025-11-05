@@ -20,3 +20,9 @@ The first thing you see is your inbox.
 
 ![Tududi Inbox](images/tududi-ui/tududi_inbox.gif)
 *Your Tududi inbox - the starting point for managing your tasks* 
+
+This part is not yet intended for actual task making, but it is to rapidly capture tasks/ideas. 
+
+later on, you can go back over it and actually make something out of those captured ideas.
+
+![inbox options](images/tududi-ui/inbox_options.gif)
