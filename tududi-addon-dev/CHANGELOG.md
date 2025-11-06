@@ -7,9 +7,10 @@ This is the changelog for the dev add-on.
 
 ### Fixed
 -  **Static Assets**: Fixed display issues with illustrations and static content in v0.86-beta.3
-> this will have to be added to main too later on 
 
 
+### Notes
+- The fix for static assets will need to be added to the main branch in a future release.
 ### Technical Changes
 - Enhanced Dockerfile with additional sed commands for asset path rewriting
 - Covers new static asset directories introduced in Tududi v0.86-beta.2
