@@ -13,7 +13,7 @@ This is the changelog for the dev add-on.
 - The fix for static assets will need to be added to the main branch in a future release.
 ### Technical Changes
 - Enhanced Dockerfile with additional sed commands for asset path rewriting
-- Covers new static asset directories introduced in Tududi v0.86-beta.2
+- Covers new static asset directories introduced in Tududi v0.86-beta.3
 
 ## [0.0.11-dev.03] - 2025-11-06
 
