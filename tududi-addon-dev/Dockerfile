@@ -29,6 +29,10 @@ RUN git clone --depth 1 --branch v0.86-beta.3 https://github.com/chrisvel/tududi
     sed -i 's|href="/|href="./|g' dist/index.html && \
     sed -i 's|src="/|src="./|g' dist/index.html && \
     sed -i 's|action="/|action="./|g' dist/index.html && \
+    find dist -name "*.css" -type f -exec sed -i 's|url("/|url("./|g' {} + && \
+    find dist -name "*.css" -type f -exec sed -i "s|url('/|url('./|g" {} + && \
+    find dist -name "*.css" -type f -exec sed -i 's|"/assets/|"./assets/|g' {} + && \
+    find dist -name "*.css" -type f -exec sed -i "s|'/assets/|'./assets/|g" {} + && \
     find dist -name "*.js" -type f -exec sed -i 's|"/api/|"./api/|g' {} + && \
     find dist -name "*.js" -type f -exec sed -i "s|'/api/|'./api/|g" {} + && \
     find dist -name "*.js" -type f -exec sed -i 's|`/api/|`./api/|g' {} + && \
@@ -49,6 +53,18 @@ RUN git clone --depth 1 --branch v0.86-beta.3 https://github.com/chrisvel/tududi
     find dist -name "*.js" -type f -exec sed -i "s|to='/|to='./|g" {} + && \
     find dist -name "*.js" -type f -exec sed -i 's|href="/|href="./|g' {} + && \
     find dist -name "*.js" -type f -exec sed -i "s|href='/|href='./|g" {} + && \
+    find dist -name "*.js" -type f -exec sed -i 's|"/images/|"./images/|g' {} + && \
+    find dist -name "*.js" -type f -exec sed -i "s|'/images/|'./images/|g" {} + && \
+    find dist -name "*.js" -type f -exec sed -i 's|`/images/|`./images/|g' {} + && \
+    find dist -name "*.js" -type f -exec sed -i 's|"/logo/|"./logo/|g' {} + && \
+    find dist -name "*.js" -type f -exec sed -i "s|'/logo/|'./logo/|g" {} + && \
+    find dist -name "*.js" -type f -exec sed -i 's|`/logo/|`./logo/|g' {} + && \
+    find dist -name "*.js" -type f -exec sed -i 's|"/fonts/|"./fonts/|g' {} + && \
+    find dist -name "*.js" -type f -exec sed -i "s|'/fonts/|'./fonts/|g" {} + && \
+    find dist -name "*.js" -type f -exec sed -i 's|`/fonts/|`./fonts/|g' {} + && \
+    find dist -name "*.css" -type f -exec sed -i 's|url(/|url(./|g' {} + && \
+    find dist -name "*.css" -type f -exec sed -i "s|url('/|url('./|g" {} + && \
+    find dist -name "*.css" -type f -exec sed -i 's|url("/|url("./|g' {} + && \
     mkdir -p /app/backend /app/backend/dist /app/backend/dist/locales /app/node_modules && \
     cp -r backend/* /app/backend/ && \
     cp -r dist/* /app/backend/dist/ && \
