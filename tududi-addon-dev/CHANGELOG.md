@@ -3,7 +3,14 @@
 All notable changes to this add-on will be documented in this file.
 This is the changelog for the dev add-on.
 
-## [0.0.11-dev.03.3] - 2025-01-07
+## [0.0.11-dev.07] - 2025-01-07
+
+### Fixed
+- **API Endpoints**: Re-added proper API path rewriting to ensure `/api/` calls work within ingress context
+- **HTML Asset References**: Added rewriting for PNG file references directly in index.html
+- **Login Graphics**: Enhanced rewriting coverage for login-gfx.png in all file types
+
+## [0.0.11-dev.06] - 2025-01-07
 
 ### Fixed
 - **API Endpoints**: Removed incorrect rewriting of `/api/` paths that was breaking profile API calls
