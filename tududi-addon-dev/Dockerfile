@@ -29,10 +29,15 @@ RUN git clone --depth 1 --branch v0.86-beta.3 https://github.com/chrisvel/tududi
     sed -i 's|href="/|href="./|g' dist/index.html && \
     sed -i 's|src="/|src="./|g' dist/index.html && \
     sed -i 's|action="/|action="./|g' dist/index.html && \
+    sed -i 's|/login-gfx.png|./login-gfx.png|g' dist/index.html && \
+    sed -i 's|/wide-logo-light.png|./wide-logo-light.png|g' dist/index.html && \
     find dist -name "*.css" -type f -exec sed -i 's|url("/|url("./|g' {} + && \
     find dist -name "*.css" -type f -exec sed -i "s|url('/|url('./|g" {} + && \
     find dist -name "*.css" -type f -exec sed -i 's|"/assets/|"./assets/|g' {} + && \
     find dist -name "*.css" -type f -exec sed -i "s|'/assets/|'./assets/|g" {} + && \
+    find dist -name "*.js" -type f -exec sed -i 's|"/api/|"./api/|g' {} + && \
+    find dist -name "*.js" -type f -exec sed -i "s|'/api/|'./api/|g" {} + && \
+    find dist -name "*.js" -type f -exec sed -i 's|`/api/|`./api/|g' {} + && \
     find dist -name "*.js" -type f -exec sed -i 's|"/locales/|"./locales/|g' {} + && \
     find dist -name "*.js" -type f -exec sed -i "s|'/locales/|'./locales/|g" {} + && \
     find dist -name "*.js" -type f -exec sed -i 's|`/locales/|`./locales/|g' {} + && \
