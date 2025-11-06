@@ -6,7 +6,7 @@ This is the changelog for the dev add-on.
 ## [0.0.11-dev.03.1] - 2025-11-06
 
 ### Fixed
--  **Static Assets**: Fixed display issues with illustrations and static content in v0.86-beta.3
+- **Static Assets**: Fixed display issues with illustrations and static content in v0.86-beta.3
 
 
 ### Notes
