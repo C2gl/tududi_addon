@@ -33,9 +33,6 @@ RUN git clone --depth 1 --branch v0.86-beta.3 https://github.com/chrisvel/tududi
     find dist -name "*.css" -type f -exec sed -i "s|url('/|url('./|g" {} + && \
     find dist -name "*.css" -type f -exec sed -i 's|"/assets/|"./assets/|g' {} + && \
     find dist -name "*.css" -type f -exec sed -i "s|'/assets/|'./assets/|g" {} + && \
-    find dist -name "*.js" -type f -exec sed -i 's|"/api/|"./api/|g' {} + && \
-    find dist -name "*.js" -type f -exec sed -i "s|'/api/|'./api/|g" {} + && \
-    find dist -name "*.js" -type f -exec sed -i 's|`/api/|`./api/|g' {} + && \
     find dist -name "*.js" -type f -exec sed -i 's|"/locales/|"./locales/|g' {} + && \
     find dist -name "*.js" -type f -exec sed -i "s|'/locales/|'./locales/|g" {} + && \
     find dist -name "*.js" -type f -exec sed -i 's|`/locales/|`./locales/|g' {} + && \
@@ -62,12 +59,21 @@ RUN git clone --depth 1 --branch v0.86-beta.3 https://github.com/chrisvel/tududi
     find dist -name "*.js" -type f -exec sed -i 's|"/fonts/|"./fonts/|g' {} + && \
     find dist -name "*.js" -type f -exec sed -i "s|'/fonts/|'./fonts/|g" {} + && \
     find dist -name "*.js" -type f -exec sed -i 's|`/fonts/|`./fonts/|g' {} + && \
+    find dist -name "*.js" -type f -exec sed -i 's|"wide-logo-light.png"|"./wide-logo-light.png"|g' {} + && \
+    find dist -name "*.js" -type f -exec sed -i "s|'wide-logo-light.png'|'./wide-logo-light.png'|g" {} + && \
+    find dist -name "*.js" -type f -exec sed -i 's|`wide-logo-light.png`|`./wide-logo-light.png`|g' {} + && \
+    find dist -name "*.js" -type f -exec sed -i 's|"login-gfx.png"|"./login-gfx.png"|g' {} + && \
+    find dist -name "*.js" -type f -exec sed -i "s|'login-gfx.png'|'./login-gfx.png'|g" {} + && \
+    find dist -name "*.js" -type f -exec sed -i 's|`login-gfx.png`|`./login-gfx.png`|g' {} + && \
+    find dist -name "*.js" -type f -exec sed -i 's|"/wide-logo-light.png"|"./wide-logo-light.png"|g' {} + && \
+    find dist -name "*.js" -type f -exec sed -i "s|'/wide-logo-light.png'|'./wide-logo-light.png'|g" {} + && \
     find dist -name "*.css" -type f -exec sed -i 's|url(/|url(./|g' {} + && \
     mkdir -p /app/backend /app/backend/dist /app/backend/dist/locales /app/node_modules && \
     cp -r backend/* /app/backend/ && \
     cp -r dist/* /app/backend/dist/ && \
     cp public/favicon* /app/backend/dist/ 2>/dev/null || true && \
     cp public/manifest.json /app/backend/dist/ 2>/dev/null || true && \
+    cp public/*.png /app/backend/dist/ 2>/dev/null || true && \
     cp -r public/locales/* /app/backend/dist/locales/ && \
     cp -r node_modules /app/ && \
     cp package.json /app/ && \

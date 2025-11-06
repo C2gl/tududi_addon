@@ -3,6 +3,14 @@
 All notable changes to this add-on will be documented in this file.
 This is the changelog for the dev add-on.
 
+## [0.0.11-dev.03.3] - 2025-01-07
+
+### Fixed
+- **API Endpoints**: Removed incorrect rewriting of `/api/` paths that was breaking profile API calls
+- **Logo Assets**: Added specific rewriting for `wide-logo-light.png` and `login-gfx.png` files
+- **Asset Copying**: Enhanced PNG file copying from public directory to ensure logo assets are available
+- **Path Resolution**: Fixed absolute path references for logo files in JavaScript
+
 ## [0.0.11-dev.03.2] - 2025-01-06
 
 ### Fixed
