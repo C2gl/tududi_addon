@@ -3,7 +3,11 @@
 All notable changes to this add-on will be documented in this file.
 This is the changelog for the dev add-on.
 
-## [0.0.11-dev.02] - 2024-11-05
+## [0.0.11-dev.03] - 2025-11-06
+
+- **BUMP:** to the newest beta 3 of tududi 86
+
+## [0.0.11-dev.02] - 2025-11-05
 
 ### Updated
 - 🆙 **Tududi Core**: Updated to v0.86-beta.2 (latest beta release)
@@ -15,7 +19,7 @@ This is the changelog for the dev add-on.
 - Only AMD64 architecture supported in this release
 - Includes all backup functionality from previous version
 
-## [0.0.11-dev.01] - 2024-11-04
+## [0.0.11-dev.01] - 2025-11-04
 
 ### Added
 - 🔄 **Home Assistant Backup Support**: Full integration with HA's built-in backup system
@@ -36,7 +40,7 @@ This is the changelog for the dev add-on.
 - Backup scripts provide logging for troubleshooting
 - No user action required - backup integration is automatic
 
-## [dev-20251104] - 2024-11-04
+## [dev-20251104] - 2025-11-04
 
 ### Added
 - 🔄 **Home Assistant Backup Support**: Full integration with HA's built-in backup system
@@ -57,7 +61,7 @@ This is the changelog for the dev add-on.
 - Backup scripts provide logging for troubleshooting
 - No user action required - backup integration is automatic
 
-## [dev-20251102] - 2024-11-04
+## [dev-20251102] - 2025-11-04
 
 ### Added
 - initialised seperate dev branch to avoid breaking stuff on the main branch.
