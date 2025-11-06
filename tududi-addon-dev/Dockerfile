@@ -27,12 +27,20 @@ RUN git clone --depth 1 --branch v0.86-beta.3 https://github.com/chrisvel/tududi
     NODE_OPTIONS="--max-old-space-size=2048" NODE_ENV=production npm run frontend:build && \
     sed -i 's|="/|="./|g' dist/index.html && \
     sed -i 's|href="/|href="./|g' dist/index.html && \
+    sed -i 's|src="/|src="./|g' dist/index.html && \
+    sed -i 's|action="/|action="./|g' dist/index.html && \
     find dist -name "*.js" -type f -exec sed -i 's|"/api/|"./api/|g' {} + && \
     find dist -name "*.js" -type f -exec sed -i "s|'/api/|'./api/|g" {} + && \
     find dist -name "*.js" -type f -exec sed -i 's|`/api/|`./api/|g' {} + && \
     find dist -name "*.js" -type f -exec sed -i 's|"/locales/|"./locales/|g' {} + && \
     find dist -name "*.js" -type f -exec sed -i "s|'/locales/|'./locales/|g" {} + && \
     find dist -name "*.js" -type f -exec sed -i 's|`/locales/|`./locales/|g' {} + && \
+    find dist -name "*.js" -type f -exec sed -i 's|"/assets/|"./assets/|g' {} + && \
+    find dist -name "*.js" -type f -exec sed -i "s|'/assets/|'./assets/|g" {} + && \
+    find dist -name "*.js" -type f -exec sed -i 's|`/assets/|`./assets/|g' {} + && \
+    find dist -name "*.js" -type f -exec sed -i 's|"/static/|"./static/|g' {} + && \
+    find dist -name "*.js" -type f -exec sed -i "s|'/static/|'./static/|g" {} + && \
+    find dist -name "*.js" -type f -exec sed -i 's|`/static/|`./static/|g' {} + && \
     find dist -name "*.js" -type f -exec sed -i 's|loadPath:"/locales/|loadPath:"./locales/|g' {} + && \
     find dist -name "*.js" -type f -exec sed -i "s|loadPath:'/locales/|loadPath:'./locales/|g" {} + && \
     find dist -name "*.js" -type f -exec sed -i 's|navigate("/|navigate("./|g' {} + && \
