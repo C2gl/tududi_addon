@@ -67,8 +67,6 @@ RUN git clone --depth 1 --branch v0.86-beta.3 https://github.com/chrisvel/tududi
     find dist -name "*.js" -type f -exec sed -i 's|`login-gfx.png`|`./login-gfx.png`|g' {} + && \
     find dist -name "*.js" -type f -exec sed -i 's|"/wide-logo-light.png"|"./wide-logo-light.png"|g' {} + && \
     find dist -name "*.js" -type f -exec sed -i "s|'/wide-logo-light.png'|'./wide-logo-light.png'|g" {} + && \
-    find dist -name "*.js" -type f -exec sed -i 's|"/login-gfx.png"|"./login-gfx.png"|g' {} + && \
-    find dist -name "*.js" -type f -exec sed -i "s|'/login-gfx.png'|'./login-gfx.png'|g" {} + && \
     find dist -name "*.css" -type f -exec sed -i 's|url(/|url(./|g' {} + && \
     mkdir -p /app/backend /app/backend/dist /app/backend/dist/locales /app/node_modules && \
     cp -r backend/* /app/backend/ && \
