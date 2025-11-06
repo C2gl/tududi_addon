@@ -3,6 +3,17 @@
 All notable changes to this add-on will be documented in this file.
 This is the changelog for the dev add-on.
 
+## [0.0.11-dev.03.2] - 2025-01-06
+
+### Fixed
+- **Static Assets**: Enhanced comprehensive asset path rewriting for v0.86-beta.3
+  - Added JavaScript rewriting for images/, logo/, and fonts/ paths  
+  - Added CSS url() path rewriting for all asset references
+  - Fixed absolute path issues introduced in Tududi v0.86-beta.3 logo system
+
+### Changed
+- **Tududi Version**: Updated to v0.86-beta.3 (latest upstream)
+
 ## [0.0.11-dev.03.1] - 2025-11-06
 
 ### Fixed
