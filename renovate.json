@@ -12,7 +12,7 @@
       "groupName": "Home Assistant base images"
     },
     {
-      "matchDatasources": ["git-tags"],
+      "matchManagers": ["regex"],
       "matchPackageNames": ["chrisvel/tududi"],
       "matchFileNames": ["tududi-addon/Dockerfile"],
       "groupName": "Tududi stable releases",
@@ -21,7 +21,7 @@
       "description": "Only track stable releases for production addon"
     },
     {
-      "matchDatasources": ["git-tags"],
+      "matchManagers": ["regex"],
       "matchPackageNames": ["chrisvel/tududi"],
       "matchFileNames": ["tududi-addon-dev/Dockerfile"],
       "groupName": "Tududi dev releases",
@@ -36,8 +36,9 @@
         "ARG BUILD_FROM\\nFROM (?<depName>.*?):(?<currentValue>.*?)\\n",
         "--branch\\s+(?<currentValue>v[\\d.]+(?:-[\\w.]+)?)\\s+https:\\/\\/github\\.com\\/(?<depName>[^\\/]+\\/[^\\/]+)"
       ],
-      "datasourceTemplate": "{{#if (containsString depName 'github.com')}}git-tags{{else}}docker{{/if}}",
-      "versioningTemplate": "{{#if (containsString depName 'github.com')}}semver{{else}}docker{{/if}}"
+      "datasourceTemplate": "git-tags",
+      "depNameTemplate": "chrisvel/tududi",
+      "versioningTemplate": "semver"
     }
   ]
 }
