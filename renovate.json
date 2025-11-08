@@ -33,10 +33,9 @@
     {
       "fileMatch": ["^tududi-addon.*\\/Dockerfile$"],
       "matchStrings": [
-        "ARG BUILD_FROM\\nFROM (?<depName>.*?):(?<currentValue>.*?)\\n",
-        "--branch\\s+(?<currentValue>v[\\d.]+(?:-[\\w.]+)?)\\s+https:\\/\\/github\\.com\\/(?<depName>[^\\/]+\\/[^\\/]+)"
+        "--branch\\s+(?<currentValue>v[\\d.]+(?:-[\\w.]+)?)\\s+https:\\/\\/github\\.com\\/chrisvel\\/tududi"
       ],
-      "datasourceTemplate": "git-tags",
+      "datasourceTemplate": "github-tags",
       "depNameTemplate": "chrisvel/tududi",
       "versioningTemplate": "semver"
     }
