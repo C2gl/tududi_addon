@@ -1,37 +1,64 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:base"],
+  "extends": [
+    "config:recommended"
+  ],
   "packageRules": [
     {
-      "matchManagers": ["npm"],
+      "matchManagers": [
+        "npm"
+      ],
       "rangeStrategy": "pin"
     },
     {
-      "matchDatasources": ["docker"],
-      "matchPackageNames": ["ghcr.io/home-assistant/*"],
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "ghcr.io/home-assistant/*"
+      ],
       "groupName": "Home Assistant base images"
     },
     {
-      "matchManagers": ["regex"],
-      "matchPackageNames": ["chrisvel/tududi"],
-      "matchFileNames": ["tududi-addon/Dockerfile"],
+      "matchManagers": [
+        "custom.regex"
+      ],
+      "matchPackageNames": [
+        "chrisvel/tududi"
+      ],
+      "matchFileNames": [
+        "tududi-addon/Dockerfile"
+      ],
       "groupName": "Tududi stable releases",
-      "schedule": ["every weekend"],
+      "schedule": [
+        "every weekend"
+      ],
       "allowedVersions": "!/-(rc|beta|alpha|pre)/",
       "description": "Only track stable releases for production addon"
     },
     {
-      "matchManagers": ["regex"],
-      "matchPackageNames": ["chrisvel/tududi"],
-      "matchFileNames": ["tududi-addon-dev/Dockerfile"],
+      "matchManagers": [
+        "custom.regex"
+      ],
+      "matchPackageNames": [
+        "chrisvel/tududi"
+      ],
+      "matchFileNames": [
+        "tududi-addon-dev/Dockerfile"
+      ],
       "groupName": "Tududi dev releases",
-      "schedule": ["every weekend"],
+      "schedule": [
+        "every weekend"
+      ],
       "description": "Track all releases including RCs for dev addon"
     }
   ],
-  "regexManagers": [
+  "customManagers": [
     {
-      "fileMatch": ["^tududi-addon.*\\/Dockerfile$"],
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^tududi-addon.*\\/Dockerfile$/"
+      ],
       "matchStrings": [
         "--branch\\s+(?<currentValue>v[\\d.]+(?:-[\\w.]+)?)\\s+https:\\/\\/github\\.com\\/chrisvel\\/tududi"
       ],
