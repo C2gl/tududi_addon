@@ -12,6 +12,7 @@
 - [ ] Refactoring (no functional changes)
 - [ ] Performance improvement
 - [ ] CI/CD changes
+- [ ] Bump Dependancies
 
 ## Changes Made
 <!-- List the specific changes made in this PR -->
