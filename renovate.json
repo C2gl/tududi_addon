@@ -56,8 +56,8 @@
   "customManagers": [
     {
       "customType": "regex",
-      "managerFilePatterns": [
-        "/^tududi-addon.*\\/Dockerfile$/"
+      "fileMatch": [
+        "^tududi-addon.*/Dockerfile$"
       ],
       "matchStrings": [
         "--branch\\s+(?<currentValue>v[\\d.]+(?:-[\\w.]+)?)\\s+https:\\/\\/github\\.com\\/chrisvel\\/tududi"
