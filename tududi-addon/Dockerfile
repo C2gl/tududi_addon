@@ -93,10 +93,6 @@ RUN mkdir -p /app/backend/db /app/backend/uploads
 COPY run.sh /
 RUN chmod a+x /run.sh
 
-# Copy backup scripts
-COPY tududi-backup-pre.sh /usr/bin/tududi-backup-pre.sh
-COPY tududi-backup-post.sh /usr/bin/tududi-backup-post.sh
-RUN chmod a+x /usr/bin/tududi-backup-pre.sh /usr/bin/tududi-backup-post.sh
 
 # Set permissions
 RUN chmod +x /app/backend/cmd/start.sh
