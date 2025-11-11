@@ -2,6 +2,9 @@
 
 All notable changes to this add-on will be documented in this file.
 
+## 0.2.0
+**BUMPED:** bumped tududi to v0.86
+
 ## 0.1.1
 - **FIXED:** Resolved "exec /init: exec format error" by temporarily removing aarch64 support
 - Multi-arch builds were causing architecture mismatches on AMD64 systems
