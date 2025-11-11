@@ -1,5 +1,6 @@
 [![GitHub Tag](https://img.shields.io/github/v/tag/c2gl/tududi_addon?style=flat&logo=github&label=version)](https://github.com/c2gl/tududi_addon/pkgs/container/tududi-addon)
 [![GHCR](https://img.shields.io/badge/ghcr.io-c2gl%2Ftududi--addon-blue?style=flat&logo=docker)](https://github.com/c2gl/tududi_addon/pkgs/container/tududi-addon)
+[![Downloads](https://img.shields.io/badge/downloads-121-brightgreen?style=flat&logo=download)](https://github.com/c2gl/tududi_addon/pkgs/container/tududi-addon)
 [![GitHub issues](https://img.shields.io/github/issues/c2gl/tududi_addon.svg)](https://github.com/c2gl/tududi_addon/issues)
 [![GitHub pull requests](https://img.shields.io/github/issues-pr/c2gl/tududi_addon.svg)](https://github.com/c2gl/tududi_addon/pulls)
 

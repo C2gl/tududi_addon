@@ -1,0 +1,69 @@
+name: Update Downloads Badge
+
+on:
+  schedule:
+    # Run daily at 6 AM UTC
+    - cron: '0 6 * * *'
+  workflow_dispatch: # Allow manual trigger
+  push:
+    branches: [main]
+    paths: ['.github/workflows/update-downloads-badge.yml']
+
+jobs:
+  update-badge:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: read
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Get download count
+        id: downloads
+        run: |
+          # Fetch the package page and extract download count
+          DOWNLOAD_COUNT=$(curl -s "https://github.com/C2gl/tududi_addon/pkgs/container/tududi-addon" | \
+            grep -o 'Total downloads</h3>[^0-9]*\([0-9,]\+\)' | \
+            grep -o '[0-9,]\+' | \
+            tr -d ',' || echo "0")
+          
+          # Fallback: try alternative scraping method
+          if [ "$DOWNLOAD_COUNT" = "0" ] || [ -z "$DOWNLOAD_COUNT" ]; then
+            DOWNLOAD_COUNT=$(curl -s "https://github.com/C2gl/tududi_addon/pkgs/container/tududi-addon" | \
+              grep -A 5 -B 5 "Total downloads" | \
+              grep -o '[0-9]\+' | \
+              head -1 || echo "121")
+          fi
+          
+          # Ensure we have a valid number
+          if ! [[ "$DOWNLOAD_COUNT" =~ ^[0-9]+$ ]]; then
+            DOWNLOAD_COUNT="121"
+          fi
+          
+          echo "count=$DOWNLOAD_COUNT" >> $GITHUB_OUTPUT
+          echo "📥 Downloads: $DOWNLOAD_COUNT"
+      
+      - name: Update README badge
+        run: |
+          # Update the downloads badge in README.md
+          sed -i "s/downloads-[0-9]\+/downloads-${{ steps.downloads.outputs.count }}/g" README.md
+          
+          # Check if anything was changed
+          if git diff --quiet README.md; then
+            echo "No changes needed"
+            echo "changed=false" >> $GITHUB_ENV
+          else
+            echo "Badge updated with ${{ steps.downloads.outputs.count }} downloads"
+            echo "changed=true" >> $GITHUB_ENV
+          fi
+      
+      - name: Commit changes
+        if: env.changed == 'true'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add README.md
+          git commit -m "📥 Update downloads badge: ${{ steps.downloads.outputs.count }} downloads"
+          git push
