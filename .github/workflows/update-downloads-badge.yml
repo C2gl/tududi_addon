@@ -15,6 +15,7 @@ jobs:
     permissions:
       contents: write
       packages: read
+      pull-requests: write
     
     steps:
       - name: Checkout repository
@@ -59,11 +60,24 @@ jobs:
             echo "changed=true" >> $GITHUB_ENV
           fi
       
-      - name: Commit changes
+      - name: Create Pull Request
         if: env.changed == 'true'
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add README.md
-          git commit -m "📥 Update downloads badge: ${{ steps.downloads.outputs.count }} downloads"
-          git push
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "📥 Update downloads badge: ${{ steps.downloads.outputs.count }} downloads"
+          title: "📥 Update downloads badge: ${{ steps.downloads.outputs.count }} downloads"
+          body: |
+            ## 📥 Downloads Badge Update
+            
+            This PR automatically updates the downloads badge in the README with the latest download count from GitHub Container Registry.
+            
+            **Current downloads:** ${{ steps.downloads.outputs.count }}
+            
+            ---
+            *This PR was created automatically by the update-downloads-badge workflow.*
+          branch: update-downloads-badge
+          delete-branch: true
+          base: main
+          committer: GitHub Action <action@github.com>
+          author: GitHub Action <action@github.com>
