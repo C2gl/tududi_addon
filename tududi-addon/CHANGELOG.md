@@ -2,6 +2,9 @@
 
 All notable changes to this add-on will be documented in this file.
 
+## 0.2.1
+**BUMPED:** bumped tududi to v0.86.1
+
 ## 0.2.0
 **BUMPED:** bumped tududi to v0.86
 
