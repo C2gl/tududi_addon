@@ -3,6 +3,9 @@
 All notable changes to this add-on will be documented in this file.
 This is the changelog for the dev add-on.
 
+## [0.87-beta.2] - 2025-11-30
+- **BUMPED:** bumped tududi to v0.87-Beta.2
+
 ## [0.0.11-rc.03] - 2025-11-08
 - **BUMPED:** bumped to v0.86-rc.3 for tududi
 https://github.com/chrisvel/tududi/releases/tag/v0.86-rc.3
