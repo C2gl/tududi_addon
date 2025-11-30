@@ -1,6 +1,6 @@
 [![GitHub Tag](https://img.shields.io/github/v/tag/c2gl/tududi_addon?style=flat&logo=github&label=version)](https://github.com/c2gl/tududi_addon/pkgs/container/tududi-addon)
 [![GHCR](https://img.shields.io/badge/ghcr.io-c2gl%2Ftududi--addon-blue?style=flat&logo=docker)](https://github.com/c2gl/tududi_addon/pkgs/container/tududi-addon)
-[![Downloads](https://img.shields.io/badge/downloads-126-brightgreen?style=flat&logo=download)](https://github.com/c2gl/tududi_addon/pkgs/container/tududi-addon)
+[![Downloads](https://img.shields.io/badge/downloads-128-brightgreen?style=flat&logo=download)](https://github.com/c2gl/tududi_addon/pkgs/container/tududi-addon)
 [![GitHub issues](https://img.shields.io/github/issues/c2gl/tududi_addon.svg)](https://github.com/c2gl/tududi_addon/issues)
 [![GitHub pull requests](https://img.shields.io/github/issues-pr/c2gl/tududi_addon.svg)](https://github.com/c2gl/tududi_addon/pulls)
 
@@ -81,3 +81,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 This add-on packages [Tududi](https://github.com/chrisvel/tududi), which is also licensed under the MIT License. See [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md) for the complete Tududi license and attribution.
 
 [amd64-shield]: https://img.shields.io/badge/amd64-yes-green.svg
+
