@@ -21,9 +21,9 @@ RUN git clone --depth 1 --branch v0.87-beta.2 https://github.com/chrisvel/tududi
     npm config set fetch-retries 10 && \
     npm config set progress false && \
     npm config set loglevel error && \
-    npm install --no-audit --no-fund --legacy-peer-deps && 
-    npm install nanoid@3 --save --no-audit --no-fund --legacy-peer-deps && 
-    npm install i18next --save --no-audit --no-fund --legacy-peer-deps &&
+    npm install --no-audit --no-fund --legacy-peer-deps && \
+    npm install nanoid@3 --save --no-audit --no-fund --legacy-peer-deps && \
+    npm install i18next --save --no-audit --no-fund --legacy-peer-deps && \
     sed -i "s|publicPath: '/'|publicPath: ''|g" webpack.config.js && \
     NODE_OPTIONS="--max-old-space-size=2048" NODE_ENV=production npm run frontend:build && \
     sed -i 's|="/|="./|g' dist/index.html && \
