@@ -21,8 +21,9 @@ RUN git clone --depth 1 --branch v0.87 https://github.com/chrisvel/tududi.git /t
     npm config set fetch-retries 10 && \
     npm config set progress false && \
     npm config set loglevel error && \
-    npm install --no-audit --no-fund --prefer-offline --legacy-peer-deps && \
+    npm install --no-audit --no-fund --legacy-peer-deps && \
     npm install nanoid@3 --save --no-audit --no-fund --legacy-peer-deps && \
+    npm install i18next --save --no-audit --no-fund --legacy-peer-deps && \
     sed -i "s|publicPath: '/'|publicPath: ''|g" webpack.config.js && \
     NODE_OPTIONS="--max-old-space-size=2048" NODE_ENV=production npm run frontend:build && \
     sed -i 's|="/|="./|g' dist/index.html && \
@@ -76,10 +77,10 @@ RUN git clone --depth 1 --branch v0.87 https://github.com/chrisvel/tududi.git /t
     mkdir -p /app/backend /app/backend/dist /app/backend/dist/locales /app/node_modules && \
     cp -r backend/* /app/backend/ && \
     cp -r dist/* /app/backend/dist/ && \
-    cp public/favicon* /app/backend/dist/ 2>/dev/null || true && \
-    cp public/manifest.json /app/backend/dist/ 2>/dev/null || true && \
-    cp public/*.png /app/backend/dist/ 2>/dev/null || true && \
-    cp -r public/locales/* /app/backend/dist/locales/ && \
+    cp public/favicon* /app/backend/dist/ 2>/dev/null || echo "No favicon files found" && \
+    cp public/manifest.json /app/backend/dist/ 2>/dev/null || echo "No manifest.json found" && \
+    cp public/*.png /app/backend/dist/ 2>/dev/null || echo "No PNG files found in public/" && \
+    if [ -d "public/locales" ]; then cp -r public/locales/* /app/backend/dist/locales/; else echo "No locales directory found"; fi && \
     cp -r node_modules /app/ && \
     cp package.json /app/ && \
     npm install -g sequelize-cli && \
@@ -87,7 +88,7 @@ RUN git clone --depth 1 --branch v0.87 https://github.com/chrisvel/tududi.git /t
     rm -rf /tmp/tududi
 
 # Create necessary directories
-RUN mkdir -p /app/backend/db /app/backend/uploads
+RUN mkdir -p /app/backend/db /app/backend/uploads /app/backend/public /app/backend/locales
 
 # Copy add-on run script
 COPY run.sh /
