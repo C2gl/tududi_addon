@@ -5,6 +5,78 @@ All notable changes to this add-on will be documented in this file.
 **BUMPED:** bumped to tududi V0.87
 **ChANGES IN STRUCTURE**: from now on the main addon will folow the release version of the upstream github
 
+**TUDUDI CHANGELOG**:
+
+    Feat refactor tasks pt1 by @chrisvel in #536
+    Fix subtasks copy by @chrisvel in #546
+    Fix today recurring missing by @chrisvel in #548
+    Fix static base path by @chrisvel in #549
+    Fix todays page test by @chrisvel in #550
+    Use commonJS version of nanoid by @chrisvel in #551
+    Fix today task name change by @chrisvel in #552
+    Fix markdown by @chrisvel in #553
+    Add migration to fix subtasκ  ordering by @chrisvel in #554
+    Fix debounce task creation by @chrisvel in #555
+    Fix cyrillic search by @chrisvel in #556
+    Fix smart view pagination by @chrisvel in #557
+    Wrap long subtask text by @chrisvel in #558
+    Fix completed in upcoming filter by @chrisvel in #559
+    Prevent duplicate generation by @chrisvel in #560
+    Remove dot from upcoming tasks by @chrisvel in #561
+    Set priority to low when creating task from inbox by @chrisvel in #562
+    Add blue to low priority tasks by @chrisvel in #563
+    Fix recurrence green by @chrisvel in #564
+    Revert state of option selections by @chrisvel in #565
+    Fix consistency task list by @chrisvel in #566
+    Fix notes refresh by @chrisvel in #572
+    Fix logo background by @chrisvel in #575
+    Exclude today's tasks from suggested by @chrisvel in #577
+    Feat add recurring search by @chrisvel in #579
+    Feat add profile photo by @chrisvel in #580
+    Fix redesign recurring tasks by @chrisvel in #582
+    Feat main content revamp by @chrisvel in #584
+    Feat improve task details by @chrisvel in #585
+    Fix tag hides task by @chrisvel in #586
+    Tc refactor pt1 by @chrisvel in #589
+    Scaffold smtp service by @chrisvel in #590
+    Fix vulns by @chrisvel in #591
+    Feat add defer until date by @chrisvel in #592
+    Feat notifications by @chrisvel in #594
+    Fix today pagination by @chrisvel in #596
+    Decrease dockerfile size by @chrisvel in #597
+    Show version in sidebar by @chrisvel in #598
+    Move deps to devDeps by @chrisvel in #600
+    Fix avatar missing by @chrisvel in #602
+    Fix remove avatar by @chrisvel in #603
+    Fix race condition by @chrisvel in #604
+    Setup auto-save by @chrisvel in #605
+    Refresh e2e tests by @chrisvel in #606
+    Fix an issue with task not completing in TaskDetails view by @chrisvel in #620
+    Fix asset paths by @chrisvel in #623
+    Fix bug 619 by @chrisvel in #629
+    Unhide menu on mobile by @chrisvel in #630
+    Fix operator by @chrisvel in #631
+    Fix sidebar active links highlight by @chrisvel in #632
+    Remove obsolete dividers by @chrisvel in #633
+    Fix bug 621 by @chrisvel in #634
+    Keep visual consistency in priority colors by @chrisvel in #635
+    Fix a tooltips issue by @chrisvel in #636
+    Fix metrics button missing from mobile by @chrisvel in #637
+    Fix bug 613 by @chrisvel in #638
+    Add toaster when starting task by @chrisvel in #639
+    Fix an issue with tasks appearing in today without a flag by @chrisvel in #640
+    Fix flag issue by @chrisvel in #641
+    Fix project recent completion style by @chrisvel in #642
+    Fix bug 528 by @chrisvel in #643
+    Feat add task by @chrisvel in #644
+    Fix today summary by @chrisvel in #645
+    Fix recurring structure by @chrisvel in #646
+    Fix metrics styling by @chrisvel in #647
+    Fix bug 578 by @chrisvel in #648
+    Fix tasks not updating by @chrisvel in #649
+    Fix bump issues by @chrisvel in #651
+
+
 ## 0.2.1
 **BUMPED:** bumped tududi to v0.86.1
 
