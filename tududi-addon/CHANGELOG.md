@@ -1,6 +1,9 @@
 # Changelog
 
 All notable changes to this add-on will be documented in this file.
+## 0.87
+**BUMPED:** bumped to tududi V0.87
+**ChANGES IN STRUCTURE**: from now on the main addon will folow the release version of the upstream github
 
 ## 0.2.1
 **BUMPED:** bumped tududi to v0.86.1
