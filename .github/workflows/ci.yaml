@@ -79,13 +79,17 @@ jobs:
           
           # Determine builds based on branch and changes
           if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-            # Main branch: build stable if changed, never build dev
+            # Main branch: build what changed
             if [[ "$stable_changed" -gt 0 ]]; then
               echo "build-stable=true" >> $GITHUB_OUTPUT
             else
               echo "build-stable=false" >> $GITHUB_OUTPUT
             fi
-            echo "build-dev=false" >> $GITHUB_OUTPUT
+            if [[ "$dev_changed" -gt 0 ]]; then
+              echo "build-dev=true" >> $GITHUB_OUTPUT
+            else
+              echo "build-dev=false" >> $GITHUB_OUTPUT
+            fi
           elif [[ "${{ github.ref }}" == "refs/heads/dev" ]] || [[ "${{ github.base_ref }}" == "dev" ]]; then
             # Dev branch: only build dev, never build stable (to reduce CI time)
             echo "build-stable=false" >> $GITHUB_OUTPUT
