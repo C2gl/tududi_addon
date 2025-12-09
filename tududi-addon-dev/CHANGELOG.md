@@ -3,6 +3,11 @@
 All notable changes to this add-on will be documented in this file.
 This is the changelog for the dev add-on.
 
+
+## [0.87-beta.2.1] - 2025-11-30
+- **REFACTOR**: sed commands 
+
+
 ## [0.87-beta.2] - 2025-11-30
 - **BUMPED:** bumped tududi to v0.87-Beta.2
 
