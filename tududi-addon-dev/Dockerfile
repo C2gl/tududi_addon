@@ -24,56 +24,11 @@ RUN git clone --depth 1 --branch v0.87-beta.2 https://github.com/chrisvel/tududi
     npm install --no-audit --no-fund --legacy-peer-deps && \
     npm install nanoid@3 --save --no-audit --no-fund --legacy-peer-deps && \
     npm install i18next --save --no-audit --no-fund --legacy-peer-deps && \
-    sed -i "s|publicPath: '/'|publicPath: ''|g" webpack.config.js && \
     NODE_OPTIONS="--max-old-space-size=2048" NODE_ENV=production npm run frontend:build && \
+    # Only basic path fixes needed since v0.87-beta.2 includes upstream path fixes
     sed -i 's|="/|="./|g' dist/index.html && \
     sed -i 's|href="/|href="./|g' dist/index.html && \
     sed -i 's|src="/|src="./|g' dist/index.html && \
-    sed -i 's|action="/|action="./|g' dist/index.html && \
-    sed -i 's|/login-gfx.png|./login-gfx.png|g' dist/index.html && \
-    sed -i 's|/wide-logo-light.png|./wide-logo-light.png|g' dist/index.html && \
-    find dist -name "*.css" -type f -exec sed -i 's|url("/|url("./|g' {} + && \
-    find dist -name "*.css" -type f -exec sed -i "s|url('/|url('./|g" {} + && \
-    find dist -name "*.css" -type f -exec sed -i 's|"/assets/|"./assets/|g' {} + && \
-    find dist -name "*.css" -type f -exec sed -i "s|'/assets/|'./assets/|g" {} + && \
-    find dist -name "*.js" -type f -exec sed -i 's|"/api/|"./api/|g' {} + && \
-    find dist -name "*.js" -type f -exec sed -i "s|'/api/|'./api/|g" {} + && \
-    find dist -name "*.js" -type f -exec sed -i 's|`/api/|`./api/|g' {} + && \
-    find dist -name "*.js" -type f -exec sed -i 's|"/locales/|"./locales/|g' {} + && \
-    find dist -name "*.js" -type f -exec sed -i "s|'/locales/|'./locales/|g" {} + && \
-    find dist -name "*.js" -type f -exec sed -i 's|`/locales/|`./locales/|g' {} + && \
-    find dist -name "*.js" -type f -exec sed -i 's|"/assets/|"./assets/|g' {} + && \
-    find dist -name "*.js" -type f -exec sed -i "s|'/assets/|'./assets/|g" {} + && \
-    find dist -name "*.js" -type f -exec sed -i 's|`/assets/|`./assets/|g' {} + && \
-    find dist -name "*.js" -type f -exec sed -i 's|"/static/|"./static/|g' {} + && \
-    find dist -name "*.js" -type f -exec sed -i "s|'/static/|'./static/|g" {} + && \
-    find dist -name "*.js" -type f -exec sed -i 's|`/static/|`./static/|g' {} + && \
-    find dist -name "*.js" -type f -exec sed -i 's|loadPath:"/locales/|loadPath:"./locales/|g' {} + && \
-    find dist -name "*.js" -type f -exec sed -i "s|loadPath:'/locales/|loadPath:'./locales/|g" {} + && \
-    find dist -name "*.js" -type f -exec sed -i 's|navigate("/|navigate("./|g' {} + && \
-    find dist -name "*.js" -type f -exec sed -i "s|navigate('/|navigate('./|g" {} + && \
-    find dist -name "*.js" -type f -exec sed -i 's|to="/|to="./|g' {} + && \
-    find dist -name "*.js" -type f -exec sed -i "s|to='/|to='./|g" {} + && \
-    find dist -name "*.js" -type f -exec sed -i 's|href="/|href="./|g' {} + && \
-    find dist -name "*.js" -type f -exec sed -i "s|href='/|href='./|g" {} + && \
-    find dist -name "*.js" -type f -exec sed -i 's|"/images/|"./images/|g' {} + && \
-    find dist -name "*.js" -type f -exec sed -i "s|'/images/|'./images/|g" {} + && \
-    find dist -name "*.js" -type f -exec sed -i 's|`/images/|`./images/|g' {} + && \
-    find dist -name "*.js" -type f -exec sed -i 's|"/logo/|"./logo/|g' {} + && \
-    find dist -name "*.js" -type f -exec sed -i "s|'/logo/|'./logo/|g" {} + && \
-    find dist -name "*.js" -type f -exec sed -i 's|`/logo/|`./logo/|g' {} + && \
-    find dist -name "*.js" -type f -exec sed -i 's|"/fonts/|"./fonts/|g' {} + && \
-    find dist -name "*.js" -type f -exec sed -i "s|'/fonts/|'./fonts/|g" {} + && \
-    find dist -name "*.js" -type f -exec sed -i 's|`/fonts/|`./fonts/|g' {} + && \
-    find dist -name "*.js" -type f -exec sed -i 's|"wide-logo-light.png"|"./wide-logo-light.png"|g' {} + && \
-    find dist -name "*.js" -type f -exec sed -i "s|'wide-logo-light.png'|'./wide-logo-light.png'|g" {} + && \
-    find dist -name "*.js" -type f -exec sed -i 's|`wide-logo-light.png`|`./wide-logo-light.png`|g' {} + && \
-    find dist -name "*.js" -type f -exec sed -i 's|"login-gfx.png"|"./login-gfx.png"|g' {} + && \
-    find dist -name "*.js" -type f -exec sed -i "s|'login-gfx.png'|'./login-gfx.png'|g" {} + && \
-    find dist -name "*.js" -type f -exec sed -i 's|`login-gfx.png`|`./login-gfx.png`|g' {} + && \
-    find dist -name "*.js" -type f -exec sed -i 's|"/wide-logo-light.png"|"./wide-logo-light.png"|g' {} + && \
-    find dist -name "*.js" -type f -exec sed -i "s|'/wide-logo-light.png'|'./wide-logo-light.png'|g" {} + && \
-    find dist -name "*.css" -type f -exec sed -i 's|url(/|url(./|g' {} + && \
     mkdir -p /app/backend /app/backend/dist /app/backend/dist/locales /app/node_modules && \
     cp -r backend/* /app/backend/ && \
     cp -r dist/* /app/backend/dist/ && \
