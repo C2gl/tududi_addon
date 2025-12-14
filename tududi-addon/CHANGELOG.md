@@ -1,6 +1,31 @@
 # Changelog
 
 All notable changes to this add-on will be documented in this file.
+
+## 0.88.0
+**BUMPED:** bumped to tududi V0.88.0
+
+**TUDUDI CHANGELOG:**
+    Feat refactor task details by @chrisvel in #660
+    Fix healthcheck command to use 127.0.0.1 instead of localhost by @JustAmply in #669
+    Fix healthcheck command to use array syntax by @JustAmply in #673
+    Feat add inbox flow by @chrisvel in #676
+    Fix sequelize issue by @chrisvel in #678
+    Fix bug 677 by @chrisvel in #679
+    Fix locale issues by @chrisvel in #680
+    Fix items to tasks by @chrisvel in #681
+    Fix bug 661 by @chrisvel in #682
+    Improve Productivity Assistant title pluralization and wording by @chrisvel in #683
+    Fix bug 571 by @chrisvel in #684
+    Reorder elements by @chrisvel in #687
+    changed ignore condition for telegram processing by @r-sargento in #672
+    Fix bug 675 by @chrisvel in #689
+    Add universal filter to tag details page by @chrisvel in #690
+    Fix readAt counter for notifications by @chrisvel in #691
+    Feat telegram notifications by @chrisvel in #692
+    Fix profile settings mobile layout by @chrisvel in #694
+    Fix api keys issue by @chrisvel in #706
+
 ## 0.87
 **BUMPED:** bumped to tududi V0.87
 **ChANGES IN STRUCTURE**: from now on the main addon will folow the release version of the upstream github
