@@ -1,5 +1,5 @@
 name: "Tududi"
-version: "0.88.0"
+version: "0.88.2"
 slug: "tududi"
 description: "Tududi upstream container packaged as a Home Assistant Add-on."
 url: "https://github.com/c2gl/tududi-addon"

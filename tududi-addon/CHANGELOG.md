@@ -1,6 +1,18 @@
 # Changelog
 
 All notable changes to this add-on will be documented in this file.
+## 0.88.2
+**BUMPED:** bumped to tududi v0.88.2
+
+**TUDUDI CHANGELOG:**
+    Fix sql issue by @chrisvel in
+    Fix sql issue chrisvel/tududi#723
+    Cleanup statuses by @chrisvel in
+    Cleanup statuses chrisvel/tududi#724
+    Fix task long titles by @chrisvel in
+    Fix task long titles chrisvel/tududi#726
+    Fix recur instance done by @chrisvel in
+    Fix recur instance done chrisvel/tududi#727
 
 ## 0.88.0
 **BUMPED:** bumped to tududi V0.88.0
