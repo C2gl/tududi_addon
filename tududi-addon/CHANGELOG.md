@@ -1,6 +1,10 @@
 # Changelog
 
 All notable changes to this add-on will be documented in this file.
+## 0.88.4
+**BUMPED:** bumped to tududi v0.88.4
+
+
 ## 0.88.2
 **BUMPED:** bumped to tududi v0.88.2
 
