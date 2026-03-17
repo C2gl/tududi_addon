@@ -70,15 +70,25 @@ if [ -n "$TUDUDI_USER_PASSWORD" ]; then
     log_info "TUDUDI_USER_PASSWORD configured"
 fi
 
+# Session secret: use configured value if set, otherwise auto-generate and
+# persist to /data so sessions survive addon restarts.
 TUDUDI_SESSION_SECRET=$(jq --raw-output '.tududi_session_secret // ""' "$CONFIG_PATH")
 if [ -n "$TUDUDI_SESSION_SECRET" ]; then
     if [ ${#TUDUDI_SESSION_SECRET} -lt 16 ]; then
         log_warning "TUDUDI_SESSION_SECRET is shorter than 16 characters - security may be compromised"
     fi
     export TUDUDI_SESSION_SECRET
-    log_info "TUDUDI_SESSION_SECRET configured"
+    log_info "TUDUDI_SESSION_SECRET configured (from addon options)"
 else
-    log_warning "TUDUDI_SESSION_SECRET not set - consider setting for better security"
+    SECRET_FILE="/data/.session_secret"
+    if [ ! -f "$SECRET_FILE" ]; then
+        openssl rand -hex 64 > "$SECRET_FILE"
+        chmod 600 "$SECRET_FILE"
+        log_info "Generated new persistent session secret"
+    fi
+    TUDUDI_SESSION_SECRET=$(cat "$SECRET_FILE")
+    export TUDUDI_SESSION_SECRET
+    log_info "TUDUDI_SESSION_SECRET loaded from persistent storage"
 fi
 
 DISABLE_TELEGRAM=$(jq --raw-output '.disable_telegram // false' "$CONFIG_PATH")
