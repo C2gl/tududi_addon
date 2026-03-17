@@ -29,6 +29,14 @@ RUN git clone --depth 1 --branch v0.88.5 https://github.com/chrisvel/tududi.git 
     sed -i 's|="/|="./|g' dist/index.html && \
     sed -i 's|href="/|href="./|g' dist/index.html && \
     sed -i 's|src="/|src="./|g' dist/index.html && \
+    # Fix logo paths in compiled JS (absolute /wide-logo-*.png -> relative ./wide-logo-*.png)
+    find dist -name "*.js" -type f -exec sed -i 's|"/wide-logo-light.png"|"./wide-logo-light.png"|g' {} + && \
+    find dist -name "*.js" -type f -exec sed -i "s|'/wide-logo-light.png'|'./wide-logo-light.png'|g" {} + && \
+    find dist -name "*.js" -type f -exec sed -i 's|"/wide-logo-dark.png"|"./wide-logo-dark.png"|g' {} + && \
+    find dist -name "*.js" -type f -exec sed -i "s|'/wide-logo-dark.png'|'./wide-logo-dark.png'|g" {} + && \
+    # Fix login page graphic path
+    find dist -name "*.js" -type f -exec sed -i 's|"/login-gfx.png"|"./login-gfx.png"|g' {} + && \
+    find dist -name "*.js" -type f -exec sed -i "s|'/login-gfx.png'|'./login-gfx.png'|g" {} + && \
     mkdir -p /app/backend /app/backend/dist /app/backend/dist/locales /app/node_modules && \
     cp -r backend/* /app/backend/ && \
     cp -r dist/* /app/backend/dist/ && \
