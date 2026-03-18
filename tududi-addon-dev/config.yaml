@@ -2,7 +2,8 @@ name: "Tududi (Development)"
 version: "0.89.0"
 slug: "tududi-dev"
 description: "Development version of Tududi (v0.89.0)"
-url: "https://github.com/woytekbode/tududi_addon"
+url: "https://github.com/c2gl/tududi-addon"
+image: "ghcr.io/c2gl/tududi-addon-dev"
 init: false
 startup: services
 boot: manual
