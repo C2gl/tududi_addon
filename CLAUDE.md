@@ -6,10 +6,10 @@ This is a fork of [C2gl/tududi_addon](https://github.com/C2gl/tududi_addon), use
 
 The addon wraps [chrisvel/tududi](https://github.com/chrisvel/tududi) (a self-hosted task manager) as an HA addon. The upstream repo contains two addon variants:
 
-- **`tududi-addon/`** — Production addon, currently on `v0.89.0` at C2gl, with a massive 60+ line `sed`-based Dockerfile. Uses `v0.89.0` git tag even though upstream only has `v0.89.0-dev.1` as a pre-release (no stable `v0.89.0` release exists). The `run.sh` still has the old session secret behavior (just warns when empty, no auto-generation).
+- **`tududi-addon/`** — Production addon, currently on `v0.89.0` at C2gl, with a massive 60+ line `sed`-based Dockerfile. The `run.sh` still has the old session secret behavior (just warns when empty, no auto-generation).
 - **`tududi-addon-dev/`** — Dev addon, still on `v0.88.5-rc.1` at C2gl (bumped to `v0.88.5` stable in this fork), with a much simpler Dockerfile (upstream fixed most ingress path issues since v0.87).
 
-The latest stable upstream tududi release is `v0.88.5`. The `v0.89.0` tag exists in Git but there is no corresponding stable GitHub release — only `v0.89.0-dev.1` (pre-release).
+The latest stable upstream tududi release is `v0.89.0` (released 2025-03-12). Our dev addon fork is on `v0.88.5`.
 
 ## Repos
 
@@ -74,16 +74,19 @@ The top-left logo was broken behind HA ingress because `Navbar.tsx` and `Login.t
 | Session secret auto-generation | ✅ Verified: generates on first start, persists across restarts |
 | Logo in top-left navbar | ✅ Verified |
 
-## Upstream Status (C2gl as of 2025-03-18)
+## Upstream Status (as of 2025-03-18)
 
-C2gl has updated their **production addon** (`tududi-addon/`) to `v0.89.0`:
-- Dockerfile clones `v0.89.0` tag from upstream tududi
+**chrisvel/tududi:** `v0.89.0` released 2025-03-12 as stable (marked Latest on GitHub).
+
+**C2gl production addon** (`tududi-addon/`) bumped to `v0.89.0`:
+- Dockerfile clones `v0.89.0` tag from upstream
 - Massive sed block (60+ lines of path rewrites) — even larger than before
-- `run.sh` is unchanged: still has the old session secret behavior (warns when empty, no auto-generation)
+- `run.sh` unchanged: still has old session secret behavior (warns when empty, no auto-generation)
 - `config.yaml` still has `tududi_session_secret` as `str` (required) with empty default
-- The **dev addon** (`tududi-addon-dev/`) is unchanged at `v0.88.5-rc.1`
 
-This means our improvements (session secret auto-generation, optional config, logo fixes) are still relevant and applicable to both the dev and production addons.
+**C2gl dev addon** (`tududi-addon-dev/`) unchanged at `v0.88.5-rc.1`.
+
+Our improvements (session secret auto-generation, optional config, logo fixes) are still relevant and applicable to both addons. We could also consider bumping our dev addon to `v0.89.0`.
 
 ## PR Strategy
 
@@ -97,6 +100,7 @@ This means our improvements (session secret auto-generation, optional config, lo
 
 ## Open Items
 
+- Consider bumping dev addon from `v0.88.5` to `v0.89.0` (now that it's a stable upstream release)
 - Decide PR scope: dev addon only, or also propose session secret fix for production addon?
 - Create PR branch, restore `image` field, and submit PR to C2gl
 - Consider filing an upstream issue/PR on `chrisvel/tududi` for the logo path bug — both `Navbar.tsx` and `Login.tsx` should use `getAssetPath()` instead of hardcoded absolute paths, which would eliminate the need for `sed` workarounds
