@@ -70,8 +70,18 @@ if [ -n "$TUDUDI_USER_PASSWORD" ]; then
     log_info "TUDUDI_USER_PASSWORD configured"
 fi
 
-# Session secret: use configured value if set, otherwise auto-generate and
-# persist to /data so sessions survive addon restarts.
+# Session secret handling:
+# The session secret is used to sign browser session cookies. Without a stable
+# secret, all user sessions are invalidated every time the addon restarts.
+#
+# Priority:
+#   1. If tududi_session_secret is set in addon options, use that (manual override).
+#   2. Otherwise, auto-generate a cryptographically strong 64-byte hex secret
+#      on first start and persist it to /data/.session_secret (chmod 600).
+#      On subsequent starts, the persisted secret is reused.
+#
+# The config field is optional (str?) and omitted from default options, so most
+# users never need to think about it — auto-generation handles everything.
 TUDUDI_SESSION_SECRET=$(jq --raw-output '.tududi_session_secret // ""' "$CONFIG_PATH")
 if [ -n "$TUDUDI_SESSION_SECRET" ]; then
     if [ ${#TUDUDI_SESSION_SECRET} -lt 16 ]; then

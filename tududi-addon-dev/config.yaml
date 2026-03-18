@@ -24,7 +24,10 @@ options:
   port: 3002
   tududi_user_email: ""
   tududi_user_password: ""
-  tududi_session_secret: ""
+  # tududi_session_secret is intentionally omitted here.
+  # A cryptographically strong secret is auto-generated on first start
+  # and persisted to /data/.session_secret so sessions survive restarts.
+  # To override, add tududi_session_secret manually in the addon config.
   disable_telegram: false
   disable_scheduler: false
   upload_path: "/data/uploads"
@@ -33,7 +36,7 @@ schema:
   port: int
   tududi_user_email: str
   tududi_user_password: str
-  tududi_session_secret: str
+  tududi_session_secret: "str?"
   disable_telegram: bool
   disable_scheduler: bool
   upload_path: str
