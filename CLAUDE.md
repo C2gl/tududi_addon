@@ -25,6 +25,7 @@ The latest stable upstream tududi release is `v0.88.5`. Note: `v0.89.0` doesn't 
 - The dev addon builds locally (no pre-built Docker image). The `image` field was removed from `config.yaml` to enable local builds.
 - Both addons can be installed in parallel but only one should run at a time (they share the same port and can conflict on the database).
 - Testing hardware: N100.
+- The addon container name for docker exec is `addon_84c5055d_tududi-dev`.
 
 ## How to Test Changes
 
@@ -34,6 +35,12 @@ After pushing changes to this fork, the user rebuilds and tests on their HA inst
 2. **Wait for build** — local builds on N100 take a few minutes
 3. **Start the addon** and check the Log tab for errors or expected log messages
 4. **Test in browser** — open the addon via the sidebar or ingress URL
+
+Important notes:
+- **Rebuild** re-runs the Dockerfile and picks up changes to `run.sh`, `Dockerfile`, etc. Needed for any file that gets `COPY`'d into the image.
+- **Restart** (stop/start) only re-runs the existing image. Sufficient for testing runtime behavior but won't pick up code changes.
+- **Reinstall** (uninstall + install) is needed when `config.yaml` schema or options change structurally (e.g. adding/removing fields, changing types). HA caches the config schema aggressively.
+- The `/data` directory persists across rebuilds and sometimes across uninstalls — it's managed by HA outside the container.
 
 Claude should advise which specific things to verify after each change. For example:
 - After session secret changes: check logs for "Generated new persistent session secret" on first start, then restart and confirm "loaded from persistent storage"
@@ -49,7 +56,9 @@ Dev addon bumped from `v0.88.5-rc.1` to `v0.88.5` stable (Dockerfile git tag + c
 Removed from dev addon `config.yaml` so HA builds locally from the Dockerfile. **Must be restored for any PR to C2gl** — see PR strategy below.
 
 ### 3. Session secret auto-generation
-When `tududi_session_secret` is not set, `run.sh` auto-generates a cryptographically strong 64-byte hex secret via `openssl rand` and persists it to `/data/.session_secret` (chmod 600). Sessions now survive addon restarts. The config field is optional (`str?`) and removed from default options so it doesn't show as an empty text box in the HA UI. Power users can still set it manually as an override. Detailed comment blocks in `run.sh` and `config.yaml`. Changelog updated.
+When `tududi_session_secret` is not set, `run.sh` auto-generates a cryptographically strong 64-byte hex secret using Node.js crypto (`crypto.randomBytes(64)`) and persists it to `/data/.session_secret` (chmod 600). Sessions now survive addon restarts. The config field is optional (`str?`) and removed from default options so it doesn't show as an empty text box in the HA UI. Power users can still set it manually as an override. Detailed comment blocks in `run.sh` and `config.yaml`. Changelog updated.
+
+Note: Uses Node.js crypto instead of `openssl` because the Alpine-based addon image doesn't include openssl. Node is always available since it's the tududi runtime.
 
 ### 4. Logo path fix (in progress)
 The top-left logo is broken behind HA ingress because `Navbar.tsx` and `Login.tsx` in upstream tududi hardcode `/wide-logo-light.png` and `/wide-logo-dark.png` instead of using the existing `getAssetPath()` helper. Added `sed` rewrites for logo and login image paths in compiled JS. Latest approach uses bare path matching (`/wide-logo-light.png` → `./wide-logo-light.png`) instead of quote-specific patterns. Pushed but not yet rebuilt/verified.
@@ -62,7 +71,7 @@ The top-left logo is broken behind HA ingress because `Navbar.tsx` and `Login.ts
 | Login works | ✅ |
 | Login page graphic renders | ✅ |
 | Basic task CRUD works | ✅ |
-| Session secret auto-generation | Pushed, not yet tested |
+| Session secret auto-generation | ✅ Verified: generates on first start, persists across restarts |
 | Logo in top-left navbar | Fix pushed, not yet rebuilt/verified |
 
 ## PR Strategy
@@ -77,7 +86,6 @@ The top-left logo is broken behind HA ingress because `Navbar.tsx` and `Login.ts
 ## Open Items
 
 - Rebuild and verify logo fix
-- Test session persistence across restarts (check addon logs for "Generated new persistent session secret" / "loaded from persistent storage")
 - Once all verified, create PR branch, restore `image` field, and submit PR to C2gl
 - Consider filing an upstream issue/PR on `chrisvel/tududi` for the logo path bug — both `Navbar.tsx` and `Login.tsx` should use `getAssetPath()` instead of hardcoded absolute paths, which would eliminate the need for `sed` workarounds
 - Look for other ways to contribute to the C2gl addon (open issues, missing features, documentation)
