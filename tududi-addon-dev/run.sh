@@ -52,7 +52,7 @@ if ! [[ "$PORT" =~ ^[0-9]+$ ]] || [ "$PORT" -lt 1 ] || [ "$PORT" -gt 65535 ]; th
     log_fatal "Invalid port number: ${PORT}. Must be between 1 and 65535"
 fi
 if [ "$PORT" -ne 3002 ]; then
-    log_warning "Port is set to ${PORT} but ingress_port is 3002 - ingress access will not work unless ingress_port is also updated in config.yaml"
+    log_warning "Port is set to ${PORT} but the addon definition requires port 3002 (ingress_port and ports mapping are hardcoded) - ingress access will not work"
 fi
 export PORT
 log_info "Tududi will run on port ${PORT}"
@@ -101,11 +101,16 @@ if [ -n "$TUDUDI_SESSION_SECRET" ]; then
 else
     SECRET_FILE="/data/.session_secret"
     if [ ! -f "$SECRET_FILE" ]; then
-        node -e "console.log(require('crypto').randomBytes(64).toString('hex'))" > "$SECRET_FILE"
+        if ! node -e "process.stdout.write(require('crypto').randomBytes(64).toString('hex'))" > "$SECRET_FILE"; then
+            log_fatal "Failed to generate session secret"
+        fi
         chmod 600 "$SECRET_FILE"
         log_info "Generated new persistent session secret"
     fi
     TUDUDI_SESSION_SECRET=$(cat "$SECRET_FILE")
+    if [ -z "$TUDUDI_SESSION_SECRET" ]; then
+        log_fatal "Session secret file ${SECRET_FILE} is empty - delete it and restart to regenerate"
+    fi
     export TUDUDI_SESSION_SECRET
     log_info "TUDUDI_SESSION_SECRET loaded from persistent storage"
 fi
