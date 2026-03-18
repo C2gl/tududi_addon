@@ -82,6 +82,8 @@ fi
 #
 # The config field is optional (str?) and omitted from default options, so most
 # users never need to think about it — auto-generation handles everything.
+#
+# Uses Node.js crypto (always available) instead of openssl (not in Alpine base).
 TUDUDI_SESSION_SECRET=$(jq --raw-output '.tududi_session_secret // ""' "$CONFIG_PATH")
 if [ -n "$TUDUDI_SESSION_SECRET" ]; then
     if [ ${#TUDUDI_SESSION_SECRET} -lt 16 ]; then
@@ -92,7 +94,7 @@ if [ -n "$TUDUDI_SESSION_SECRET" ]; then
 else
     SECRET_FILE="/data/.session_secret"
     if [ ! -f "$SECRET_FILE" ]; then
-        openssl rand -hex 64 > "$SECRET_FILE"
+        node -e "console.log(require('crypto').randomBytes(64).toString('hex'))" > "$SECRET_FILE"
         chmod 600 "$SECRET_FILE"
         log_info "Generated new persistent session secret"
     fi
