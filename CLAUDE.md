@@ -90,18 +90,45 @@ The `port` option was misleading — changing it breaks HA ingress. Now hidden (
 ## Upstream PRs
 
 ### chrisvel/tududi — Logo path fix
+- **PR:** submitted to `chrisvel/tududi`
 - **Branch:** `woytekbode/tududi` → `fix/logo-paths-use-getAssetPath`
-- **Target:** `chrisvel/tududi` → `main`
-- **Status:** Branch ready, PR needs to be created manually at https://github.com/woytekbode/tududi/compare/fix/logo-paths-use-getAssetPath
 - **Change:** Use `getAssetPath()` for logo `src` in `Navbar.tsx` and `Login.tsx` (2 files, ~4 lines changed). `Login.tsx` already imports it; `Navbar.tsx` needs it added to the import.
 - **Impact:** Once merged, the remaining 4 logo sed lines in our Dockerfile can be removed entirely, leaving zero sed hacks.
+
+## C2gl sed Analysis
+
+We audited all ~60 sed lines in C2gl's production Dockerfile (`tududi-addon/Dockerfile`). The conclusion is that the upstream tududi codebase is well-designed for reverse proxy/subpath deployment. Only the logo paths are a genuine upstream bug — everything else is already handled.
+
+### No-ops (upstream already handles these)
+- `publicPath: '/' → ''` in webpack.config.js — already `''` upstream since at least v0.88.5
+- `index.html` rewrites (4 lines) — dynamic `<base>` tag detects HA ingress at runtime
+- `login-gfx.png` and `wide-logo-light.png` in index.html — not referenced there, only in JSX
+- `login-gfx.png` in JS — `Login.tsx` already uses `getAssetPath()`
+- `wide-logo-light.png` without leading slash in JS — doesn't match actual compiled output
+
+### Handled by upstream's paths.ts helpers
+- `/api/` in JS (9 lines, 3 quote variants) — all API calls use `getApiPath()` which prepends the ingress base path
+- `/locales/` in JS (9 lines) — i18n backend uses relative `loadPath: 'locales/...'` (no leading slash); explicit fetches use `getLocalesPath()`
+- `loadPath:"/locales/"` (2 lines) — the loadPath is already relative in source
+- `navigate("/` and `to="/` (4 lines) — React Router works with the `<base>` tag
+- `href="/` in JS (2 lines) — handled by relative paths or helpers
+
+### Handled by webpack publicPath: ''
+- `/assets/` in CSS (2 lines) and JS (9 lines) — webpack generates relative paths
+- `/static/`, `/images/`, `/logo/`, `/fonts/` in JS (9 lines each) — same
+- `url(/` in CSS (3 lines) — CSS url() references are relative with `publicPath: ''`
+
+### Actually needed (our upstream PR fixes this)
+- `/wide-logo-light.png` and `/wide-logo-dark.png` with leading slash in JS (2 lines) — hardcoded in `Navbar.tsx` and `Login.tsx`, fixed by our PR to use `getAssetPath()`
+
+**Bottom line:** Once our logo PR is merged upstream, zero sed lines are needed in the addon Dockerfile.
 
 ## Upstream Status (as of 2025-03-18)
 
 **chrisvel/tududi:** `v0.89.0` released 2025-03-12 as stable.
 
 **C2gl production addon** (`tududi-addon/`) bumped to `v0.89.0`:
-- Massive sed block (60+ lines) — mostly unnecessary since publicPath is already relative
+- Massive sed block (60+ lines) — analysis shows nearly all are unnecessary
 - `run.sh` unchanged: no session secret auto-generation
 - `config.yaml`: session secret and port still required with empty/visible defaults
 
@@ -119,7 +146,7 @@ The `port` option was misleading — changing it breaks HA ingress. Now hidden (
 
 ## Open Items
 
-- Submit the logo path PR to chrisvel/tududi (branch is ready, needs manual PR creation)
+- Wait for logo path PR response from chrisvel/tududi — once merged, remove remaining sed lines
 - Decide PR scope for C2gl: dev addon only, or also propose fixes for production addon?
 - Create PR branch for C2gl, restore `image` field, and submit
 - Look for other ways to contribute to the C2gl addon
