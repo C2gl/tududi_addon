@@ -6,10 +6,10 @@ This is a fork of [C2gl/tududi_addon](https://github.com/C2gl/tududi_addon), use
 
 The addon wraps [chrisvel/tududi](https://github.com/chrisvel/tududi) (a self-hosted task manager) as an HA addon. The upstream repo contains two addon variants:
 
-- **`tududi-addon/`** — Production addon, currently on `v0.88.4` at C2gl, with a complex 60+ line `sed`-based Dockerfile.
-- **`tududi-addon-dev/`** — Dev addon, currently on `v0.88.5-rc.1` at C2gl (bumped to `v0.88.5` stable in this fork), with a much simpler Dockerfile (upstream fixed most ingress path issues since v0.87).
+- **`tududi-addon/`** — Production addon, currently on `v0.89.0` at C2gl, with a massive 60+ line `sed`-based Dockerfile. Uses `v0.89.0` git tag even though upstream only has `v0.89.0-dev.1` as a pre-release (no stable `v0.89.0` release exists). The `run.sh` still has the old session secret behavior (just warns when empty, no auto-generation).
+- **`tududi-addon-dev/`** — Dev addon, still on `v0.88.5-rc.1` at C2gl (bumped to `v0.88.5` stable in this fork), with a much simpler Dockerfile (upstream fixed most ingress path issues since v0.87).
 
-The latest stable upstream tududi release is `v0.88.5`. Note: `v0.89.0` doesn't exist as a release tag — only `v0.89.0-dev.1` (pre-release).
+The latest stable upstream tududi release is `v0.88.5`. The `v0.89.0` tag exists in Git but there is no corresponding stable GitHub release — only `v0.89.0-dev.1` (pre-release).
 
 ## Repos
 
@@ -60,8 +60,8 @@ When `tududi_session_secret` is not set, `run.sh` auto-generates a cryptographic
 
 Note: Uses Node.js crypto instead of `openssl` because the Alpine-based addon image doesn't include openssl. Node is always available since it's the tududi runtime.
 
-### 4. Logo path fix (in progress)
-The top-left logo is broken behind HA ingress because `Navbar.tsx` and `Login.tsx` in upstream tududi hardcode `/wide-logo-light.png` and `/wide-logo-dark.png` instead of using the existing `getAssetPath()` helper. Added `sed` rewrites for logo and login image paths in compiled JS. Latest approach uses bare path matching (`/wide-logo-light.png` → `./wide-logo-light.png`) instead of quote-specific patterns. Pushed but not yet rebuilt/verified.
+### 4. Logo path fix
+The top-left logo was broken behind HA ingress because `Navbar.tsx` and `Login.tsx` in upstream tududi hardcode `/wide-logo-light.png` and `/wide-logo-dark.png` instead of using the existing `getAssetPath()` helper. Added `sed` rewrites for logo and login image paths in compiled JS. Uses bare path matching (`/wide-logo-light.png` → `./wide-logo-light.png`) instead of quote-specific patterns.
 
 ## Testing Status
 
@@ -72,7 +72,18 @@ The top-left logo is broken behind HA ingress because `Navbar.tsx` and `Login.ts
 | Login page graphic renders | ✅ |
 | Basic task CRUD works | ✅ |
 | Session secret auto-generation | ✅ Verified: generates on first start, persists across restarts |
-| Logo in top-left navbar | Fix pushed, not yet rebuilt/verified |
+| Logo in top-left navbar | ✅ Verified |
+
+## Upstream Status (C2gl as of 2025-03-18)
+
+C2gl has updated their **production addon** (`tududi-addon/`) to `v0.89.0`:
+- Dockerfile clones `v0.89.0` tag from upstream tududi
+- Massive sed block (60+ lines of path rewrites) — even larger than before
+- `run.sh` is unchanged: still has the old session secret behavior (warns when empty, no auto-generation)
+- `config.yaml` still has `tududi_session_secret` as `str` (required) with empty default
+- The **dev addon** (`tududi-addon-dev/`) is unchanged at `v0.88.5-rc.1`
+
+This means our improvements (session secret auto-generation, optional config, logo fixes) are still relevant and applicable to both the dev and production addons.
 
 ## PR Strategy
 
@@ -82,10 +93,11 @@ The top-left logo is broken behind HA ingress because `Navbar.tsx` and `Login.ts
   - Excludes fork-only files (this `CLAUDE.md`)
   - Contains only the changes intended for C2gl
 - **Do NOT submit a PR with the `image` field removed** — that would force all C2gl users into slow local Docker builds instead of pulling the pre-built image.
+- Consider whether to target the dev addon only, or propose session secret + config improvements for the production addon too.
 
 ## Open Items
 
-- Rebuild and verify logo fix
-- Once all verified, create PR branch, restore `image` field, and submit PR to C2gl
+- Decide PR scope: dev addon only, or also propose session secret fix for production addon?
+- Create PR branch, restore `image` field, and submit PR to C2gl
 - Consider filing an upstream issue/PR on `chrisvel/tududi` for the logo path bug — both `Navbar.tsx` and `Login.tsx` should use `getAssetPath()` instead of hardcoded absolute paths, which would eliminate the need for `sed` workarounds
 - Look for other ways to contribute to the C2gl addon (open issues, missing features, documentation)
