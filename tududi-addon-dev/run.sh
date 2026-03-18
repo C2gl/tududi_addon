@@ -42,10 +42,17 @@ if ! command -v jq &> /dev/null; then
     log_fatal "jq command not found - required for configuration parsing"
 fi
 
-# PORT: default to 3002
+# Port handling:
+# The port must match ingress_port (3002) in config.yaml. If they don't match,
+# HA ingress will forward traffic to the wrong port and the addon won't be
+# accessible. The port option is hidden from the UI (int?, no default in
+# options) so users don't accidentally change it. Default is 3002.
 PORT=$(jq --raw-output '.port // 3002' "$CONFIG_PATH")
 if ! [[ "$PORT" =~ ^[0-9]+$ ]] || [ "$PORT" -lt 1 ] || [ "$PORT" -gt 65535 ]; then
     log_fatal "Invalid port number: ${PORT}. Must be between 1 and 65535"
+fi
+if [ "$PORT" -ne 3002 ]; then
+    log_warning "Port is set to ${PORT} but ingress_port is 3002 - ingress access will not work unless ingress_port is also updated in config.yaml"
 fi
 export PORT
 log_info "Tududi will run on port ${PORT}"

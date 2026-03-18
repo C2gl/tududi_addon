@@ -21,7 +21,10 @@ map:
   - addons:rw
   - backup:ro
 options:
-  port: 3002
+  # port is intentionally omitted here. It defaults to 3002 and must match
+  # ingress_port and the ports mapping above. Changing it without also
+  # changing those values will break ingress access. To override (advanced),
+  # add port manually in the addon config.
   tududi_user_email: ""
   tududi_user_password: ""
   # tududi_session_secret is intentionally omitted here.
@@ -33,7 +36,7 @@ options:
   upload_path: "/data/uploads"
   db_file: "/data/production.sqlite3"
 schema:
-  port: int
+  port: "int?"
   tududi_user_email: str
   tududi_user_password: str
   tududi_session_secret: "str?"
