@@ -30,7 +30,7 @@ RUN git clone --depth 1 --branch v0.89.0 https://github.com/chrisvel/tududi.git 
     #
     # Fix logo paths in compiled JS — Navbar.tsx and Login.tsx hardcode absolute
     # paths for logos instead of using getAssetPath(). This is an upstream bug;
-    # see https://github.com/chrisvel/tududi/issues/XXX
+    # see https://github.com/chrisvel/tududi/pull/946
     # Once fixed upstream, these sed lines can be removed entirely.
     find dist -name "*.js" -type f -exec sed -i 's|"/wide-logo-light.png"|"./wide-logo-light.png"|g' {} + && \
     find dist -name "*.js" -type f -exec sed -i "s|'/wide-logo-light.png'|'./wide-logo-light.png'|g" {} + && \
