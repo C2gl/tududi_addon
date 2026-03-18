@@ -26,6 +26,20 @@ The latest stable upstream tududi release is `v0.88.5`. Note: `v0.89.0` doesn't 
 - Both addons can be installed in parallel but only one should run at a time (they share the same port and can conflict on the database).
 - Testing hardware: N100.
 
+## How to Test Changes
+
+After pushing changes to this fork, the user rebuilds and tests on their HA install. The general workflow:
+
+1. **In HA:** Go to Settings → Add-ons → Tududi (Development) → Rebuild (or reinstall if config.yaml changed structurally)
+2. **Wait for build** — local builds on N100 take a few minutes
+3. **Start the addon** and check the Log tab for errors or expected log messages
+4. **Test in browser** — open the addon via the sidebar or ingress URL
+
+Claude should advise which specific things to verify after each change. For example:
+- After session secret changes: check logs for "Generated new persistent session secret" on first start, then restart and confirm "loaded from persistent storage"
+- After logo/path fixes: inspect the navbar logo in the browser, check browser dev tools network tab for 404s
+- After version bumps: confirm the addon starts cleanly and basic CRUD works
+
 ## Changes Made (in this fork)
 
 ### 1. Version bump
