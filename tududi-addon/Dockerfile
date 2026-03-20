@@ -13,7 +13,7 @@ RUN apk add --no-cache \
 # Set working directory
 WORKDIR /app
 
-# For me if i come back in a while, to update the version, change the branch tag from the upstream repo on line 18
+# To update the version, change the branch tag on the git clone line below
 RUN git clone --depth 1 --branch v0.89.0 https://github.com/chrisvel/tududi.git /tmp/tududi && \
     cd /tmp/tududi && \
     npm config set fetch-retry-maxtimeout 300000 && \
@@ -24,56 +24,20 @@ RUN git clone --depth 1 --branch v0.89.0 https://github.com/chrisvel/tududi.git 
     npm install --no-audit --no-fund --legacy-peer-deps && \
     npm install nanoid@3 --save --no-audit --no-fund --legacy-peer-deps && \
     npm install i18next --save --no-audit --no-fund --legacy-peer-deps && \
-    sed -i "s|publicPath: '/'|publicPath: ''|g" webpack.config.js && \
     NODE_OPTIONS="--max-old-space-size=2048" NODE_ENV=production npm run frontend:build && \
-    sed -i 's|="/|="./|g' dist/index.html && \
-    sed -i 's|href="/|href="./|g' dist/index.html && \
-    sed -i 's|src="/|src="./|g' dist/index.html && \
-    sed -i 's|action="/|action="./|g' dist/index.html && \
-    sed -i 's|/login-gfx.png|./login-gfx.png|g' dist/index.html && \
-    sed -i 's|/wide-logo-light.png|./wide-logo-light.png|g' dist/index.html && \
-    find dist -name "*.css" -type f -exec sed -i 's|url("/|url("./|g' {} + && \
-    find dist -name "*.css" -type f -exec sed -i "s|url('/|url('./|g" {} + && \
-    find dist -name "*.css" -type f -exec sed -i 's|"/assets/|"./assets/|g' {} + && \
-    find dist -name "*.css" -type f -exec sed -i "s|'/assets/|'./assets/|g" {} + && \
-    find dist -name "*.js" -type f -exec sed -i 's|"/api/|"./api/|g' {} + && \
-    find dist -name "*.js" -type f -exec sed -i "s|'/api/|'./api/|g" {} + && \
-    find dist -name "*.js" -type f -exec sed -i 's|`/api/|`./api/|g' {} + && \
-    find dist -name "*.js" -type f -exec sed -i 's|"/locales/|"./locales/|g' {} + && \
-    find dist -name "*.js" -type f -exec sed -i "s|'/locales/|'./locales/|g" {} + && \
-    find dist -name "*.js" -type f -exec sed -i 's|`/locales/|`./locales/|g' {} + && \
-    find dist -name "*.js" -type f -exec sed -i 's|"/assets/|"./assets/|g' {} + && \
-    find dist -name "*.js" -type f -exec sed -i "s|'/assets/|'./assets/|g" {} + && \
-    find dist -name "*.js" -type f -exec sed -i 's|`/assets/|`./assets/|g' {} + && \
-    find dist -name "*.js" -type f -exec sed -i 's|"/static/|"./static/|g' {} + && \
-    find dist -name "*.js" -type f -exec sed -i "s|'/static/|'./static/|g" {} + && \
-    find dist -name "*.js" -type f -exec sed -i 's|`/static/|`./static/|g' {} + && \
-    find dist -name "*.js" -type f -exec sed -i 's|loadPath:"/locales/|loadPath:"./locales/|g' {} + && \
-    find dist -name "*.js" -type f -exec sed -i "s|loadPath:'/locales/|loadPath:'./locales/|g" {} + && \
-    find dist -name "*.js" -type f -exec sed -i 's|navigate("/|navigate("./|g' {} + && \
-    find dist -name "*.js" -type f -exec sed -i "s|navigate('/|navigate('./|g" {} + && \
-    find dist -name "*.js" -type f -exec sed -i 's|to="/|to="./|g' {} + && \
-    find dist -name "*.js" -type f -exec sed -i "s|to='/|to='./|g" {} + && \
-    find dist -name "*.js" -type f -exec sed -i 's|href="/|href="./|g' {} + && \
-    find dist -name "*.js" -type f -exec sed -i "s|href='/|href='./|g" {} + && \
-    find dist -name "*.js" -type f -exec sed -i 's|"/images/|"./images/|g' {} + && \
-    find dist -name "*.js" -type f -exec sed -i "s|'/images/|'./images/|g" {} + && \
-    find dist -name "*.js" -type f -exec sed -i 's|`/images/|`./images/|g' {} + && \
-    find dist -name "*.js" -type f -exec sed -i 's|"/logo/|"./logo/|g' {} + && \
-    find dist -name "*.js" -type f -exec sed -i "s|'/logo/|'./logo/|g" {} + && \
-    find dist -name "*.js" -type f -exec sed -i 's|`/logo/|`./logo/|g' {} + && \
-    find dist -name "*.js" -type f -exec sed -i 's|"/fonts/|"./fonts/|g' {} + && \
-    find dist -name "*.js" -type f -exec sed -i "s|'/fonts/|'./fonts/|g" {} + && \
-    find dist -name "*.js" -type f -exec sed -i 's|`/fonts/|`./fonts/|g' {} + && \
-    find dist -name "*.js" -type f -exec sed -i 's|"wide-logo-light.png"|"./wide-logo-light.png"|g' {} + && \
-    find dist -name "*.js" -type f -exec sed -i "s|'wide-logo-light.png'|'./wide-logo-light.png'|g" {} + && \
-    find dist -name "*.js" -type f -exec sed -i 's|`wide-logo-light.png`|`./wide-logo-light.png`|g' {} + && \
-    find dist -name "*.js" -type f -exec sed -i 's|"login-gfx.png"|"./login-gfx.png"|g' {} + && \
-    find dist -name "*.js" -type f -exec sed -i "s|'login-gfx.png'|'./login-gfx.png'|g" {} + && \
-    find dist -name "*.js" -type f -exec sed -i 's|`login-gfx.png`|`./login-gfx.png`|g' {} + && \
-    find dist -name "*.js" -type f -exec sed -i 's|"/wide-logo-light.png"|"./wide-logo-light.png"|g' {} + && \
-    find dist -name "*.js" -type f -exec sed -i "s|'/wide-logo-light.png'|'./wide-logo-light.png'|g" {} + && \
-    find dist -name "*.css" -type f -exec sed -i 's|url(/|url(./|g' {} + && \
+    # Upstream webpack publicPath is already '' (relative), and index.html has
+    # a dynamic <base> tag that detects HA ingress. No index.html sed needed.
+    #
+    # TODO: Remove this sed workaround once the addon bumps to a tududi version
+    # that includes PR #946 (https://github.com/chrisvel/tududi/pull/946).
+    # The fix is merged to main but not yet in a release. It makes Navbar.tsx
+    # and Login.tsx use getAssetPath() for logo paths instead of hardcoded
+    # absolute paths.
+    find dist -name "*.js" -type f -exec sed -i \
+        -e 's|"/wide-logo-light.png"|"./wide-logo-light.png"|g' \
+        -e "s|'/wide-logo-light.png'|'./wide-logo-light.png'|g" \
+        -e 's|"/wide-logo-dark.png"|"./wide-logo-dark.png"|g' \
+        -e "s|'/wide-logo-dark.png'|'./wide-logo-dark.png'|g" {} + && \
     mkdir -p /app/backend /app/backend/dist /app/backend/dist/locales /app/node_modules && \
     cp -r backend/* /app/backend/ && \
     cp -r dist/* /app/backend/dist/ && \
