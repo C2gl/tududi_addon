@@ -1,5 +1,5 @@
 name: "Tududi"
-version: "0.89.0"
+version: "0.89.1"
 slug: "tududi"
 description: "Tududi upstream container packaged as a Home Assistant Add-on."
 url: "https://github.com/c2gl/tududi-addon"
@@ -22,19 +22,25 @@ map:
   - addons:rw
   - backup:ro
 options:
-  port: 3002
+  # port is intentionally omitted here. It defaults to 3002 and must match
+  # ingress_port and the ports mapping above. Changing it without also
+  # changing those values will break ingress access. To override (advanced),
+  # add port manually in the addon config.
   tududi_user_email: ""
   tududi_user_password: ""
-  tududi_session_secret: ""
+  # tududi_session_secret is intentionally omitted here.
+  # A cryptographically strong secret is auto-generated on first start
+  # and persisted to /data/.session_secret so sessions survive restarts.
+  # To override, add tududi_session_secret manually in the addon config.
   disable_telegram: false
   disable_scheduler: false
   upload_path: "/data/uploads"
   db_file: "/data/production.sqlite3"
 schema:
-  port: int
+  port: int?
   tududi_user_email: str
   tududi_user_password: str
-  tududi_session_secret: str
+  tududi_session_secret: str?
   disable_telegram: bool
   disable_scheduler: bool
   upload_path: str
