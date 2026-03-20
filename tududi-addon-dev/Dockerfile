@@ -28,10 +28,11 @@ RUN git clone --depth 1 --branch v0.89.0 https://github.com/chrisvel/tududi.git 
     # Upstream webpack publicPath is already '' (relative), and index.html has
     # a dynamic <base> tag that detects HA ingress. No index.html sed needed.
     #
-    # Fix logo paths in compiled JS — Navbar.tsx and Login.tsx hardcode absolute
-    # paths for logos instead of using getAssetPath(). This is an upstream bug;
-    # see https://github.com/chrisvel/tududi/pull/946
-    # Once fixed upstream, these sed lines can be removed entirely.
+    # TODO: Remove this sed workaround once the addon bumps to a tududi version
+    # that includes PR #946 (https://github.com/chrisvel/tududi/pull/946).
+    # The fix is merged to main but not yet in a release. It makes Navbar.tsx
+    # and Login.tsx use getAssetPath() for logo paths instead of hardcoded
+    # absolute paths.
     find dist -name "*.js" -type f -exec sed -i \
         -e 's|"/wide-logo-light.png"|"./wide-logo-light.png"|g' \
         -e "s|'/wide-logo-light.png'|'./wide-logo-light.png'|g" \
