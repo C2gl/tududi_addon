@@ -38,7 +38,7 @@ All notable changes to this add-on will be documented in this file.
     Fix cancelled control tasks and subtasks by @chrisvel in #867
     Fix tag links for newly created tags (fixes #842) by @rylena in #843
 
-## v0.88.5-rc.1
+## 0.88.5-rc.1
 **BUMPED:** bumped to tududi v0.88.5-rc.1 (pre-release)
 
 ## 0.2.1

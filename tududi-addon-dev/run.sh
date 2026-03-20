@@ -101,11 +101,13 @@ if [ -n "$TUDUDI_SESSION_SECRET" ]; then
 else
     SECRET_FILE="/data/.session_secret"
     if [ ! -f "$SECRET_FILE" ]; then
-        if ! node -e "process.stdout.write(require('crypto').randomBytes(64).toString('hex'))" > "$SECRET_FILE"; then
+        if ! ( umask 077 && node -e "process.stdout.write(require('crypto').randomBytes(64).toString('hex'))" > "$SECRET_FILE" ); then
             log_fatal "Failed to generate session secret"
         fi
-        chmod 600 "$SECRET_FILE"
         log_info "Generated new persistent session secret"
+    else
+        # Ensure existing secret file has correct permissions
+        chmod 600 "$SECRET_FILE" 2>/dev/null || true
     fi
     TUDUDI_SESSION_SECRET=$(cat "$SECRET_FILE")
     if [ -z "$TUDUDI_SESSION_SECRET" ]; then

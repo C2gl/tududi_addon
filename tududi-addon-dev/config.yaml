@@ -1,7 +1,7 @@
 name: "Tududi (Development)"
 version: "0.89.0"
 slug: "tududi-dev"
-description: "Development version of Tududi (v0.89.0)"
+description: "Development version of Tududi (v0.89.0) - for testing only, may be unstable"
 url: "https://github.com/c2gl/tududi-addon"
 image: "ghcr.io/c2gl/tududi-addon-dev"
 init: false
@@ -37,10 +37,10 @@ options:
   upload_path: "/data/uploads"
   db_file: "/data/production.sqlite3"
 schema:
-  port: "int?"
+  port: int?
   tududi_user_email: str
   tududi_user_password: str
-  tududi_session_secret: "str?"
+  tududi_session_secret: str?
   disable_telegram: bool
   disable_scheduler: bool
   upload_path: str
