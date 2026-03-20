@@ -27,16 +27,16 @@ All notable changes to this add-on will be documented in this file.
 - run.sh logs a warning if port is overridden to a non-3002 value.
 
 **TUDUDI v0.89.0 CHANGELOG:**
-    Fix remaining multi-weekday recurrence bugs by @chrisvel in #838
-    Auto focus on new task by @chrisvel in #856
-    Fix new task in mobile by @chrisvel in #857
-    Update fonts to use local files by @chrisvel in #858
-    Fix Sunday selection in monthly weekday recurrence by @chrisvel in #859
-    Fix Telegram task display bug by escaping backslashes by @chrisvel in #860
-    Fix tag validation error messages not shown to user by @chrisvel in #861
-    Fix status dropdown z-index behind subtasks in project view by @chrisvel in #866
-    Fix cancelled control tasks and subtasks by @chrisvel in #867
-    Fix tag links for newly created tags (fixes #842) by @rylena in #843
+- Fix remaining multi-weekday recurrence bugs by @chrisvel in #838
+- Auto focus on new task by @chrisvel in #856
+- Fix new task in mobile by @chrisvel in #857
+- Update fonts to use local files by @chrisvel in #858
+- Fix Sunday selection in monthly weekday recurrence by @chrisvel in #859
+- Fix Telegram task display bug by escaping backslashes by @chrisvel in #860
+- Fix tag validation error messages not shown to user by @chrisvel in #861
+- Fix status dropdown z-index behind subtasks in project view by @chrisvel in #866
+- Fix cancelled control tasks and subtasks by @chrisvel in #867
+- Fix tag links for newly created tags (fixes #842) by @rylena in #843
 
 ## 0.88.5-rc.1
 **BUMPED:** bumped to tududi v0.88.5-rc.1 (pre-release)

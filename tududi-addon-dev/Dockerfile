@@ -32,10 +32,11 @@ RUN git clone --depth 1 --branch v0.89.0 https://github.com/chrisvel/tududi.git 
     # paths for logos instead of using getAssetPath(). This is an upstream bug;
     # see https://github.com/chrisvel/tududi/pull/946
     # Once fixed upstream, these sed lines can be removed entirely.
-    find dist -name "*.js" -type f -exec sed -i 's|"/wide-logo-light.png"|"./wide-logo-light.png"|g' {} + && \
-    find dist -name "*.js" -type f -exec sed -i "s|'/wide-logo-light.png'|'./wide-logo-light.png'|g" {} + && \
-    find dist -name "*.js" -type f -exec sed -i 's|"/wide-logo-dark.png"|"./wide-logo-dark.png"|g' {} + && \
-    find dist -name "*.js" -type f -exec sed -i "s|'/wide-logo-dark.png'|'./wide-logo-dark.png'|g" {} + && \
+    find dist -name "*.js" -type f -exec sed -i \
+        -e 's|"/wide-logo-light.png"|"./wide-logo-light.png"|g' \
+        -e "s|'/wide-logo-light.png'|'./wide-logo-light.png'|g" \
+        -e 's|"/wide-logo-dark.png"|"./wide-logo-dark.png"|g' \
+        -e "s|'/wide-logo-dark.png'|'./wide-logo-dark.png'|g" {} + && \
     mkdir -p /app/backend /app/backend/dist /app/backend/dist/locales /app/node_modules && \
     cp -r backend/* /app/backend/ && \
     cp -r dist/* /app/backend/dist/ && \

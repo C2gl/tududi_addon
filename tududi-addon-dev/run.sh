@@ -109,9 +109,18 @@ else
         # Ensure existing secret file has correct permissions
         chmod 600 "$SECRET_FILE" 2>/dev/null || true
     fi
-    TUDUDI_SESSION_SECRET=$(cat "$SECRET_FILE")
+    if ! TUDUDI_SESSION_SECRET=$(cat "$SECRET_FILE"); then
+        log_fatal "Failed to read session secret file ${SECRET_FILE} - check file permissions and disk health"
+    fi
     if [ -z "$TUDUDI_SESSION_SECRET" ]; then
         log_fatal "Session secret file ${SECRET_FILE} is empty - delete it and restart to regenerate"
+    fi
+    # Validate persisted secret (same checks as manual secret above)
+    if [ ${#TUDUDI_SESSION_SECRET} -lt 16 ]; then
+        log_warning "Persistent session secret in ${SECRET_FILE} is shorter than 16 characters - security may be compromised"
+    fi
+    if ! [[ "$TUDUDI_SESSION_SECRET" =~ ^[0-9a-fA-F]+$ ]]; then
+        log_warning "Persistent session secret in ${SECRET_FILE} contains non-hex characters; this may indicate a legacy or custom secret"
     fi
     export TUDUDI_SESSION_SECRET
     log_info "TUDUDI_SESSION_SECRET loaded from persistent storage"
