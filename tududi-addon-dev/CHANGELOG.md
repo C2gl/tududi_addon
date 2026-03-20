@@ -2,6 +2,21 @@
 
 All notable changes to this add-on will be documented in this file.
 
+## 1.0.0-dev.1
+**BUMPED:** bumped to tududi v1.0.0-dev.1 (pre-release)
+
+**IMPROVED:** Zero sed fixes in Dockerfile
+- Removed logo path sed workaround — fixed upstream in PR #946
+  (Navbar.tsx and Login.tsx now use getAssetPath() for logo paths)
+- Dockerfile now has zero sed fixes, all path issues resolved upstream
+
+**TUDUDI v1.0.0-dev.1 CHANGELOG:**
+- Add comprehensive LLM development documentation by @chrisvel in #939
+- Fix date format inconsistency in Defer Until field by @chrisvel in #941
+- Add URL detection to inbox processing service by @chrisvel in #942
+- Fix notification deduplication to prevent pile-up in navbar by @chrisvel in #945
+- fix: use getAssetPath() for logo images in Navbar and Login by @woytekbode in #946
+
 ## 0.89.0
 **BUMPED:** bumped to tududi v0.89.0 (stable release)
 
