@@ -42,10 +42,17 @@ if ! command -v jq &> /dev/null; then
     log_fatal "jq command not found - required for configuration parsing"
 fi
 
-# PORT: default to 3002
+# Port handling:
+# The port must match ingress_port (3002) in config.yaml. If they don't match,
+# HA ingress will forward traffic to the wrong port and the addon won't be
+# accessible. The port option is hidden from the UI (int?, no default in
+# options) so users don't accidentally change it. Default is 3002.
 PORT=$(jq --raw-output '.port // 3002' "$CONFIG_PATH")
 if ! [[ "$PORT" =~ ^[0-9]+$ ]] || [ "$PORT" -lt 1 ] || [ "$PORT" -gt 65535 ]; then
     log_fatal "Invalid port number: ${PORT}. Must be between 1 and 65535"
+fi
+if [ "$PORT" -ne 3002 ]; then
+    log_warning "Port is set to ${PORT} but the addon definition requires port 3002 (ingress_port and ports mapping are hardcoded) - ingress access will not work"
 fi
 export PORT
 log_info "Tududi will run on port ${PORT}"
@@ -70,15 +77,53 @@ if [ -n "$TUDUDI_USER_PASSWORD" ]; then
     log_info "TUDUDI_USER_PASSWORD configured"
 fi
 
+# Session secret handling:
+# The session secret is used to sign browser session cookies. Without a stable
+# secret, all user sessions are invalidated every time the addon restarts.
+#
+# Priority:
+#   1. If tududi_session_secret is set in addon options, use that (manual override).
+#   2. Otherwise, auto-generate a cryptographically strong 64-byte hex secret
+#      on first start and persist it to /data/.session_secret (chmod 600).
+#      On subsequent starts, the persisted secret is reused.
+#
+# The config field is optional (str?) and omitted from default options, so most
+# users never need to think about it — auto-generation handles everything.
+#
+# Uses Node.js crypto (always available) instead of openssl (not in Alpine base).
 TUDUDI_SESSION_SECRET=$(jq --raw-output '.tududi_session_secret // ""' "$CONFIG_PATH")
 if [ -n "$TUDUDI_SESSION_SECRET" ]; then
     if [ ${#TUDUDI_SESSION_SECRET} -lt 16 ]; then
         log_warning "TUDUDI_SESSION_SECRET is shorter than 16 characters - security may be compromised"
     fi
     export TUDUDI_SESSION_SECRET
-    log_info "TUDUDI_SESSION_SECRET configured"
+    log_info "TUDUDI_SESSION_SECRET configured (from addon options)"
 else
-    log_warning "TUDUDI_SESSION_SECRET not set - consider setting for better security"
+    SECRET_FILE="/data/.session_secret"
+    if [ ! -f "$SECRET_FILE" ]; then
+        if ! ( umask 077 && node -e "process.stdout.write(require('crypto').randomBytes(64).toString('hex'))" > "$SECRET_FILE" ); then
+            log_fatal "Failed to generate session secret"
+        fi
+        log_info "Generated new persistent session secret"
+    else
+        # Ensure existing secret file has correct permissions
+        chmod 600 "$SECRET_FILE" 2>/dev/null || true
+    fi
+    if ! TUDUDI_SESSION_SECRET=$(cat "$SECRET_FILE"); then
+        log_fatal "Failed to read session secret file ${SECRET_FILE} - check file permissions and disk health"
+    fi
+    if [ -z "$TUDUDI_SESSION_SECRET" ]; then
+        log_fatal "Session secret file ${SECRET_FILE} is empty - delete it and restart to regenerate"
+    fi
+    # Validate persisted secret (same checks as manual secret above)
+    if [ ${#TUDUDI_SESSION_SECRET} -lt 16 ]; then
+        log_warning "Persistent session secret in ${SECRET_FILE} is shorter than 16 characters - security may be compromised"
+    fi
+    if ! [[ "$TUDUDI_SESSION_SECRET" =~ ^[0-9a-fA-F]+$ ]]; then
+        log_warning "Persistent session secret in ${SECRET_FILE} contains non-hex characters; this may indicate a legacy or custom secret"
+    fi
+    export TUDUDI_SESSION_SECRET
+    log_info "TUDUDI_SESSION_SECRET loaded from persistent storage"
 fi
 
 DISABLE_TELEGRAM=$(jq --raw-output '.disable_telegram // false' "$CONFIG_PATH")

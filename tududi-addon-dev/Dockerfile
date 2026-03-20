@@ -13,8 +13,8 @@ RUN apk add --no-cache \
 # Set working directory
 WORKDIR /app
 
-# For me if i come back in a while, to update the version, change the branch tag from the upstream repo on line 18
-RUN git clone --depth 1 --branch v0.88.5-rc.1 https://github.com/chrisvel/tududi.git /tmp/tududi && \
+# To update the version, change the branch tag on the git clone line below
+RUN git clone --depth 1 --branch v0.89.0 https://github.com/chrisvel/tududi.git /tmp/tududi && \
     cd /tmp/tududi && \
     npm config set fetch-retry-maxtimeout 300000 && \
     npm config set fetch-retry-mintimeout 20000 && \
@@ -25,10 +25,19 @@ RUN git clone --depth 1 --branch v0.88.5-rc.1 https://github.com/chrisvel/tududi
     npm install nanoid@3 --save --no-audit --no-fund --legacy-peer-deps && \
     npm install i18next --save --no-audit --no-fund --legacy-peer-deps && \
     NODE_OPTIONS="--max-old-space-size=2048" NODE_ENV=production npm run frontend:build && \
-    # Only basic path fixes needed since v0.87-beta.2 includes upstream path fixes
-    sed -i 's|="/|="./|g' dist/index.html && \
-    sed -i 's|href="/|href="./|g' dist/index.html && \
-    sed -i 's|src="/|src="./|g' dist/index.html && \
+    # Upstream webpack publicPath is already '' (relative), and index.html has
+    # a dynamic <base> tag that detects HA ingress. No index.html sed needed.
+    #
+    # TODO: Remove this sed workaround once the addon bumps to a tududi version
+    # that includes PR #946 (https://github.com/chrisvel/tududi/pull/946).
+    # The fix is merged to main but not yet in a release. It makes Navbar.tsx
+    # and Login.tsx use getAssetPath() for logo paths instead of hardcoded
+    # absolute paths.
+    find dist -name "*.js" -type f -exec sed -i \
+        -e 's|"/wide-logo-light.png"|"./wide-logo-light.png"|g' \
+        -e "s|'/wide-logo-light.png'|'./wide-logo-light.png'|g" \
+        -e 's|"/wide-logo-dark.png"|"./wide-logo-dark.png"|g' \
+        -e "s|'/wide-logo-dark.png'|'./wide-logo-dark.png'|g" {} + && \
     mkdir -p /app/backend /app/backend/dist /app/backend/dist/locales /app/node_modules && \
     cp -r backend/* /app/backend/ && \
     cp -r dist/* /app/backend/dist/ && \
