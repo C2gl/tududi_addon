@@ -2,6 +2,14 @@
 
 All notable changes to this add-on will be documented in this file.
 
+## 1.0.0-rc.1
+**BUMPED:** bumped to tududi v1.0.0-rc.1 (release candidate)
+
+**TUDUDI v1.0.0-rc.1 CHANGELOG (since v1.0.0-dev.1):**
+- Fix Telegram notification spam with channel-level rate limiting by @chrisvel in #951
+- Add MCP Integration with client-agnostic instructions by @chrisvel in #953
+- Fix date format inconsistency in Task detail screen by @chrisvel in #956
+
 ## 1.0.0-dev.1
 **BUMPED:** bumped to tududi v1.0.0-dev.1 (pre-release)
 
