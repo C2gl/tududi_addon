@@ -1,7 +1,7 @@
 name: "Tududi (Development)"
-version: "1.0.0-rc.1"
+version: "1.0.0-rc.2"
 slug: "tududi-dev"
-description: "Development version of Tududi (v1.0.0-rc.1) - for testing only, may be unstable"
+description: "Development version of Tududi (v1.0.0-rc.2) - for testing only, may be unstable"
 url: "https://github.com/c2gl/tududi-addon"
 image: "ghcr.io/c2gl/tududi-addon-dev"
 init: false
