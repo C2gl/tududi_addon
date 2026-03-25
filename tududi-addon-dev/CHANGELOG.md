@@ -2,6 +2,17 @@
 
 All notable changes to this add-on will be documented in this file.
 
+## 1.0.0-rc.2
+**BUMPED:** bumped to tududi v1.0.0-rc.2 (release candidate)
+
+**TUDUDI v1.0.0-rc.2 CHANGELOG (since v1.0.0-rc.1):**
+- Fix visual overlap between subtasks icon and status dropdown by @chrisvel in #958
+- Fix project update API to support clearing nullable fields by @chrisvel in #961
+- Fix recurring task initial due date calculation to match recurrence pattern by @chrisvel in #965
+- Fix Telegram notification spam by marking JSON field as changed by @chrisvel in #969
+- Fix Today page task completion issues by @chrisvel in #970
+- Fix project name overflow and add 6-word validation limit by @chrisvel in #972
+
 ## 1.0.0-rc.1
 **BUMPED:** bumped to tududi v1.0.0-rc.1 (release candidate)
 
