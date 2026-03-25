@@ -14,7 +14,7 @@ RUN apk add --no-cache \
 WORKDIR /app
 
 # To update the version, change the branch tag on the git clone line below
-RUN git clone --depth 1 --branch v1.0.0-rc.1 https://github.com/chrisvel/tududi.git /tmp/tududi && \
+RUN git clone --depth 1 --branch v1.0.0-rc.2 https://github.com/chrisvel/tududi.git /tmp/tududi && \
     cd /tmp/tududi && \
     npm config set fetch-retry-maxtimeout 300000 && \
     npm config set fetch-retry-mintimeout 20000 && \
