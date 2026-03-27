@@ -2,6 +2,12 @@
 
 All notable changes to this add-on will be documented in this file.
 
+## 1.0.0-rc.3
+**BUMPED:** bumped to tududi v1.0.0-rc.3 (release candidate)
+
+**TUDUDI v1.0.0-rc.3 CHANGELOG (since v1.0.0-rc.2):**
+- Fix initial due date calculation for weekly tasks with multiple weekdays by @chrisvel in #975
+
 ## 1.0.0-rc.2
 **BUMPED:** bumped to tududi v1.0.0-rc.2 (release candidate)
 
