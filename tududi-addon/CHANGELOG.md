@@ -2,6 +2,26 @@
 
 All notable changes to this add-on will be documented in this file.
 
+## 1.0.0
+**Bumped:** tududi to V1
+**tududi changelog:**
+- Add comprehensive LLM development documentation by @chrisvel in #939
+- Fix date format inconsistency in Defer Until field by @chrisvel in #941
+- Add URL detection to inbox processing service by @chrisvel in #942
+- Fix notification deduplication to prevent pile-up in navbar by @chrisvel in #945
+- fix: use getAssetPath() for logo images in Navbar and Login by @woytekbode in #946
+- Fix Telegram notification spam with channel-level rate limiting by @chrisvel in #951
+- feat: Add MCP Integration with client-agnostic instructions by @chrisvel in #953
+- Fix date format inconsistency in Task detail screen by @chrisvel in #956
+- Fix visual overlap between subtasks icon and status dropdown by @chrisvel in #958
+- Fix project update API to support clearing nullable fields by @chrisvel in #961
+- Fix recurring task initial due date calculation to match recurrence pattern by @chrisvel in #965
+- Fix Telegram notification spam by marking JSON field as changed by @chrisvel in #969
+- Fix Today page task completion issues by @chrisvel in #970
+- Fix project name overflow and add 6-word validation limit by @chrisvel in #972
+- Fix initial due date calculation for weekly tasks with multiple weekdays by @chrisvel in #975
+-docs: Clarify tag validation rules and Inbox hashtag syntax by @vincent067 in #964
+
 ## 0.89.1
 **IMPROVED:** Session secret auto-generation
 - When `tududi_session_secret` is not set (the default), the addon now
