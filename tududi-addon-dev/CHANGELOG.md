@@ -2,6 +2,18 @@
 
 All notable changes to this add-on will be documented in this file.
 
+## 1.1.0-dev.14.1
+**FIXED:** 401-after-login regression behind HA ingress
+- Export `TUDUDI_TRUST_PROXY=true` so Tududi calls
+  `app.set('trust proxy', true)`. Without this, Express ignores the
+  `X-Forwarded-*` headers from HA ingress; combined with the upstream
+  change in v1.0.0+ (#1008) that ties `cookie.secure` to `NODE_ENV`,
+  the secure session cookie set on `/api/login` was not honored on the
+  round-trip and every subsequent `/api/*` returned 401, bouncing the
+  frontend to a 404 route.
+- Addon-side patch only — still pinned to upstream tududi v1.1.0-dev.14.
+- Upstream context: chrisvel/tududi#1023.
+
 ## 1.1.0-dev.14
 **BUMPED:** bumped to tududi v1.1.0-dev.14 (pre-release)
 
