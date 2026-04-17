@@ -2,6 +2,40 @@
 
 All notable changes to this add-on will be documented in this file.
 
+## 1.1.0-dev.14
+**BUMPED:** bumped to tududi v1.1.0-dev.14 (pre-release)
+
+**TUDUDI v1.1.0-dev.14 CHANGELOG:**
+- fix: resolve OIDC session loss and migration failures by @chrisvel in #1023
+- build(deps): bump follow-redirects from 1.15.11 to 1.16.0 by @dependabot in #1024
+- fix: add CSRF token support to frontend requests by @chrisvel in #1025
+
+**TUDUDI v1.1.0-dev.7 CHANGELOG:**
+- fix: resolve OIDC authentication error with existing identities by @chrisvel in #1021
+
+**TUDUDI v1.1.0-dev.6 CHANGELOG:**
+- fix: allow Sunday selection in monthly weekday recurring tasks by @chrisvel in #1014
+- fix: correct Sequelize alias case for OIDCIdentity-User association by @chrisvel in #1015
+- fix: resolve inbox project creation bugs by @chrisvel in #1018
+- fix: prevent Telegram polling errors from blocking container startup by @chrisvel in #1019
+- fix: prevent task name truncation when creating from inbox by @chrisvel in #1020
+
+**TUDUDI v1.1.0-dev.5 CHANGELOG:**
+- feat: Add OIDC/SSO authentication support by @chrisvel in #1008
+- Fix: Resolve 20 security vulnerabilities in dependencies by @chrisvel in #983
+- Fix: Prevent subtasks from disappearing when updating parent task by @chrisvel in #984
+- Fix: Bi-weekly recurring task scheduling for multi-day patterns by @chrisvel in #1005
+- fix: add missing i18next dependency to package.json by @chrisvel in #1006
+- fix: exclude cancelled tasks from Overdue and Due Today sections by @chrisvel in #1007
+- fix: use correct InboxItem model name in MCP inbox tools by @oritromax in #986
+- Bump hono from 4.12.8 to 4.12.12 by @dependabot in #1012
+- Bump @hono/node-server from 1.19.11 to 1.19.13 by @dependabot in #1011
+- Bump lodash from 4.17.23 to 4.18.1 by @dependabot in #1010
+- Bump nodemailer from 8.0.4 to 8.0.5 by @dependabot in #1009
+
+**TUDUDI v1.0.0 CHANGELOG (additions since v1.0.0-rc.3):**
+- docs: Clarify tag validation rules and Inbox hashtag syntax by @vincent067 in #964
+
 ## 1.0.0-rc.3
 **BUMPED:** bumped to tududi v1.0.0-rc.3 (release candidate)
 
