@@ -2,6 +2,24 @@
 
 All notable changes to this add-on will be documented in this file.
 
+## 1.1.0-dev.14.2
+**ADDED:** Two HA config toggles for upstream Tududi feature flags
+
+- `tududi_trust_proxy` (default `true`) — now exposed as a user option.
+  Controls `TUDUDI_TRUST_PROXY`. Previously hardcoded to `true` in `.14.1`.
+  Keep on for HA Ingress (the reverse proxy in front of every HA addon);
+  disable only in advanced non-ingress setups where the upstream proxy is
+  not trusted. `run.sh` logs a warning when disabled.
+- `ff_enable_mcp` (default `false`) — new option, controls `FF_ENABLE_MCP`.
+  When enabled, tududi exposes `/api/mcp/*` endpoints protected by a Bearer
+  API token. Users must generate an API token in Profile → API Keys to use
+  the server. Matches upstream default.
+
+Friendly names and descriptions for both options added in
+`translations/en.yaml` so they render nicely in the HA config UI.
+
+Addon-side change only — still pinned to upstream tududi v1.1.0-dev.14.
+
 ## 1.1.0-dev.14.1
 **FIXED:** 401-after-login regression behind HA ingress
 - Export `TUDUDI_TRUST_PROXY=true` so Tududi calls

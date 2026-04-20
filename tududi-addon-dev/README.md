@@ -45,6 +45,8 @@ port: 3002
 tududi_user_email: "your-email@example.com"
 tududi_user_password: "your-secure-password"
 tududi_session_secret: "your-random-secret-string"
+tududi_trust_proxy: true
+ff_enable_mcp: false
 disable_telegram: false
 disable_scheduler: false
 upload_path: "/data/uploads"
@@ -59,6 +61,8 @@ db_file: "/data/production.sqlite3"
 | `tududi_user_email` | Yes* | - | Email for the default admin user |
 | `tududi_user_password` | Yes* | - | Password for the default admin user |
 | `tududi_session_secret` | Yes* | - | Secret key for session encryption |
+| `tududi_trust_proxy` | No | `true` | Trust `X-Forwarded-*` headers from the reverse proxy. Required for HA Ingress. Only disable for advanced non-ingress setups. |
+| `ff_enable_mcp` | No | `false` | Enable the Tududi MCP server endpoints (`/api/mcp/*`). Requires an API token generated in the Tududi UI under Profile → API Keys. |
 | `disable_telegram` | No | `false` | Disable Telegram integration |
 | `disable_scheduler` | No | `false` | Disable the task scheduler |
 | `upload_path` | No | `/data/uploads` | Path for file uploads |
@@ -72,6 +76,20 @@ You can generate a secure session secret using:
 ```bash
 openssl rand -hex 32
 ```
+
+### About `tududi_trust_proxy`
+
+Home Assistant Ingress acts as a reverse proxy in front of every addon. Tududi needs to trust the `X-Forwarded-*` headers it adds so that `req.secure` is honored on the request round-trip; without it the secure-flagged session cookie set on login is rejected on the next request and every `/api/*` call returns 401. The toggle defaults to `true` for this reason — only disable it in advanced non-ingress setups where the upstream proxy is not trusted.
+
+### About `ff_enable_mcp`
+
+Tududi ships an optional MCP (Model Context Protocol) server that exposes task and inbox tools over HTTP at `/api/mcp/*`. Because MCP calls are authenticated with a Bearer API token (not your session cookie), you must:
+
+1. Enable `ff_enable_mcp: true` in the addon config.
+2. Log into the Tududi web UI, open your profile, go to **API Keys**, and generate a token.
+3. Point your MCP client at the ingress URL, passing the token as `Authorization: Bearer <token>`.
+
+The flag matches the upstream `FF_ENABLE_MCP` environment variable and is off by default.
 
 ## Backup Support
 

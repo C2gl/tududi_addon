@@ -1,7 +1,7 @@
 name: "Tududi (Development)"
-version: "1.1.0-dev.14.1"
+version: "1.1.0-dev.14.2"
 slug: "tududi-dev"
-description: "Development version of Tududi (v1.1.0-dev.14, addon patch .1) - for testing only, may be unstable"
+description: "Development version of Tududi (v1.1.0-dev.14, addon patch .2) - for testing only, may be unstable"
 url: "https://github.com/c2gl/tududi-addon"
 image: "ghcr.io/c2gl/tududi-addon-dev"
 init: false
@@ -32,6 +32,8 @@ options:
   # A cryptographically strong secret is auto-generated on first start
   # and persisted to /data/.session_secret so sessions survive restarts.
   # To override, add tududi_session_secret manually in the addon config.
+  tududi_trust_proxy: true
+  ff_enable_mcp: false
   disable_telegram: false
   disable_scheduler: false
   upload_path: "/data/uploads"
@@ -41,6 +43,8 @@ schema:
   tududi_user_email: str
   tududi_user_password: str
   tududi_session_secret: str?
+  tududi_trust_proxy: bool
+  ff_enable_mcp: bool
   disable_telegram: bool
   disable_scheduler: bool
   upload_path: str
