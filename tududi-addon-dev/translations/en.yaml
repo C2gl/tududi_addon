@@ -11,6 +11,19 @@ configuration:
   tududi_session_secret:
     name: Session Secret
     description: Secret key for session encryption (generate a random string)
+  tududi_trust_proxy:
+    name: Trust Proxy (HA Ingress)
+    description: >-
+      Trust the X-Forwarded-* headers from the reverse proxy. Required for HA
+      Ingress - leave enabled. Only disable for advanced non-ingress setups
+      where the upstream proxy is not trusted; disabling will cause login to
+      fail behind HA Ingress.
+  ff_enable_mcp:
+    name: Enable MCP Server
+    description: >-
+      Expose the Tududi MCP server endpoints (/api/mcp/*). Opt-in and off by
+      default. When enabled, requires a Bearer API token generated in the
+      Tududi UI under Profile > API Keys to call the server.
   disable_telegram:
     name: Disable Telegram
     description: Disable Telegram integration

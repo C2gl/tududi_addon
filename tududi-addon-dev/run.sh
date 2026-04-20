@@ -158,9 +158,26 @@ export NODE_ENV=production
 # This regression became visible in tududi v1.0.0+ after upstream #1008
 # tied cookie.secure to NODE_ENV (now true here). Defaulting trust proxy on
 # is safe because HA ingress is always the reverse proxy in front of an
-# addon. Upstream context: chrisvel/tududi#1023.
-export TUDUDI_TRUST_PROXY=true
-log_info "Trust proxy enabled for HA ingress"
+# addon. Disable only in advanced non-ingress setups where the upstream
+# proxy is not trusted. Upstream context: chrisvel/tududi#1023.
+TUDUDI_TRUST_PROXY=$(jq --raw-output '.tududi_trust_proxy // true' "$CONFIG_PATH")
+if [ "$TUDUDI_TRUST_PROXY" = "true" ]; then
+    export TUDUDI_TRUST_PROXY=true
+    log_info "Trust proxy enabled for HA ingress"
+else
+    export TUDUDI_TRUST_PROXY=false
+    log_warning "Trust proxy disabled - login will fail behind HA ingress. Only use this for advanced non-ingress setups."
+fi
+
+# MCP server - opt-in upstream feature flag (FF_ENABLE_MCP). When enabled,
+# tududi exposes /api/mcp/* endpoints protected by a Bearer API token.
+# Users must generate an API token in Profile > API Keys to use the server.
+# Defaults to false to match upstream.
+FF_ENABLE_MCP=$(jq --raw-output '.ff_enable_mcp // false' "$CONFIG_PATH")
+if [ "$FF_ENABLE_MCP" = "true" ]; then
+    export FF_ENABLE_MCP=true
+    log_info "MCP server enabled - generate an API token in Profile > API Keys to use /api/mcp/*"
+fi
 
 # Set CORS allowed origins for Home Assistant ingress
 # Use wildcard to allow all origins when behind ingress proxy
