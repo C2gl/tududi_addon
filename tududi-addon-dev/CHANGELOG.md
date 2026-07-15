@@ -2,6 +2,18 @@
 
 All notable changes to this add-on will be documented in this file.
 
+## 1.2.4.1
+**FIXED:** startup crash-loop `ERR_REQUIRE_ESM` on v1.2.4
+- Upstream v1.2.4 added `jose` v6 (ESM-only), loaded via `require('jose')` at
+  startup in `backend/modules/oidc/service.js` regardless of whether OIDC is
+  configured. `require()` of an ES Module needs Node >= 20.19 or >= 22.12; the
+  addon base image (HA Alpine 3.19) ships Node 20.15.1, so the app crashed
+  right after migrations and restart-looped.
+- Bumped `build.yaml` base image from Alpine 3.19 to Alpine 3.22 (Node 22.16),
+  matching upstream's own `node:22-alpine`. Alpine 3.19 is EOL and no longer
+  rebuilt by HA docker-base (currently built: 3.22 / 3.23 / 3.24).
+- Addon-side patch only - still pinned to upstream tududi v1.2.4.
+
 ## 1.2.4
 **BUMPED:** bumped to tududi v1.2.4 (stable release)
 
