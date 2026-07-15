@@ -2,23 +2,60 @@
 
 All notable changes to this add-on will be documented in this file.
 
+## 1.2.4
+**BUMPED:** bumped to tududi v1.2.4 (stable release)
+
+Large jump from the previous pin (v1.1.0-dev.14). Upstream progressed through
+v1.1.0 -> v1.1.1 -> v1.2.0 -> v1.2.1 -> v1.2.3 -> v1.2.4. Addon-relevant
+highlights below; full upstream notes: https://github.com/chrisvel/tududi/releases
+
+**Trust proxy / rate limiting (addon-relevant):**
+- `TUDUDI_TRUST_PROXY=true` is now converted to a single trusted proxy hop
+  (instead of boolean `true`) with a startup warning, fixing the
+  `ERR_ERL_PERMISSIVE_TRUST_PROXY` error flood and 500s on auth routes behind
+  a reverse proxy (#1273, fixes #1258). The addon still exports
+  `TUDUDI_TRUST_PROXY=true`, which is correct for HA Ingress (a single proxy
+  hop) - expect a new informational warning line at startup.
+
+**Docker / data storage (addon-relevant):**
+- Canonical data paths moved from `/app/backend/db` to `/app/db`, with an
+  automatic copy of pre-v1.2.0 data on first start (#1250, #1269). The addon
+  is unaffected: `run.sh` overrides `DB_FILE=/data/production.sqlite3` and
+  `TUDUDI_UPLOAD_PATH=/data/uploads`, so data stays under `/data`.
+- First-install robustness: `SQLITE_BUSY` race fixed via an `afterConnect`
+  `busy_timeout` hook (#1271); migration guards for goals/people on clean
+  installs (#1268); fail-fast on migration errors instead of a restart loop
+  (#1269); `dotenv` made optional in startup scripts.
+
+**Features / fixes:**
+- CalDAV: fixes for viewing externally-synced tasks and aligning sync
+  direction values with the backend model (#1274, #1275).
+- Interactive project status icon on the main projects page (#1272).
+- Calendar shows task titles instead of recurrence-frequency labels (#1253).
+- Prevent subtask deletion on kanban / eisenhower / undo paths (#1252).
+- Comprehensive MCP integration documentation (#1086).
+
+**Addon files changed:**
+- `Dockerfile`: clone branch `v1.1.0-dev.14` -> `v1.2.4`.
+- `config.yaml`: version `1.1.0-dev.14.2` -> `1.2.4`, updated description.
+
 ## 1.1.0-dev.14.2
 **ADDED:** Two HA config toggles for upstream Tududi feature flags
 
-- `tududi_trust_proxy` (default `true`) — now exposed as a user option.
+- `tududi_trust_proxy` (default `true`) - now exposed as a user option.
   Controls `TUDUDI_TRUST_PROXY`. Previously hardcoded to `true` in `.14.1`.
   Keep on for HA Ingress (the reverse proxy in front of every HA addon);
   disable only in advanced non-ingress setups where the upstream proxy is
   not trusted. `run.sh` logs a warning when disabled.
-- `ff_enable_mcp` (default `false`) — new option, controls `FF_ENABLE_MCP`.
+- `ff_enable_mcp` (default `false`) - new option, controls `FF_ENABLE_MCP`.
   When enabled, tududi exposes `/api/mcp/*` endpoints protected by a Bearer
-  API token. Users must generate an API token in Profile → API Keys to use
+  API token. Users must generate an API token in Profile -> API Keys to use
   the server. Matches upstream default.
 
 Friendly names and descriptions for both options added in
 `translations/en.yaml` so they render nicely in the HA config UI.
 
-Addon-side change only — still pinned to upstream tududi v1.1.0-dev.14.
+Addon-side change only - still pinned to upstream tududi v1.1.0-dev.14.
 
 ## 1.1.0-dev.14.1
 **FIXED:** 401-after-login regression behind HA ingress
@@ -29,7 +66,7 @@ Addon-side change only — still pinned to upstream tududi v1.1.0-dev.14.
   the secure session cookie set on `/api/login` was not honored on the
   round-trip and every subsequent `/api/*` returned 401, bouncing the
   frontend to a 404 route.
-- Addon-side patch only — still pinned to upstream tududi v1.1.0-dev.14.
+- Addon-side patch only - still pinned to upstream tududi v1.1.0-dev.14.
 - Upstream context: chrisvel/tududi#1023.
 
 ## 1.1.0-dev.14
@@ -95,7 +132,7 @@ Addon-side change only — still pinned to upstream tududi v1.1.0-dev.14.
 **BUMPED:** bumped to tududi v1.0.0-dev.1 (pre-release)
 
 **IMPROVED:** Zero sed fixes in Dockerfile
-- Removed logo path sed workaround — fixed upstream in PR #946
+- Removed logo path sed workaround - fixed upstream in PR #946
   (Navbar.tsx and Login.tsx now use getAssetPath() for logo paths)
 - Dockerfile now has zero sed fixes, all path issues resolved upstream
 
