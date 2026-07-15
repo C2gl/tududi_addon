@@ -11,6 +11,19 @@ configuration:
   tududi_session_secret:
     name: Sessie Geheim
     description: Geheime sleutel voor sessie-encryptie (genereer een willekeurige tekenreeks)
+  tududi_trust_proxy:
+    name: Vertrouw Proxy (HA Ingress)
+    description: >-
+      Vertrouw de X-Forwarded-* headers van de reverse proxy. Vereist voor HA
+      Ingress - laat ingeschakeld. Alleen uitschakelen in geavanceerde
+      opstellingen zonder Ingress waar de bovenliggende proxy niet vertrouwd
+      wordt; uitschakelen zorgt ervoor dat inloggen achter HA Ingress mislukt.
+  ff_enable_mcp:
+    name: MCP-server inschakelen
+    description: >-
+      Stelt de Tududi MCP-server endpoints (/api/mcp/*) beschikbaar. Opt-in en
+      standaard uitgeschakeld. Vereist een Bearer API-token dat in de Tududi
+      interface onder Profiel > API Keys wordt aangemaakt.
   disable_telegram:
     name: Schakel Telegram uit
     description: Schakel de Telegram-integratie uit

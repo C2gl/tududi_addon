@@ -2,6 +2,53 @@
 
 All notable changes to this add-on will be documented in this file.
 
+## 1.2.4
+**BUMPED:** bumped to tududi v1.2.4 (from v1.0.0)
+
+Brings the stable addon to full parity with the dev addon (1.2.4.1). Upstream
+progressed v1.0.0 -> v1.1.0 -> v1.1.1 -> v1.2.0 -> v1.2.1 -> v1.2.3 -> v1.2.4;
+full upstream notes: https://github.com/chrisvel/tududi/releases
+
+**FIXED:** 401-after-login behind HA Ingress
+- `run.sh` now exports `TUDUDI_TRUST_PROXY` (default `true`). Since v1.0.0
+  (upstream #1008), session cookies are secure-flagged in production; without
+  trust proxy, Express ignores HA Ingress's `X-Forwarded-*` headers, the
+  cookie is not honored on the round-trip, and every `/api/*` call after
+  login returns 401. Upstream context: chrisvel/tududi#1023.
+
+**ADDED:** Two HA config toggles for upstream Tududi feature flags
+- `tududi_trust_proxy` (default `true`) - keep on for HA Ingress; disable
+  only in advanced non-ingress setups. `run.sh` logs a warning when disabled.
+- `ff_enable_mcp` (default `false`) - controls `FF_ENABLE_MCP`. When enabled,
+  tududi exposes `/api/mcp/*` endpoints protected by a Bearer API token
+  (generate in Profile -> API Keys). Matches upstream default.
+- Friendly names and descriptions added to translations (en/de/fr/nl).
+
+**CHANGED:** base image Alpine 3.19 -> 3.22 (Node 20.15.1 -> 22.16)
+- Required for tududi >= 1.2.x: upstream added `jose` v6 (ESM-only), loaded
+  via `require('jose')` at startup, which needs Node >= 20.19 or >= 22.12.
+  On Node 20.15 the addon would crash-loop with `ERR_REQUIRE_ESM`.
+- Alpine 3.19 is EOL and no longer rebuilt by HA docker-base. Alpine 3.22
+  matches upstream's own `node:22-alpine`.
+
+**IMPROVED:** Zero sed fixes in Dockerfile
+- Removed the logo path sed workaround - fixed upstream in PR #946
+  (included since v1.0.0).
+
+**ADDED:** HA backup pre/post scripts (parity with dev addon)
+
+**Upstream highlights v1.0.0 -> v1.2.4 (addon-relevant):**
+- OIDC/SSO authentication support (#1008) and CSRF token support (#1025).
+- `TUDUDI_TRUST_PROXY=true` now converts to a single trusted proxy hop with a
+  startup warning (#1273, fixes #1258) - expect one informational line at
+  startup; correct for HA Ingress.
+- Canonical data paths moved to `/app/db` (#1250, #1269) - addon unaffected:
+  `run.sh` keeps data under `/data`.
+- First-install robustness: `SQLITE_BUSY` fix (#1271), migration guards
+  (#1268), fail-fast migrations (#1269).
+- 20 dependency security vulnerabilities resolved (#983); many recurring-task,
+  inbox, CalDAV, kanban, and Telegram fixes; goals and people features.
+
 ## 1.0.0
 **Bumped:** tududi to V1
 **tududi changelog:**

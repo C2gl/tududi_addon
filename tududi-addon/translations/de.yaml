@@ -11,6 +11,20 @@ configuration:
   tududi_session_secret:
     name: Sitzungsgeheimnis
     description: Geheimer Schlüssel für die Sitzungsverschlüsselung (generieren Sie eine zufällige Zeichenkette)
+  tududi_trust_proxy:
+    name: Proxy vertrauen (HA Ingress)
+    description: >-
+      Den X-Forwarded-*-Headern des Reverse-Proxys vertrauen. Für HA Ingress
+      erforderlich - aktiviert lassen. Nur in fortgeschrittenen Setups ohne
+      Ingress deaktivieren, in denen dem vorgelagerten Proxy nicht vertraut
+      wird; das Deaktivieren führt hinter HA Ingress zu fehlgeschlagenen
+      Anmeldungen.
+  ff_enable_mcp:
+    name: MCP-Server aktivieren
+    description: >-
+      Stellt die Tududi-MCP-Server-Endpunkte (/api/mcp/*) bereit. Opt-in und
+      standardmäßig deaktiviert. Erfordert bei Aktivierung ein Bearer-API-Token,
+      das in der Tududi-Oberfläche unter Profil > API Keys erstellt wird.
   disable_telegram:
     name: Telegram deaktivieren
     description: Telegram-Integration deaktivieren
