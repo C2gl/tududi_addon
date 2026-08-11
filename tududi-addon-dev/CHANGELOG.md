@@ -2,6 +2,93 @@
 
 All notable changes to this add-on will be documented in this file.
 
+## 1.4.0-rc.1
+**BUMPED:** bumped to tududi v1.4.0-rc.1 (release candidate)
+
+Jump from the previous pin (v1.2.4). Upstream progressed through v1.3.0-rc.1 ->
+v1.3.0 -> v1.3.1 -> v1.4.0-dev.1 -> v1.4.0-rc.1. Addon-relevant analysis first,
+then upstream highlights; full upstream notes:
+https://github.com/chrisvel/tududi/releases
+
+**Addon-relevant:**
+- Node / base image: upstream still builds on `node:22-alpine`, and the addon
+  base image is already Alpine 3.22 (Node 22.16) since `1.2.4.1`. No new
+  ESM-only startup dependency was added, so no `build.yaml` change is needed.
+- New PWA support (#1343) ships `public/sw.js`. Webpack's copy step emits it
+  into `dist/`, so the existing `cp -r dist/*` in the Dockerfile picks it up
+  with no change. However, `frontend/index.tsx` registers the worker at the
+  absolute path `/sw.js` and `manifest.json` uses `start_url`/`scope` of `/`,
+  neither of which resolve behind HA ingress - so PWA install and offline mode
+  will not work through ingress. Upstream catches the registration failure and
+  treats it as non-fatal, so nothing else is affected.
+- Pre-v1.2.0 database handling changed (#1291): `backend/cmd/start.sh` now
+  redirects `DB_FILE` to the old `/app/backend/db` path instead of copying the
+  file to the new location. The addon is unaffected - `run.sh` sets
+  `DB_FILE=/data/production.sqlite3` and the image's `/app/backend/db` is
+  always empty, so that fallback branch never fires.
+- `webpack.config.js` (`publicPath: ''`) and `public/index.html` (dynamic
+  `<base>` tag) are byte-identical to v1.2.4, so the ingress path handling the
+  addon depends on is unchanged and the Dockerfile still needs zero sed fixes.
+- Feature flags unchanged from v1.2.4 (`FF_ENABLE_MCP`, `FF_ENABLE_BACKUPS`,
+  `FF_ENABLE_CALDAV`, `FF_ENABLE_CALENDAR`, `FF_ENABLE_HABITS`), so the
+  `ff_enable_mcp` option and schema stay as they are.
+- The `uuid` dependency was dropped in favour of the Node built-in
+  `crypto.randomUUID()` (#1297). `nanoid@3` and `i18next` are still pinned
+  upstream, so the addon's extra `npm install` lines for them remain no-ops.
+- New optional upstream env vars are not exposed as addon options: templates
+  marketplace (`MARKETPLACE_URL`, `MARKETPLACE_API_KEY`,
+  `PROJECT_TEMPLATES_ENABLED`, `MAX_TEMPLATES_PER_USER`) and multi-LLM AI
+  (`LLM_API_KEY`, `LLM_BASE_URL`, `LLM_MODEL`). All have safe defaults.
+- Frontend build verified locally at the `v1.4.0-rc.1` tag using the addon's
+  own flags: `tsc --noEmit` and webpack both pass under the
+  `--max-old-space-size=2048` cap despite the new CodeMirror-based note editor
+  (main bundle ~3.3 MiB).
+
+**Features:**
+- Subtasks are now first-class tasks with list visibility (#1346).
+- Installable PWA with offline read and queued write sync (#1343).
+- Project templates + marketplace (#1278), plus per-user area overrides for
+  shared projects (#1276).
+- GTD-aligned reports page with tabbed layout; sidebar reorganised with pinned
+  items, boards, insights and admin sections (#1306, #1311).
+- Rich note editor with wikilinks, backlinks, slash commands and note badges
+  (#1340); working copy button on markdown code blocks (#1288).
+- Multi-LLM AI support with a dedicated AI settings tab and user profile
+  context (#1333); AI Daily Brief restored with a Today page toggle (#1331).
+- MCP grew to 54 tools - goals, views and people tools added (#1334, #1335).
+- People: User accounts can be linked to Person records, and a self-person is
+  created for newly provisioned users (#1319).
+- Today page gained a `#today` tagged-tasks section with a toggle setting.
+
+**Fixes:**
+- CalDAV: sync direction values aligned with model constraints (#1347); date
+  timezone handling and ETag on collection GET (#1336); externally-synced tasks
+  now viewable.
+- Security: 5 production vulnerabilities patched via overrides and upgrades
+  (#1338), plus a further Dependabot round (#1324).
+- OIDC: UserInfo endpoint queried to supplement ID token claims (#1322); OIDC
+  users can set an initial password without supplying a current one (#1320).
+- Performance: N+1 notification queries no longer block API requests (#1296);
+  `/api/profile` cached to stop redundant fetches on the Today page (#1312).
+- SQLite: `SQLITE_BUSY` on system tag seeding fixed by passing the parent
+  transaction (#1287); `user_project_areas` index creation made idempotent
+  (#1301).
+- MCP: shared-project permissions enforced (#1290); archived task status
+  mapping corrected (#1318); tags persisted on task update (#1328).
+- Habits: completions no longer double-counted in the Today overview or
+  inflated on same-day completions (#1315, #1317).
+- Telegram: due/deferred notifications batched into one message per user
+  (#1329).
+- Recurring tasks: monthly occurrence dates corrected for UTC+ timezones
+  (#1313).
+- Tasks: assigned person embedded in the task response so all users see the
+  assignment (#1341); detail view always fetches fresh data to fix stale
+  due dates on shared projects (#1293).
+
+**Addon files changed:**
+- `Dockerfile`: clone branch `v1.2.4` -> `v1.4.0-rc.1`.
+- `config.yaml`: version `1.2.4.1` -> `1.4.0-rc.1`, updated description.
+
 ## 1.2.4.1
 **FIXED:** startup crash-loop `ERR_REQUIRE_ESM` on v1.2.4
 - Upstream v1.2.4 added `jose` v6 (ESM-only), loaded via `require('jose')` at
