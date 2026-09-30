@@ -2,6 +2,63 @@
 
 All notable changes to this add-on will be documented in this file.
 
+## 1.6.3
+**BUMPED:** bumped to tududi v1.6.3
+
+Jump from the previous pin (v1.4.0-rc.1, 264 upstream commits). Upstream
+progressed through v1.4.0 -> v1.4.1 -> v1.4.2 -> v1.5.0 -> v1.6.0 -> v1.6.1 ->
+v1.6.2 -> v1.6.3. Addon-relevant changes first, then upstream highlights; full
+upstream notes: https://github.com/chrisvel/tududi/releases
+
+**Addon changes:**
+- **Removed the `ff_enable_mcp` option.** Upstream dropped the `FF_ENABLE_MCP`,
+  `FF_ENABLE_BACKUPS` and `FF_ENABLE_CALDAV` gates in v1.6.0 (#1632): MCP,
+  backups and CalDAV are now always available. The option had no effect any
+  more, so it is gone from the config, `run.sh`, translations and README. An
+  existing saved value is ignored by the Supervisor (logged as an unknown
+  option). The MCP endpoints stay protected by a Bearer API token.
+- **Per-user backups now persist in `/data/backups`.** Backups under
+  Profile > Backup are on by default now and upstream writes them to
+  `TUDUDI_BACKUP_PATH` (#1485), which defaults to a path inside the image and
+  would be lost on every addon update. `run.sh` sets it to `/data/backups`, so
+  they survive updates and are part of Home Assistant backups.
+
+**Checked, no change needed:**
+- Node / base image: upstream still builds on `node:22-alpine`; the addon is on
+  Alpine 3.22 (Node 22.16). New backend dependencies (`pg`, `pino`, `umzug`,
+  `stripe`, `chrono-node`, `ejs`, `js-yaml` v5) load fine.
+- Database startup: `backend/cmd/start.sh` now prepares the schema with
+  `scripts/db-prepare.js` under `scripts/with-db-lock.js` and backs up SQLite
+  with `VACUUM INTO` (#1485 and the PostgreSQL support). All scripts live under
+  `backend/scripts`, which the addon already copies. SQLite remains the default;
+  the new PostgreSQL mode only switches on with `DATABASE_URL`/`DB_DIALECT`.
+- Hosted/Cloud mode, billing, landing page, demo sandbox and Turnstile captcha
+  are all off unless their env vars are set - the addon sets none of them.
+- Ingress: `public/index.html` still uses the dynamic `<base>` tag and webpack
+  `publicPath` is still `''`, so no sed fixes are needed.
+- `ENABLE_INBOX_CLARIFY` (build-time flag) was removed upstream together with
+  the Inbox Clarify feature (#1657); `ENABLE_NOTE_COLOR` is gone too, note
+  colours are always on (#1570).
+- Still open upstream: the PWA service worker (`/sw.js`) and manifest scope are
+  absolute, so PWA install and offline mode do not work behind HA ingress.
+  Non-fatal, the app works normally without them.
+
+**Upstream highlights:**
+- Plan my day: a Today view in two modes, with AI help, candidate ordering and
+  day hours
+- Task relations (blocks, related to, duplicates), task comments with
+  @mentions, replies and reactions, drag-and-drop custom ordering
+- Attachments for inbox items, tasks, projects and notes (any file type)
+- Notes: Notion-style block editing, live editor, Mermaid diagrams, public
+  share links
+- Habits: quit and measurable habits, skips, strength, history grid, reminders
+  and colours
+- Inbox: natural-language dates, recurrence and @person; one Add box for
+  inbox, task, note and project
+- Admin, user and guest roles; user groups; members without an email
+  (sign-in links); calendar feeds shown on the Calendar page
+- MCP: task comments and linking projects to goals
+
 ## 1.4.0-rc.1
 **BUMPED:** bumped to tududi v1.4.0-rc.1 (release candidate)
 
