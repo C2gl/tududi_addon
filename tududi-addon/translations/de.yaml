@@ -19,12 +19,6 @@ configuration:
       Ingress deaktivieren, in denen dem vorgelagerten Proxy nicht vertraut
       wird; das Deaktivieren führt hinter HA Ingress zu fehlgeschlagenen
       Anmeldungen.
-  ff_enable_mcp:
-    name: MCP-Server aktivieren
-    description: >-
-      Stellt die Tududi-MCP-Server-Endpunkte (/api/mcp/*) bereit. Opt-in und
-      standardmäßig deaktiviert. Erfordert bei Aktivierung ein Bearer-API-Token,
-      das in der Tududi-Oberfläche unter Profil > API Keys erstellt wird.
   disable_telegram:
     name: Telegram deaktivieren
     description: Telegram-Integration deaktivieren

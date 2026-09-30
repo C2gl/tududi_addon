@@ -143,6 +143,12 @@ UPLOAD_PATH=$(jq --raw-output '.upload_path // "/data/uploads"' "$CONFIG_PATH")
 export TUDUDI_UPLOAD_PATH="$UPLOAD_PATH"
 log_info "Upload path set to ${TUDUDI_UPLOAD_PATH}"
 
+# Per-user backup exports (Profile > Backup). Upstream defaults to a path
+# inside the image, which is lost on every addon update, so keep them in /data
+# where they persist and are included in Home Assistant backups.
+export TUDUDI_BACKUP_PATH="/data/backups"
+log_info "Backup path set to ${TUDUDI_BACKUP_PATH}"
+
 DB_FILE=$(jq --raw-output '.db_file // "/data/production.sqlite3"' "$CONFIG_PATH")
 export DB_FILE
 log_info "Database file set to ${DB_FILE}"
@@ -169,25 +175,19 @@ else
     log_warning "Trust proxy disabled - login will fail behind HA ingress. Only use this for advanced non-ingress setups."
 fi
 
-# MCP server - opt-in upstream feature flag (FF_ENABLE_MCP). When enabled,
-# tududi exposes /api/mcp/* endpoints protected by a Bearer API token.
-# Users must generate an API token in Profile > API Keys to use the server.
-# Defaults to false to match upstream.
-FF_ENABLE_MCP=$(jq --raw-output '.ff_enable_mcp // false' "$CONFIG_PATH")
-if [ "$FF_ENABLE_MCP" = "true" ]; then
-    export FF_ENABLE_MCP=true
-    log_info "MCP server enabled - generate an API token in Profile > API Keys to use /api/mcp/*"
-fi
+# MCP server: always available since upstream v1.6.0 (chrisvel/tududi#1632
+# dropped the FF_ENABLE_MCP gate). The /api/mcp/* endpoints stay protected by
+# a Bearer API token generated in Profile > API Keys.
 
 # Set CORS allowed origins for Home Assistant ingress
 # Use wildcard to allow all origins when behind ingress proxy
 # Home Assistant's ingress handles the actual security
 export TUDUDI_ALLOWED_ORIGINS="*"
 
-# Ensure database and upload directories exist
+# Ensure database, upload and backup directories exist
 log_info "Creating necessary directories..."
-if ! mkdir -p "$(dirname "$DB_FILE")" "$TUDUDI_UPLOAD_PATH"; then
-    log_fatal "Failed to create directories for database or uploads"
+if ! mkdir -p "$(dirname "$DB_FILE")" "$TUDUDI_UPLOAD_PATH" "$TUDUDI_BACKUP_PATH"; then
+    log_fatal "Failed to create directories for database, uploads or backups"
 fi
 
 # Verify directories are writable
@@ -197,6 +197,10 @@ fi
 
 if [ ! -w "$TUDUDI_UPLOAD_PATH" ]; then
     log_fatal "Upload directory ${TUDUDI_UPLOAD_PATH} is not writable"
+fi
+
+if [ ! -w "$TUDUDI_BACKUP_PATH" ]; then
+    log_fatal "Backup directory ${TUDUDI_BACKUP_PATH} is not writable"
 fi
 
 # Check if database needs initialization (file doesn't exist or is empty/corrupt)

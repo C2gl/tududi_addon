@@ -2,6 +2,51 @@
 
 All notable changes to this add-on will be documented in this file.
 
+## 1.6.3
+**BUMPED:** bumped to tududi v1.6.3 (from v1.4.0)
+
+Promotes the stable addon to the same build as the dev addon `1.6.3`, which has
+been verified in Home Assistant. Upstream progressed through v1.4.1 -> v1.4.2 ->
+v1.5.0 -> v1.6.0 -> v1.6.1 -> v1.6.2 -> v1.6.3; full upstream notes:
+https://github.com/chrisvel/tududi/releases
+
+**Addon changes (same as dev 1.6.3):**
+- **Removed the `ff_enable_mcp` option.** Upstream dropped the `FF_ENABLE_MCP`,
+  `FF_ENABLE_BACKUPS` and `FF_ENABLE_CALDAV` gates in v1.6.0 (#1632): MCP,
+  backups and CalDAV are now always available. The option is gone from the
+  config, `run.sh`, translations (en/de/fr/nl) and README. An existing saved
+  value is ignored by the Supervisor (logged as an unknown option). The MCP
+  endpoints stay protected by a Bearer API token.
+- **Per-user backups now persist in `/data/backups`.** Backups under
+  Profile > Backup are on by default now and upstream writes them to
+  `TUDUDI_BACKUP_PATH` (#1485), which defaults to a path inside the image and
+  would be lost on every addon update. `run.sh` sets it to `/data/backups`, so
+  they survive updates and are part of Home Assistant backups.
+
+`Dockerfile`, `run.sh` and `translations/en.yaml` are now identical to the dev
+addon's. No `build.yaml` change: Alpine 3.22 (Node 22.16) is still sufficient.
+
+**Upstream highlights:**
+- Plan my day: a Today view in two modes, with AI help, candidate ordering and
+  day hours
+- Task relations (blocks, related to, duplicates), task comments with
+  @mentions, replies and reactions, drag-and-drop custom ordering
+- Attachments for inbox items, tasks, projects and notes (any file type)
+- Notes: Notion-style block editing, live editor, Mermaid diagrams, public
+  share links
+- Habits: quit and measurable habits, skips, strength, history grid, reminders
+  and colours
+- Inbox: natural-language dates, recurrence and @person; one Add box for
+  inbox, task, note and project
+- Admin, user and guest roles; user groups; members without an email
+  (sign-in links); calendar feeds shown on the Calendar page
+- MCP: task comments and linking projects to goals
+- Inbox Clarify (`ENABLE_INBOX_CLARIFY`) was removed upstream (#1657)
+
+**Note for existing stable users:** upgrading from 1.4.0 runs the v1.5/v1.6
+migrations on first start and takes an automatic SQLite backup first. Data stays
+under `/data`.
+
 ## 1.4.0
 **BUMPED:** bumped to tududi v1.4.0 (from v1.2.4)
 
