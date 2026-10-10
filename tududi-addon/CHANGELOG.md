@@ -2,6 +2,39 @@
 
 All notable changes to this add-on will be documented in this file.
 
+## 1.9.1
+**BUMPED:** bumped to tududi v1.9.1 (from v1.6.3)
+
+Stable and dev move to v1.9.1 together. Upstream progressed through
+v1.6.4-v1.6.11 -> v1.7.0-v1.7.12 -> v1.8.0-v1.8.2 -> v1.9.0 -> v1.9.1
+(133 commits). Pure version bump: no addon option, `run.sh`, translation or
+`build.yaml` change. Full upstream notes:
+https://github.com/chrisvel/tududi/releases
+
+**Checked, no change needed:**
+- Node / base image: Alpine 3.22 (Node 22.16) is still sufficient; the new
+  backend dependencies (`web-push`, `disposable-email-domains-js`) are CommonJS.
+- Database: 14 new migrations, all additive. The new `accounts` table stays
+  empty on a self-hosted instance.
+- Web Push (#1761): VAPID keys are generated on first use and stored in the
+  database (in `/data`). Push and PWA install need the service worker, which
+  still does not register behind HA ingress. Non-fatal.
+- New optional env vars only matter for hosted/Cloud instances or have safe
+  defaults; the addon sets none of them.
+
+**Upstream highlights:**
+- Web Push notifications for Android, iOS and desktop
+- Focus chip: scope the app to an area/project and prefill capture defaults
+- Welcome page with starter picker for new accounts
+- Shared side panel for creating and editing tasks, projects and other entities
+- Notes: note backgrounds, create missing linked notes, lasting public links
+- Photo backgrounds for the content area
+- Skip a single occurrence of a recurring task
+- Saved views and search can filter by task status
+- Slovak translation
+- Fixes: CalDAV two-way sync, habits in Today/Plan, MCP can assign area and
+  person, backup restore reloads profile settings
+
 ## 1.6.3
 **BUMPED:** bumped to tududi v1.6.3 (from v1.4.0)
 
