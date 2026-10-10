@@ -2,6 +2,48 @@
 
 All notable changes to this add-on will be documented in this file.
 
+## 1.9.1
+**BUMPED:** bumped to tududi v1.9.1
+
+Jump from the previous pin (v1.6.3, 133 upstream commits). Upstream progressed
+through v1.6.4-v1.6.11 -> v1.7.0-v1.7.12 -> v1.8.0-v1.8.2 -> v1.9.0 -> v1.9.1.
+Pure version bump: no addon option, `run.sh` or `build.yaml` change. Full
+upstream notes: https://github.com/chrisvel/tududi/releases
+
+**Checked, no change needed:**
+- Node / base image: upstream still builds on `node:22-alpine`; the addon is on
+  Alpine 3.22 (Node 22.16). New backend dependencies (`web-push`,
+  `disposable-email-domains-js`) are CommonJS and load fine.
+- Database: 14 new migrations, all additive (`accounts`, push subscriptions,
+  note backgrounds, onboarding, goal/area ordering, ...). The new `accounts`
+  table stays empty on a self-hosted instance. `backend/cmd/start.sh` and
+  `backend/scripts` are unchanged.
+- Web Push (#1761): VAPID keys are generated on first use and stored in the
+  database (in `/data`), so no new option is needed. Like PWA install, push
+  needs the service worker, which still does not register behind HA ingress
+  (`/sw.js` and the manifest scope are absolute paths). Non-fatal.
+- New optional env vars (`REGISTRATION_MX_CHECK`, `VAPID_*`,
+  `TUDUDI_BLOG_HOSTS`, `TUDUDI_TRIAL_*`, `RATE_LIMIT_SIGNUP_*`) only matter for
+  hosted/Cloud instances or have safe defaults; the addon sets none of them.
+- Ingress: `public/index.html` still uses the dynamic `<base>` tag and webpack
+  `publicPath` is still `''`, so no sed fixes are needed.
+
+**Upstream highlights:**
+- Web Push notifications for Android, iOS and desktop
+- Focus chip: scope the app to an area/project and prefill capture defaults
+- Welcome page with starter picker for new accounts; first-plan welcome screen
+- Shared side panel for creating and editing tasks, projects and other entities
+- Notes: note backgrounds, create missing linked notes, lasting public links
+- Photo backgrounds for the content area
+- Skip a single occurrence of a recurring task
+- Saved views and search can filter by task status
+- In-app feedback with an admin inbox; admin dashboard trends and users table
+- Slovak translation
+- Fixes: CalDAV two-way sync after the first sync, deleted remote tasks, etag
+  quoting; habits in Today/Plan; MCP `create_task`/`update_task` can assign
+  area and person; blocked-state display on related tasks; backup restore
+  reloads profile settings
+
 ## 1.6.3
 **BUMPED:** bumped to tududi v1.6.3
 
