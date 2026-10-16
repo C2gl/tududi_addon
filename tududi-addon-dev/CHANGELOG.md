@@ -2,6 +2,45 @@
 
 All notable changes to this add-on will be documented in this file.
 
+## 1.9.3
+**BUMPED:** bumped to tududi v1.9.3 (from v1.9.1)
+
+Stable and dev move to v1.9.3 together. Upstream progressed through
+v1.9.2 -> v1.9.3 (31 commits). Pure version bump: no addon option, `run.sh`,
+translation or `build.yaml` change. Full upstream notes:
+https://github.com/chrisvel/tududi/releases
+
+**Checked, no change needed:**
+- Node / base image: no new backend runtime dependency; only frontend/dev
+  dependency bumps (`i18next-http-backend` 4, security overrides). Upstream
+  `Dockerfile`, `backend/cmd/start.sh` and `backend/scripts` are unchanged.
+- Database: 4 new migrations, all additive (inline comment attachments,
+  `site_visits`, Apprise settings on users, task due time + reminder columns).
+- Apprise notifications (#1908): the Apprise server address and key are
+  stored encrypted with the session secret, which the addon already persists
+  in `/data/.session_secret`. Like CalDAV, upstream refuses private/LAN
+  addresses unless `CALDAV_ALLOW_PRIVATE_HOSTS=true`, which the addon does not
+  set yet, so only a public Apprise server works for now.
+- Page-visit counting for the admin dashboard (`TUDUDI_VISIT_TRACKING`, on by
+  default): stored only in the local database, no addresses kept, pruned after
+  90 days. Behind ingress every visit comes from the Supervisor proxy, so the
+  counts are rough. Left at the upstream default.
+- Ingress: `public/index.html` only gained `theme-color` / `viewport-fit`
+  meta tags; the dynamic `<base>` tag is unchanged, so no sed fixes are needed.
+
+**Upstream highlights:**
+- Optional due time on tasks, with task reminders
+- Apprise notification channel
+- Quick-capture tokens in the task name editors; inbox `~area` token, slash
+  menu, coloured tokens and badges for picked tags/projects/areas
+- Group page listing each member's assigned tasks
+- Paste images into task comments
+- Search/views: filter tasks and projects with no tags or no due date
+- Calendar Day/Week views size events by duration
+- Fixes: recurring tasks completed over MCP now advance; MCP accepts tags as a
+  JSON array string; CalDAV floating/unresolved TZID times; non-ASCII
+  attachment filenames; Dependabot security fixes
+
 ## 1.9.1
 **BUMPED:** bumped to tududi v1.9.1
 
