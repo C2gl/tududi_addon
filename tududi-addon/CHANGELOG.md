@@ -2,6 +2,35 @@
 
 All notable changes to this add-on will be documented in this file.
 
+## 1.9.4
+**BUMPED:** bumped to tududi v1.9.4 (from v1.9.3)
+
+Stable and dev move to v1.9.4 together. Upstream v1.9.3 -> v1.9.4 is a small
+release (12 commits), mostly bug fixes. Pure version bump: no addon option,
+`run.sh`, translation or `build.yaml` change. Upstream release notes:
+https://github.com/chrisvel/tududi/releases/tag/v1.9.4
+
+**Upstream highlights:**
+- Notes: the sidebar notes tree is now a small library (#1922).
+- Fixes: picking a status from a subtask row on Today (#1915), CSRF token on
+  the forgot/reset password pages (#1912), inbox edits keep date, tags and
+  people (#1925), quick capture keeps the project (#1921), goal date picker
+  (#1918), assigned tasks in Everyone limited to what the viewer may read
+  (#1926).
+- CalDAV: PRIORITY, DTSTART and VALARM are mapped the way clients mean them
+  (#1919).
+
+**Checked, no change needed:**
+- No dependency change. Upstream `Dockerfile` and `backend/cmd/start.sh` are
+  unchanged; `backend/scripts` only gained a developer email-preview script.
+- Database: 2 new migrations, both additive (an `email_deliveries` log table
+  and a trial-reminder column on `billing_accounts`).
+- Account emails (password reset, verification) now use translated templates
+  in `backend/emails/`. The addon copies all of `backend/`, so they are
+  included. Without SMTP configured nothing is sent, as before.
+- Cloud-trial changes (7-day trial, `TUDUDI_PLANS_JSON`) only apply in hosted
+  mode, which the addon does not use.
+
 ## 1.9.3
 **BUMPED:** bumped to tududi v1.9.3 (from v1.9.1)
 
