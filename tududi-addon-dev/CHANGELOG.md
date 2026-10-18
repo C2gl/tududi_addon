@@ -2,6 +2,11 @@
 
 All notable changes to this add-on will be documented in this file.
 
+## 1.9.4
+**BUMPED:** bumped to tududi v1.9.4 (from v1.9.3)
+
+Upstream release notes: https://github.com/chrisvel/tududi/releases/tag/v1.9.4
+
 ## 1.9.3
 **BUMPED:** bumped to tududi v1.9.3 (from v1.9.1)
 
